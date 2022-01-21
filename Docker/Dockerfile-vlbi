@@ -1,0 +1,3 @@
+FROM lofareosc/prefactor3-cwl
+
+RUN python3 -m pip install pyvo
