@@ -1,3 +1,7 @@
 FROM lofareosc/prefactor3-cwl
 
 RUN python3 -m pip install -Iv pyvo==0.9.3
+RUN apt-get update && \
+    apt-get install -y git
+RUN git clone https://github.com/lonbar/VLBI-cwl.git /root/VLBI-cwl
+ENV PYTHONPATH=/root/VLBI-cwl/scripts/:$PYTHONPATH
