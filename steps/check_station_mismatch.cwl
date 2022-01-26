@@ -33,7 +33,9 @@ requirements:
           entry: |
             import sys
             import json
-            from compareStationListVLBI import main as compareStationList
+            import os
+            print(os.environ)
+            from compareStationListVLBI import plugin_main as compareStationList
 
             mss = sys.argv[1:]
             inputs = json.loads(r"""$(inputs)""")
@@ -42,7 +44,7 @@ requirements:
             filter = inputs['filter_baselines']
             print(mss)
 
-            output = compareStationList(mss = mss, 
+            output = compareStationList(mss, 
                                         h5parmdb = h5parmdb, 
                                         solset_name = solset_name, 
                                         filter = filter)
@@ -69,7 +71,7 @@ outputs:
 
 hints:
   DockerRequirement:
-    dockerPull: vlbi-cwl
+    dockerPull: vlbi-cwl:latest
 
 stdout: compareStationMismatch.log
 stderr: compareStationMismatch_err.log

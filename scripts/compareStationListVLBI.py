@@ -28,7 +28,8 @@ def plugin_main(args, **kwargs):
     filter         = kwargs['filter']
     #data           = DataMap.load(mapfile_in)
     #mslist         = [data[i].file for i in xrange(len(data))]
-    mslist         = args['mss']
+    mslist         = args #['mss']
+    print(mslist)
 
     if len(mslist) == 0:
         raise ValueError("Did not find any existing directory in input MS list!")
