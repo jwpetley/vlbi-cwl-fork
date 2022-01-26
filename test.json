@@ -1,14 +1,6 @@
 ﻿{
-  "msin": {
-    "class": "Directory",
-    "path": [
-      "/home/tjlv53/test_data/L693719_SB000_uv.MS"
-    ]
-  },
-  "solset": [
-    {
-      "class": "File",
-      "path": "/home/tjlv54/test_data/P205+55/Pre-Facet-Calibrator/results/cal_values/cal_solutions.h5"
-    }
-  ]
+    "msin": [
+                {"class": "Directory", "path": "/home/tjlv53/test_data/L693719_SB000_uv.MS"}
+            ],
+    "solset": {"class": "File", "path": "/home/tjlv54/test_data/P205+55/Pre-Facet-Calibrator/results/cal_values/cal_solutions.h5"}
 }
