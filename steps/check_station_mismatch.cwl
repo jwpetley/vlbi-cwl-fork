@@ -1,14 +1,14 @@
 class: CommandLineTool
 cwlVersion: v1.2
-id: compare_station_mismatch
-label: compare_station_mismatch
+id: check_station_mismatch
+label: check_station_mismatch
 
 baseCommand: 
     - python3
     - compare_station_list.py
 
 inputs:
-    - id: msin
+    - id: step_msin
       type: Directory[]
       doc: Calibrator measurement sets.
       inputBinding:
@@ -19,7 +19,7 @@ inputs:
     - id: solset_name
       type: string?
       doc: Name of the solution set.
-      default: 'cal_solutions'
+      default: 'calibrator'
     - id: filter_baselines
       type: string?
       default: "*&"
@@ -34,7 +34,6 @@ requirements:
             import sys
             import json
             import os
-            print(os.environ)
             from compareStationListVLBI import plugin_main as compareStationList
 
             mss = sys.argv[1:]
@@ -60,14 +59,14 @@ outputs:
       type: string
       outputBinding:
         loadContents: true
-        glob: 'out.yaml'
+        glob: 'out.json'
         #outputEval: $(YAML.parse(self[0].contents).filter_out)
         outputEval: $(JSON.parse(self[0].contents).filter_out)
 
     - id: logfile
       type: File[]
       outputBinding:
-        glob: 'comparStationMismatch*.log'
+        glob: 'compareStationMismatch*.log'
 
 hints:
   DockerRequirement:
