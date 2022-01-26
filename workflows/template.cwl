@@ -15,23 +15,23 @@ inputs:
 
 outputs:
   - id: log_file
-    source:
-        - check_station_mismatch/logfile
+    outputSource: check_station_mismatch/logfile
+    type: File[]
 
 steps:
-    - id: check_station_mismatch
-      in:
-        - id: step_msin
-          source: msin
-        - id: solset
-          source: solset
-        - id: filter_baselines
-          source: filter_baselines
-      out:
-        - id: logfile
-        - id: filter_out
-      run: ../steps/check_station_mismatch.cwl
-      label: check_station_mismatch
+  - id: check_station_mismatch
+    in:
+      - id: step_msin
+        source: msin
+      - id: solset
+        source: solset
+      - id: filter_baselines
+        source: filter_baselines
+    out:
+      - id: filter_out
+      - id: logfile
+    run: ../steps/check_station_mismatch.cwl
+    label: check_station_mismatch
 
 requirements:
   - class: SubworkflowFeatureRequirement
