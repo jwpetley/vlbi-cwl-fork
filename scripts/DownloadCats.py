@@ -32,10 +32,10 @@ def count_p(n):
     s = 0
     c = 0
     for ii in n:
-	if ii != '-':
-	    c += 1
-	    if ii == 'P':
-		s += 1
+        if ii != '-':
+            c += 1
+            if ii == 'P':
+                s += 1
     norm = float(s)/float(c)
     return(norm)
 
@@ -122,18 +122,18 @@ def my_lotss_catalogue( ms_input, Radius=1.5, bright_limit_Jy=5., outfile='' ):
     """
     ## first check if the file already exists
     if os.path.isfile( outfile ):
-	print("LOTSS Skymodel for the target field exists on disk, reading in.")
-	tb_final = Table.read( outfile, format='csv' )
-        if 'Source_Name' in tb_final.colnames:
-            tb_final.rename_column('Source_Name','Source_id')
-            tb_final.write( outfile, format='csv' )
+        print("LOTSS Skymodel for the target field exists on disk, reading in.")
+        tb_final = Table.read( outfile, format='csv' )
+            if 'Source_Name' in tb_final.colnames:
+                tb_final.rename_column('Source_Name','Source_id')
+                tb_final.write( outfile, format='csv' )
     else:
         print("DOWNLOADING LOTSS Skymodel for the target field")
 
         # Reading a MS to find the coordinate (pyrap)
         RATar, DECTar = grab_coo_MS(input2strlist_nomapfile(ms_input)[0])
 
-	## this is the tier 1 database to query
+        ## this is the tier 1 database to query
         #url = 'http://vo.astron.nl/lofartier1/q/cone/scs.xml'
         # HETDEX database.
         url = 'https://vo.astron.nl/hetdex/lotss-dr1/cone/scs.xml'
@@ -195,8 +195,8 @@ def my_lbcs_catalogue( ms_input, Radius=1.5, outfile='' ):
         # Reading a MS to find the coordinate (pyrap)
         RATar, DECTar = grab_coo_MS(input2strlist_nomapfile(ms_input)[0])
 
-	## construct an html query and try to connect
-	url = 'https://lofar-surveys.org/lbcs-search.fits?ra=%f&dec=%f&radius=%f' % (float(RATar), float(DECTar), float(Radius))
+    ## construct an html query and try to connect
+    url = 'https://lofar-surveys.org/lbcs-search.fits?ra=%f&dec=%f&radius=%f' % (float(RATar), float(DECTar), float(Radius))
         connected=False
         while not connected:
             try:
@@ -229,10 +229,10 @@ def my_lbcs_catalogue( ms_input, Radius=1.5, outfile='' ):
         if not len(tb) > 1:
             logging.critical('There are no LBCS sources within the given radius. Check your source is within the LBCS footprint and increase the search radius. Exiting...')
             return
-	else:
+    else:
             ## calculate the total FT goodness
             ft_total = []
-	    for xx in range(len(tb)):
+        for xx in range(len(tb)):
                 ft_total.append( sum_digits( tb[xx]['FT_Goodness'] ) )
             ft_col = Column( ft_total, name='FT_total' )
             tb.add_column( ft_col )
@@ -269,12 +269,12 @@ def find_close_objs(lo, lbcs, tolerance=5.):
     for xx in range(len(lbcs)):
         seps = lbcs_coords[xx].separation(lotss_coords)
         match_idx = np.where( seps < search_rad )[0]
-	if len( match_idx ) == 0:
+    if len( match_idx ) == 0:
             # there's no match, move on to the next source
             m_idx = [-1]
             pass
         else:
-	    if len( match_idx ) == 1:
+        if len( match_idx ) == 1:
                 ## there's only one match
                 m_idx = match_idx[0]
                 lbcs_idx.append(xx)
@@ -284,7 +284,7 @@ def find_close_objs(lo, lbcs, tolerance=5.):
                 tmp = lo[match_idx]
                 m_idx = np.where( tmp['Total_flux'] == np.max( tmp['Total_flux'] ) )[0]
                 if not isinstance(m_idx,int):
-		    m_idx = m_idx[0]
+            m_idx = m_idx[0]
                 lbcs_idx.append(xx)
                 lotss_idx.append(m_idx) 
     lbcs_matches = lbcs[lbcs_idx]
@@ -299,37 +299,37 @@ def find_close_objs(lo, lbcs, tolerance=5.):
         good_idx = []
         for src_id in src_ids:
             idx = np.where( combined['Source_id'] == src_id )[0]
-	    if len(idx) > 1:
-		## multiple matches found.  Count P's first and then break ties with Goodness_FT 
-		num_P = []
-	        total_ft = []
-		for yy in range( len( idx ) ):
-		    tmp = combined[idx[yy]]['Goodness']
-		    num_P.append( count_p( tmp ) )
+        if len(idx) > 1:
+        ## multiple matches found.  Count P's first and then break ties with Goodness_FT 
+        num_P = []
+            total_ft = []
+        for yy in range( len( idx ) ):
+            tmp = combined[idx[yy]]['Goodness']
+            num_P.append( count_p( tmp ) )
 
-		    tmp = combined[idx[yy]]['FT_Goodness']
+            tmp = combined[idx[yy]]['FT_Goodness']
                     total_ft.append( sum_digits( tmp ) )
                 ## check that the total_ft values are non-zero before looking for a best cal
                 if np.max( total_ft ) > 0:
-	            ## pick the one with the highest number of P's -- if tie, use total_ft
-		    best_idx = np.where( num_P == np.max( num_P ) )[0]  ## this is an array
-	            if len( best_idx ) == 1:
-		        good_idx.append(idx[best_idx][0])  ## idx[best_idx][0] is a number
-		    if len( best_idx ) > 1:
-		        currentmax = 0.0 
+                ## pick the one with the highest number of P's -- if tie, use total_ft
+            best_idx = np.where( num_P == np.max( num_P ) )[0]  ## this is an array
+                if len( best_idx ) == 1:
+                good_idx.append(idx[best_idx][0])  ## idx[best_idx][0] is a number
+            if len( best_idx ) > 1:
+                currentmax = 0.0 
                         for i in range(0,len(best_idx)):
-		            if total_ft[best_idx[i]] > currentmax:
-			        currentmax = total_ft[best_idx[i]]
+                    if total_ft[best_idx[i]] > currentmax:
+                    currentmax = total_ft[best_idx[i]]
                                 ft_idx = i
-		        good_idx.append( idx[best_idx[ft_idx]] )
+                good_idx.append( idx[best_idx[ft_idx]] )
                 else:
                     print( 'Duplicate sources have total_ft = 0, removing from results.' )
             else:
-		good_idx.append(idx[0])
+        good_idx.append(idx[0])
 
-	result = combined[good_idx]
+    result = combined[good_idx]
     else:
-	print( 'No duplicate sources found' )
+    print( 'No duplicate sources found' )
         result = combined
     ## rename RA columns
     result.rename_column('RA_1','RA_LBCS')
@@ -362,7 +362,7 @@ def plugin_main( args, **kwargs ):
  
     ## first check for a valid delay_calibrator file
     if os.path.isfile(delay_cals_file):
-	print( 'Delay calibrators file {:s} exists! returning.'.format(delay_cals_file) )
+    print( 'Delay calibrators file {:s} exists! returning.'.format(delay_cals_file) )
         return
 
     ## look for or download LBCS
@@ -375,11 +375,11 @@ def plugin_main( args, **kwargs ):
     ## if lbcs exists, and either lotss exists or continue_without_lotss = True, process the catalogue(s).
     ## else provide an error message and stop
     if len(lbcs_catalogue) == 0:
-	logging.error('LBCS coverage does not exist, and catalogue not found on disk.')
-	return
+    logging.error('LBCS coverage does not exist, and catalogue not found on disk.')
+    return
     if len(lotss_catalogue) == 0 and not fail_lotss_ok:
-	logging.error('LoTSS coverage does not exist, and contine_without_lotss is set to False.')
-	return 
+    logging.error('LoTSS coverage does not exist, and contine_without_lotss is set to False.')
+    return 
 
     ## if the LoTSS catalogue is empty, write out the delay cals only and stop
     if len(lotss_catalogue) == 0:
@@ -425,92 +425,92 @@ def plugin_main( args, **kwargs ):
         logging.error('LoTSS and LBCS coverage exists, but no matches found. This indicates something went wrong, please check your catalogues.')
         return
     else:
-	# find the best delay calibrator
+    # find the best delay calibrator
         RATar, DECTar = grab_coo_MS(input2strlist_nomapfile(MSname)[0])
         ptg_coords = SkyCoord( RATar, DECTar, frame='icrs', unit='deg' )
 
-	src_coords = SkyCoord( result['RA_LBCS'], result['DEC_LBCS'], frame='icrs', unit='deg' )
-	separations = src_coords.separation(ptg_coords )
+    src_coords = SkyCoord( result['RA_LBCS'], result['DEC_LBCS'], frame='icrs', unit='deg' )
+    separations = src_coords.separation(ptg_coords )
         seps = Column( separations.deg, name='Radius' )
         result.add_column( seps )
 
-	radsq = np.array( result['Radius'] )**2.
+    radsq = np.array( result['Radius'] )**2.
         fluxjy = np.array( result['Total_flux'] )*1e-3
         ftsq = np.array( result['FT_total'] )**2.
 
-	mystat = [ radsq[xx]/fluxjy[xx]/ftsq[xx] if ftsq[xx] > 0 else 100 for xx in range(len(radsq)) ]
+    mystat = [ radsq[xx]/fluxjy[xx]/ftsq[xx] if ftsq[xx] > 0 else 100 for xx in range(len(radsq)) ]
         mycol = Column( mystat, name='Select_stat' )
-	result.add_column( mycol )
+    result.add_column( mycol )
 
-	## pick the best one
-	best_idx = np.where( mystat == np.min( mystat ) )[0]
-	tmp = result['Source_id'][best_idx].data
-	tmp2 = result['Select_stat'][best_idx].data
-	print( 'Best delay calibrator candidate is {:s} with a stastic of {:f}'.format(str(tmp[0]),tmp2[0]) )
+    ## pick the best one
+    best_idx = np.where( mystat == np.min( mystat ) )[0]
+    tmp = result['Source_id'][best_idx].data
+    tmp2 = result['Select_stat'][best_idx].data
+    print( 'Best delay calibrator candidate is {:s} with a stastic of {:f}'.format(str(tmp[0]),tmp2[0]) )
 
         ## Write catalogues
         ## 1 - delay calibrators -- from lbcs_catalogue
         result.write( delay_cals_file, format='csv' )
-	print('Writing delay calibrator candidate file {:s}'.format(delay_cals_file))
+    print('Writing delay calibrator candidate file {:s}'.format(delay_cals_file))
 
-	## best delay calibrator
-	best_result = result[best_idx]
-	best_file = delay_cals_file.replace('delay_','best_delay_')
+    ## best delay calibrator
+    best_result = result[best_idx]
+    best_file = delay_cals_file.replace('delay_','best_delay_')
         best_result.write( best_file, format='csv' )
         print( 'Writing best delay calibrator information to file {:s}'.format(best_file) )
 
         ## convert Jy to milliJy
         subtract_index = np.where( result['Total_flux'] > subtract_limit*1e3 )[0]
         subtract_cals = result[subtract_index]
-	
+    
         ## also include bright sources from the lotss catalogue
         ## convert Jy to milliJy
         bright_index = np.where( lotss_catalogue['Total_flux'] >= bright_limit_Jy*1e3 )[0]
         lotss_bright = lotss_catalogue[bright_index]
-	## lotss catalogue has units, redefine a table that doesn't
-	
-	subtract_sources = vstack( [subtract_cals, lotss_bright], join_type='outer' )
+    ## lotss catalogue has units, redefine a table that doesn't
+    
+    subtract_sources = vstack( [subtract_cals, lotss_bright], join_type='outer' )
 
-	unique_srcs = np.unique( subtract_sources['Source_id'] )
-	if len( unique_srcs ) != len( subtract_sources ):
-	    ## remove duplicates, keep LBCS information
+    unique_srcs = np.unique( subtract_sources['Source_id'] )
+    if len( unique_srcs ) != len( subtract_sources ):
+        ## remove duplicates, keep LBCS information
             ## this is untested and will probably fail ...
-	    good_idx = []
-	    for src_id in unique_srcs:
-		idx = np.where( subtract_sources['Source_id'] == src_id )[0]
-		if len( idx ) > 1:
-		    tmp = subtract_sources[idx]
-		    lbcs_idx = np.where( tmp['RA_LBCS'] > 0 )[0]
-		    good_idx.append( idx[lbcs_idx][0] )
-		else:
-		    good_idx.append( idx[0] )
-	    subtract_sources = subtract_sources[good_idx]
+        good_idx = []
+        for src_id in unique_srcs:
+        idx = np.where( subtract_sources['Source_id'] == src_id )[0]
+        if len( idx ) > 1:
+            tmp = subtract_sources[idx]
+            lbcs_idx = np.where( tmp['RA_LBCS'] > 0 )[0]
+            good_idx.append( idx[lbcs_idx][0] )
+        else:
+            good_idx.append( idx[0] )
+        subtract_sources = subtract_sources[good_idx]
 
-	subtract_sources.write( subtract_file, format='csv' )
+    subtract_sources.write( subtract_file, format='csv' )
 
         ## sources to image -- first remove things that are already in the delay_cals_file and subtract_file
-	good_index = [ x for x, src_id in enumerate( lotss_catalogue['Source_id'] ) if src_id not in result['Source_id'] and src_id not in subtract_sources['Source_id'] ]
-	
-	tmp_cat = lotss_catalogue[good_index]
+    good_index = [ x for x, src_id in enumerate( lotss_catalogue['Source_id'] ) if src_id not in result['Source_id'] and src_id not in subtract_sources['Source_id'] ]
+    
+    tmp_cat = lotss_catalogue[good_index]
 
-	## make a flux cut
-	image_index = np.where( tmp_cat['Peak_flux'] >= image_limit_Jy*1e3 )[0]
-	sources_to_image = tmp_cat[image_index]
+    ## make a flux cut
+    image_index = np.where( tmp_cat['Peak_flux'] >= image_limit_Jy*1e3 )[0]
+    sources_to_image = tmp_cat[image_index]
 
         ## find unresolved
         nsrcs = float( len( sources_to_image ) )
-	print "There are "+str(nsrcs)+" sources above "+str(image_limit_Jy)+" mJy."
+    print "There are "+str(nsrcs)+" sources above "+str(image_limit_Jy)+" mJy."
         try:
             unresolved_index = np.where( sources_to_image['Resolved'] == 'U' )[0]
-	except:
-	    unresolved_index = np.where( is_resolved(sources_to_image['Total_flux'],  sources_to_image['Peak_flux'], sources_to_image['Isl_rms'] ) )[0]
+    except:
+        unresolved_index = np.where( is_resolved(sources_to_image['Total_flux'],  sources_to_image['Peak_flux'], sources_to_image['Isl_rms'] ) )[0]
         if nsrcs==0:
             print "Did not find any unresolved objects."
         else:
             perc_unres = len( unresolved_index ) / nsrcs * 100.
             print 'Percentage of sources which are unresolved: '+str( perc_unres )
 
-	sources_to_image.write( lotss_result_file, format='csv' )
+    sources_to_image.write( lotss_result_file, format='csv' )
 
     return
 
