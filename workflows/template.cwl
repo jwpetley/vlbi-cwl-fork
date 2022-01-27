@@ -21,7 +21,7 @@ outputs:
 steps:
   - id: check_station_mismatch
     in:
-      - id: step_msin
+      - id: msin
         source: msin
       - id: solset
         source: solset

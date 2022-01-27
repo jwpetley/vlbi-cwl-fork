@@ -8,7 +8,7 @@ baseCommand:
     - compare_station_list.py
 
 inputs:
-    - id: step_msin
+    - id: msin
       type: Directory[]
       doc: Calibrator measurement sets.
       inputBinding:
