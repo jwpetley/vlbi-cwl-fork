@@ -341,7 +341,8 @@ def find_close_objs(lo, lbcs, tolerance=5.):
 
 def plugin_main( args, **kwargs ):
 
-    mapfile_in = kwargs['mapfile_in']
+    MSname = args[0]
+    #mapfile_in = kwargs['mapfile_in']
     lotss_radius = kwargs['lotss_radius']
     lbcs_radius  = kwargs['lbcs_radius']
     bright_limit_Jy = float(kwargs['bright_limit_Jy'])
@@ -356,7 +357,7 @@ def plugin_main( args, **kwargs ):
     fail_lotss_ok = kwargs['continue_no_lotss'].lower().capitalize()
 
     #mslist = DataMap.load(mapfile_in)
-    MSname = mapfile_in #mslist[0].file
+    #MSname = mslist[0].file
     # For testing
     #MSname = kwargs['MSname']
  
