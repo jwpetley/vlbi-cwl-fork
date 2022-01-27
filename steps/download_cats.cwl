@@ -4,7 +4,6 @@ id: download_cats
 label: download_cats
 
 baseCommand: 
-    - python3
     - downloadCats.py
 
 inputs:

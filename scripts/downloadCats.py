@@ -12,7 +12,7 @@ import pyvo as vo
 import pyrap.tables as pt
 from astropy.table import Table, Column, vstack, unique, hstack
 import argparse
-from lofarpipe.support.data_map import DataMap
+#from lofarpipe.support.data_map import DataMap
 #from lofarpipe.support.data_map import DataProduct
 import requests
 from astropy.coordinates import SkyCoord
@@ -356,7 +356,7 @@ def plugin_main( args, **kwargs ):
     fail_lotss_ok = kwargs['continue_no_lotss'].lower().capitalize()
 
     #mslist = DataMap.load(mapfile_in)
-    MSname = mslist[0].file
+    MSname = mapfile_in #mslist[0].file
     # For testing
     #MSname = kwargs['MSname']
  
