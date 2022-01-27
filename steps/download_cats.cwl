@@ -4,7 +4,8 @@ id: download_cats
 label: download_cats
 
 baseCommand: 
-    - scripts/downloadCats.py
+    - python3
+    - downloadCats.py
 
 inputs:
     - id: msin # mapfile_in = kwargs['mapfile_in']
