@@ -202,13 +202,13 @@ def my_lbcs_catalogue( ms_input, Radius=1.5, outfile='' ):
             try:
                 response = requests.get(url, stream=True,verify=True,timeout=60)
                 if response.status_code!=200:
-                    print response.headers
+                    print(response.headers)
                     raise RuntimeError('Code was %i' % response.status_code)
             except requests.exceptions.ConnectionError:
-                print 'Connection error! sleeping 30 seconds before retry...'
+                print('Connection error! sleeping 30 seconds before retry...')
                 sleep(30)
             except (requests.exceptions.Timeout,requests.exceptions.ReadTimeout):
-                print 'Timeout! sleeping 30 seconds before retry...'
+                print('Timeout! sleeping 30 seconds before retry...')
                 sleep(30)
             else:
                 connected=True
@@ -498,16 +498,16 @@ def plugin_main( args, **kwargs ):
 
         ## find unresolved
         nsrcs = float( len( sources_to_image ) )
-        print "There are "+str(nsrcs)+" sources above "+str(image_limit_Jy)+" mJy."
+        print("There are "+str(nsrcs)+" sources above "+str(image_limit_Jy)+" mJy.")
         try:
             unresolved_index = np.where( sources_to_image['Resolved'] == 'U' )[0]
         except:
             unresolved_index = np.where( is_resolved(sources_to_image['Total_flux'],  sources_to_image['Peak_flux'], sources_to_image['Isl_rms'] ) )[0]
         if nsrcs==0:
-            print "Did not find any unresolved objects."
+            print("Did not find any unresolved objects.")
         else:
             perc_unres = len( unresolved_index ) / nsrcs * 100.
-            print 'Percentage of sources which are unresolved: '+str( perc_unres )
+            print('Percentage of sources which are unresolved: '+str( perc_unres ))
 
         sources_to_image.write( lotss_result_file, format='csv' )
 
