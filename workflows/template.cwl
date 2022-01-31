@@ -1,37 +1,28 @@
 class: Workflow
 cwlVersion: v1.2
-id: vlbi
-label: vlbi
+id: template
+label: template
 
 inputs:
-  - id: msin
+  - id: input1
     type: 'Directory[]'
-  - id: solset
-    type: File
-    doc: The solution set from the prefactor pipeline.
-  - id: filter_baselines
-    type: string?
-    default: "*&"
-
-outputs:
-  - id: log_file
-    outputSource: check_station_mismatch/logfile
-    type: File[]
 
 steps:
-  - id: check_station_mismatch
+  - id: step1
     in:
-      - id: msin
-        source: msin
-      - id: solset
-        source: solset
-      - id: filter_baselines
-        source: filter_baselines
+      - id: input1
+        source: input1
+      - id: input2
+        source: input2
     out:
-      - id: filter_out
-      - id: logfile
-    run: ../steps/check_station_mismatch.cwl
-    label: check_station_mismatch
+      - id: output1
+    run: ../steps/step1.cwl
+    label: step1
+
+outputs:
+  - id: output1
+    outputSource: step1/output1
+    type: Directory
 
 requirements:
   - class: SubworkflowFeatureRequirement

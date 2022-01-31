@@ -32,11 +32,15 @@ inputs:
     - id: continue_no_lotss
       type: boolean?
       default: true
-    - id: lotss_skymodel_name
-      type: string?
+    - id: lotss_catalogue
+      type:
+        - File?
+        - string?
       default: "lotss_catalogue.csv"
-    - id: lbcs_skymodel_name
-      type: string?
+    - id: lbcs_catalogue
+      type:
+        - File?
+        - string?
       default: "lbcs_catalogue.csv"
     - id: image_catalogue_name
       type: string? 
@@ -48,30 +52,46 @@ inputs:
       type: string?
       default: "subtract_sources.csv"
 
+requirements:
+    - class: NetworkAccess
+      networkAccess: true
+
 outputs:
-    - id: lotss_skymodel
+    #- id: lotss_skymodel
+    #  type: File
+    #  outputBinding:
+    #    glob: $(inputs.lotss_skymodel_name)
+    #- id: lbcs_skymodel
+    #  type: File
+    #  outputBinding:
+    #    glob: $(inputs.lbcs_skymodel_name)
+    - id: best_delay_catalogue
       type: File
       outputBinding:
-        glob: $(inputs.lotss_skymodel_name)
-    - id: lbcs_skymodel
-      type: File
-      outputBinding:
-        glob: $(inputs.lbcs_skymodel_name)
+        glob: best_delay_*.csv
     - id: image_catalogue
       type: File
       outputBinding:
         glob: $(inputs.image_catalogue_name)
-    - id: delay_catalogue
-      type: File
-      outputBinding:
-        glob: $(inputs.delay_catalogue_name)
-    - id: subtract_catalogue
-      type: File
-      outputBinding:
-        glob: $(inputs.subtract_catalogue_name)
+    #- id: delay_catalogue
+    #  type: File
+    #  outputBinding:
+    #    glob: $(inputs.delay_catalogue_name)
+    #- id: subtract_catalogue
+    #  type: File
+    #  outputBinding:
+    #    glob: $(inputs.subtract_catalogue_name)
     #- id: lotss_result_file
     #  type: File
+    - id: logfile
+      type: File[]
+      outputBinding:
+        glob: 'downloadCats*.log'
+
 
 hints:
   DockerRequirement:
     dockerPull: vlbi-cwl
+
+stdout: downloadCats.log
+stderr: downloadCats_err.log

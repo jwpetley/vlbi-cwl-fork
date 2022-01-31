@@ -15,6 +15,7 @@ import argparse
 #from lofarpipe.support.data_map import DataMap
 #from lofarpipe.support.data_map import DataProduct
 import requests
+from time import sleep
 from astropy.coordinates import SkyCoord
 from astropy import units as u
 
