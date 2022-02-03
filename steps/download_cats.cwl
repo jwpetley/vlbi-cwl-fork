@@ -69,10 +69,10 @@ outputs:
       type: File
       outputBinding:
         glob: best_delay_*.csv
-    - id: image_catalogue
-      type: File
-      outputBinding:
-        glob: $(inputs.image_catalogue_name)
+    #- id: image_catalogue
+    #  type: File
+    #  outputBinding:
+    #    glob: $(inputs.image_catalogue_name)
     #- id: delay_catalogue
     #  type: File
     #  outputBinding:
