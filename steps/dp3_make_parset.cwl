@@ -14,7 +14,7 @@ arguments:
   - prefix: ''
     shellQuote: false
     position: 0
-    valueFrom: DP3.parset
+    valueFrom: dp3.parset
 
 inputs:
   - id: flag_baselines
