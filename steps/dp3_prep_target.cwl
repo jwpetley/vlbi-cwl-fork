@@ -9,21 +9,28 @@ inputs:
     - id: parset
       type: File
       inputBinding:
-        position: 0
+        position: -1
       doc: DP3 parset file.
     - id: msin
       type: Directory[]
       inputBinding:
-        position: 1
+        position: 0
         prefix: msin=
         separate: false
       doc: input measurement set.
+    - id: msout_name
+      type: string?
+      default: "prepped"
+      inputBinding:
+        position: 0
+        prefix: msout=
+        separate: false
     - id: solset
       type: File
       doc: input solutions file.
-    - id: error_tolerance
-      type: boolean?
-      default: false
+    #- id: error_tolerance
+    #  type: boolean?
+    #  default: false
     #- id: max_processes_per_node
     #  type: int?
     #  default: 6
@@ -33,15 +40,14 @@ outputs:
       doc: Output measurement set.
       type: Directory
       outputBinding:
-        glob: '$(inputs.msin.basename)'
-
+        glob: '$(inputs.msout)'
     - id: logfile
       type: File[]
       outputBinding:
         glob: 'DP3_prep_target*.log'
 
-#stdout: DP3_prep_target.log
-stderr: DP3_prep_target_err.log
+stdout: dp3_prep_target.log
+stderr: dp3_prep_target_err.log
 
 hints:
   DockerRequirement:
