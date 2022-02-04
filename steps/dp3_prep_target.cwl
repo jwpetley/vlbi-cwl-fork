@@ -12,7 +12,7 @@ inputs:
         position: -1
       doc: DP3 parset file.
     - id: msin
-      type: Directory[]
+      type: Directory
       inputBinding:
         position: 0
         prefix: msin=
@@ -38,15 +38,15 @@ inputs:
     #  doc: Number of processes per step per node.
 
 outputs:
-    - id: msout
-      doc: Output measurement set.
-      type: Directory
-      outputBinding:
-        glob: '$(inputs.msout_name)'
+#    - id: msout
+#      doc: Output measurement set.
+#      type: Directory
+#      outputBinding:
+#        glob: '$(inputs.msout_name)'
     - id: logfile
       type: File[]
       outputBinding:
-        glob: 'DP3_prep_target*.log'
+        glob: 'dp3_prep_target*.log'
 
 stdout: dp3_prep_target.log
 stderr: dp3_prep_target_err.log
