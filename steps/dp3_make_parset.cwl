@@ -36,7 +36,7 @@ outputs:
   - id: parset
     type: File
     outputBinding:
-      glob: DP3.parset
+      glob: dp3.parset
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -50,7 +50,7 @@ requirements:
           numthreads                          =   2
           #
           msin.datacolumn                     =   DATA
-          msin.baseline                       =   $(inputs.flag_baselines)
+          msin.baseline                       =   $(inputs.station_mismatch)
           #
           msout                               =   .
           msout.storagemanager                =   "Dysco"
