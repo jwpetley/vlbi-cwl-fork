@@ -2,6 +2,6 @@
     "msin": [
                 {"class": "Directory", "path": "/home/tjlv53/software/test_data/L693719_SB000_uv-compressed.MS"}
             ],
-    "solset": {"class": "File", "path": "/home/tjlv53/software/test_data/P205+55:Pre-Facet-Calibrator/results/cal_values/cal_solutions.h5"},
+    "solset": {"class": "File", "path": "/home/tjlv53/software/test_data/Pre-Facet-Calibrator/results/cal_values/cal_solutions.h5"},
     "parset": {"class": "File", "path": "/home/tjlv53/software/VLBI-cwl/DP3.parset"}
 }

@@ -1,9 +1,12 @@
 class: CommandLineTool
 cwlVersion: v1.2
 id: collectfiles
+label: CollectFiles
+
 baseCommand:
   - bash
   - collect_files.sh
+
 inputs:
   - id: start_directory
     type: Directory?
@@ -18,13 +21,14 @@ inputs:
       position: 0
   - id: sub_directory_name
     type: string
+
 outputs: 
   - id: dir
     type: Directory
     outputBinding:
         glob: |
           $(inputs.start_directory === null ? inputs.sub_directory_name: inputs.start_directory.basename)
-label: CollectFiles
+
 requirements:
   - class: InitialWorkDirRequirement
     listing:

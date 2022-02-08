@@ -37,27 +37,27 @@ inputs:
     #  default: 6
     #  doc: Number of processes per step per node.
 
-outputs:
-#    - id: msout
-#      doc: Output measurement set.
-#      type: Directory
-#      outputBinding:
-#        glob: '$(inputs.msout_name)'
-    - id: logfile
-      type: File[]
-      outputBinding:
-        glob: 'dp3_prep_target*.log'
-
-stdout: dp3_prep_target.log
-stderr: dp3_prep_target_err.log
-
-hints:
-  DockerRequirement:
-    dockerPull: vlbi-cwl
-
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
         writable: true
+
+outputs:
+    - id: logfile
+      type: File[]
+      outputBinding:
+        glob: 'dp3_prep_target*.log'
+#    - id: msout
+#      doc: Output measurement set.
+#      type: Directory
+#      outputBinding:
+#        glob: '$(inputs.msout_name)'
+
+hints:
+  DockerRequirement:
+    dockerPull: vlbi-cwl:latest
+
+stdout: dp3_prep_target.log
+stderr: dp3_prep_target_err.log

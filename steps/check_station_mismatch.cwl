@@ -9,7 +9,7 @@ baseCommand:
 
 inputs:
     - id: msin
-      type: Directory[]
+      type: 'Directory[]'
       doc: Calibrator measurement sets.
       inputBinding:
         position: 0

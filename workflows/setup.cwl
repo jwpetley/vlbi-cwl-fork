@@ -19,17 +19,10 @@ inputs:
     type: string?
     default: TGSSphase
 
-outputs:
-  - id: logdir
-    outputSource: save_logfiles/dir
-    type: Directory
-  - id: best_delay_cats
-    outputSource: download_cats/best_delay_catalogue
-    type: File
-  - id: parset
-    outputSource: dp3_make_parset/parset
-    type: File
-
+requirements:
+  - class: SubworkflowFeatureRequirement
+  - class: MultipleInputFeatureRequirement
+  - class: ScatterFeatureRequirement
 
 steps:
   - id: check_station_mismatch
@@ -54,19 +47,6 @@ steps:
       - id: logfile
     run: ../steps/download_cats.cwl
     label: download_cats
-  - id: save_logfiles
-    in:
-      - id: files
-        linkMerge: merge_flattened
-        source:
-          - check_station_mismatch/logfile
-          - download_cats/logfile 
-      - id: sub_directory_name
-        default: logs
-    out:
-      - id: dir
-    run: ../steps/collectfiles.cwl
-    label: save_logfiles
   - id: dp3_make_parset
     in:
       - id: flag_baselines
@@ -80,14 +60,42 @@ steps:
     out:
       - id: parset
     run: ../steps/dp3_make_parset.cwl
-  #- id: dp3_prep_target
-  #  in:
-  #    - id: msin
-  #      source: msin
-  #  out: 
-  #  run: ../steps/dp3_prep_target
-  #  label: dp3_prep_target
+  - id: dp3_prep_target
+    in:
+      - id: parset
+        source: dp3_make_parset/parset
+      - id: msin
+        source: msin
+      - id: solset
+        source: solset
+    out: 
+      - id: logfile
+    scatter: 
+      - msin
+    run: ../steps/dp3_prep_target.cwl
+    label: dp3_prep_target
+  - id: save_logfiles
+    in:
+      - id: files
+        linkMerge: merge_flattened
+        source:
+          - check_station_mismatch/logfile
+          - download_cats/logfile 
+          - dp3_prep_target/logfile
+      - id: sub_directory_name
+        default: logs
+    out:
+      - id: dir
+    run: ../steps/collectfiles.cwl
+    label: save_logfiles
 
-requirements:
-  - class: SubworkflowFeatureRequirement
-  - class: MultipleInputFeatureRequirement
+outputs:
+  - id: logdir
+    outputSource: save_logfiles/dir
+    type: Directory
+  - id: best_delay_cats
+    outputSource: download_cats/best_delay_catalogue
+    type: File
+  - id: parset
+    outputSource: dp3_make_parset/parset
+    type: File

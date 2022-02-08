@@ -88,7 +88,6 @@ outputs:
       outputBinding:
         glob: 'downloadCats*.log'
 
-
 hints:
   DockerRequirement:
     dockerPull: vlbi-cwl
