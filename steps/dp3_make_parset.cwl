@@ -68,18 +68,15 @@ requirements:
           filter.remove                       =   true
           #
           applyPA.type                        =   applycal
-          applyPA.parmdb                      =   $(inputs.solset.path)
           applyPA.correction                  =   polalign
           applyPA.solset                      =   calibrator
           #
           applybandpass.type                  =   applycal
-          applybandpass.parmdb                =   $(inputs.solset.path)
           applybandpass.correction            =   bandpass
           applybandpass.updateweights         =   true
           applybandpass.solset                =   calibrator
           #
           applyclock.type                     =   applycal
-          applyclock.parmdb                   =   $(inputs.solset.path)
           applyclock.correction               =   clock
           applyclock.solset                   =   calibrator
           #
@@ -88,13 +85,10 @@ requirements:
           applybeam.updateweights             =   true
           #
           applyRM.type                        =   applycal
-          applyRM.parmdb                      =   $(inputs.solset.path)
           applyRM.correction                  =   RMextract
           applyRM.solset                      =   target
           #
           applyphase.type                     =   applycal
           applyphase.correction               =   $(inputs.phasesol)
           applyphase.solset                   =   target
-          applyphase.parmdb                   =   $(inputs.solset.path)
           #
-          #count.type                          =   counter

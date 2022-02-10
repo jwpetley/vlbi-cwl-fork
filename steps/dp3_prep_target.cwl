@@ -37,12 +37,21 @@ inputs:
     #  default: 6
     #  doc: Number of processes per step per node.
 
+arguments:
+    - applyPA.parmdb=$(inputs.solset.path)
+    - applybandpass.parmdb=$(inputs.solset.path)
+    - applyclock.parmdb=$(inputs.solset.path)
+    - applyRM.parmdb=$(inputs.solset.path)
+    - applyphase.parmdb=$(inputs.solset.path)
+
 requirements:
   - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-    listing:
-      - entry: $(inputs.msin)
-        writable: true
+#  - class: InitialWorkDirRequirement
+#    listing:
+#      - entry: $(inputs.msin)
+#        writable: true
+#      - entry: $(inputs.solset)
+#        writable: true
 
 outputs:
     - id: logfile
