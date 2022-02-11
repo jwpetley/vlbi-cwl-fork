@@ -19,7 +19,7 @@ inputs:
     - id: solset_name
       type: string?
       doc: Name of the solution set.
-      default: 'calibrator'
+      default: 'vlbi'
     - id: filter_baselines
       type: string?
       default: "*&"
@@ -41,7 +41,6 @@ requirements:
             h5parmdb = inputs['solset']['path']
             solset_name = inputs['solset_name']
             filter = inputs['filter_baselines']
-            print(mss)
 
             output = compareStationList(mss, 
                                         h5parmdb = h5parmdb, 

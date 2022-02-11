@@ -29,7 +29,6 @@ def plugin_main(args, **kwargs):
     #data           = DataMap.load(mapfile_in)
     #mslist         = [data[i].file for i in xrange(len(data))]
     mslist         = args #['mss']
-    print(mslist)
 
     if len(mslist) == 0:
         raise ValueError("Did not find any existing directory in input MS list!")
@@ -71,7 +70,6 @@ def plugin_main(args, **kwargs):
     for missing_station in missing_stations:
         filter += ';!' + missing_station + '*'
         pass
-
     #filter = filter.lstrip(';')
 
     data.close()
