@@ -31,9 +31,9 @@ inputs:
     - id: file_suffix
       type: string?
       default: log
+
 outputs:
     - id: output
       type: File
       outputBinding:
         glob: "$(inputs.file_prefix).$(inputs.file_suffix)"
-

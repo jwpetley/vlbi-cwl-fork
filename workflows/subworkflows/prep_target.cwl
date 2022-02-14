@@ -6,6 +6,7 @@ label: prep_target
 requirements:
     - class: InlineJavascriptRequirement
     - class: SubworkflowFeatureRequirement
+    - class: StepInputExpressionRequirement
     - class: MultipleInputFeatureRequirement
     - class: InitialWorkDirRequirement
       listing:
@@ -28,12 +29,17 @@ steps:
           source: parset
         - id: msin
           source: msin
+        - id: msout_name
+          source: msin
+          valueFrom: $("out_"+self.basename)
         - id: solset
           source: solset
       out:
         - id: logfile
+        - id: msout
       run: ../../steps/dp3_prep_target.cwl
     - id: concat_logfiles_prep_targ
+      label: concat_logfiles_prep_target
       in:
         - id: file_list
           linkMerge: merge_flattened
@@ -44,10 +50,13 @@ steps:
       out:
         - id: output
       run: ../../steps/concatenate_files.cwl
-      label: concat_logfiles_prep_target
 
 outputs:
     - id: logfiles
       outputSource: 
         - concat_logfiles_prep_targ/output
       type: File
+    - id: msout
+      outputSource:
+        - dp3_prep_target/msout
+      type: Directory

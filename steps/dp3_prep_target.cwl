@@ -20,7 +20,7 @@ inputs:
       doc: Input measurement set.
     - id: msout_name
       type: string?
-      default: "prepped"
+      default: "."
       inputBinding:
         position: 0
         prefix: msout=
@@ -58,11 +58,11 @@ outputs:
       type: File[]
       outputBinding:
         glob: 'dp3_prep_target*.log'
-#    - id: msout
-#      doc: Output measurement set.
-#      type: Directory
-#      outputBinding:
-#        glob: '$(inputs.msout_name)'
+    - id: msout
+      doc: Output Measurement Set.
+      type: Directory
+      outputBinding:
+        glob: '$(inputs.msout_name=="." ? inputs.msin.basename : inputs.msout_name)'
 
 hints:
   DockerRequirement:

@@ -72,24 +72,22 @@ steps:
           source: solset
       out:
         - id: logfiles
+        - id: msout
       run: ./subworkflows/prep_target.cwl
       scatter: msin
       label: prep_target
-    #- id: dp3_prep_target
-    #  in:
-    #    - id: parset
-    #      source: dp3_make_parset/parset
-    #    - id: msin
-    #      source: msin
-    #      linkMerge: merge_flattened
-    #    - id: solset
-    #      source: solset
-    #  out: 
-    #    - id: logfile
-    #  scatter: 
-    #    - msin
-    #  run: ../steps/dp3_prep_target.cwl
-    #  label: dp3_prep_target
+    - id: concat_logfiles_prep_target
+      label: concat_logfiles_prep_target
+      in:
+        - id: file_list
+          linkMerge: merge_flattened
+          source:
+            - prep_target/logfiles
+        - id: file_prefix
+          default: dp3_prep_target
+      out:
+        - id: output
+      run: ../steps/concatenate_files.cwl
     - id: save_logfiles
       in:
         - id: files
@@ -97,7 +95,7 @@ steps:
           source:
             - check_station_mismatch/logfile
             - download_cats/logfile 
-            - prep_target/logfiles
+            - concat_logfiles_prep_target/output
         - id: sub_directory_name
           default: logs
       out:
@@ -115,3 +113,6 @@ outputs:
     - id: parset
       outputSource: dp3_make_parset/parset
       type: File
+    - id: msout
+      outputSource: prep_target/msout
+      type: Directory[]
