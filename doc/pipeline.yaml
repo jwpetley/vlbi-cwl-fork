@@ -136,15 +136,17 @@ ndppp_prep_target:
 
 ndppp_prep_target_list:
     Input    : mapfile/output from ndppp_prep_target
-    Operation: convert the input to a length 1 list
+    Operation: "[legacy] convert the input to a length 1 list"
     Software : prefactor/plugins/Pipelinestep_createMapfile.py
     Output   : >
                A list with length one that contains the
                information of all subbands
 
+--- 
+
 create_ateam_model_map:
     Input    : "{{ prefactor_dir }}/skymodels/Ateam_LBA_CC.skymodel" # I.e. the file which contains the models of the a-team sources
-    Operation: get a mapfile of the skymodel used to predict the A-team visibilities (i.e. a pipeline-friendly path to this file)
+    Operation: "[legacy] get a mapfile of the skymodel used to predict the A-team visibilities (i.e. a pipeline-friendly path to this file)"
     Software : prefactor/plugins/Pipelinestep_addListMapfile.py
     Output   : a mapfile pointing to the necessary file
 
