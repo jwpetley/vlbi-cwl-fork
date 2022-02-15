@@ -33,14 +33,19 @@ requirements:
           entry: |
             import sys
             import json
+            import yaml
             import os
             from compareStationListVLBI import plugin_main as compareStationList
 
             mss = sys.argv[1:]
-            inputs = json.loads(r"""$(inputs)""")
+            try:
+                inputs = json.loads(r"""$(inputs)""")
+            except:
+                inputs = yaml.loads(r"""$(inputs)""")
             h5parmdb = inputs['solset']['path']
             solset_name = inputs['solset_name']
             filter = inputs['filter_baselines']
+            print(mss)
 
             output = compareStationList(mss, 
                                         h5parmdb = h5parmdb, 

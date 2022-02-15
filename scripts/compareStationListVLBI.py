@@ -36,7 +36,6 @@ def plugin_main(args, **kwargs):
     else:
         MS = mslist[0]
         pass
-
     ## reading ANTENNA table of MS
     logging.info('Collecting information from the ANTENNA table.')
     antennaTable = pt.table(MS + "::ANTENNA", ack = False)
