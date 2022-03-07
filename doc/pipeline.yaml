@@ -1,4 +1,5 @@
 ---
+# setup
 
 mk_results_dir:
     Input    : name of results directory
@@ -66,9 +67,9 @@ cp_cal_solutions:
              - "{{ cal_solutions }}"  # same as above
              - "{{ solutions }}"      # destination name of solutions to copy to
     Operation: >
-               [legacy] copies the calibration solutions to
+               "[legacy] copies the calibration solutions to
                the working directory so it has a
-               new copy to work on.
+               new copy to work on."
     Software : cp
     Output   : >
                a new copy of the calibration solutions
@@ -143,6 +144,7 @@ ndppp_prep_target_list:
                information of all subbands
 
 --- 
+# A-team clipping
 
 create_ateam_model_map:
     Input    : "{{ prefactor_dir }}/skymodels/Ateam_LBA_CC.skymodel" # I.e. the file which contains the models of the a-team sources
@@ -153,20 +155,20 @@ create_ateam_model_map:
 make_sourcedb_ateam:
     Input    : the mapfile from create_ateam_model_map
     Operation: >
-               convert a skymodel (text file) to a
-               sourcedb (source database; NDPPP-readable model)
+               "[legacy] convert a skymodel (text file) to a
+               sourcedb (source database; NDPPP-readable model). (DP3 can now process skymodel files directly)"
     Software : makesourcedb
     Output   : a sourcedb (and its mapfile)
 
 expand_sourcedb_ateam:
     Input    : the mapfiles from ndppp_prep_target (length = number of subbands) and make_sourcedb_ateam (length = 1)
     Operation: >
-               expand the make_sourcedb_ateam mapfile so
+               "[legacy] expand the make_sourcedb_ateam mapfile so
                its length matches that of ndppp_prep_target.
                That is, copy the single element to a vector
                of length = number of subbands, so each
                subband operation in subsequent steps is
-               mapped to the same sourcedb.
+               mapped to the same sourcedb. (DP3 can now process skymodel files directly)"
     Software : prefactor/plugins/Pipelinestep_expandMapfile.py
     Output   : a mapfile with the value of make_sourcedb_ateam but length = length of ndppp_prep_target mapfile
 
@@ -190,6 +192,9 @@ ateamcliptar:
                the threshold
     Software : prefactor/scripts/Ateamclipper.py
     Output   : clipped data in the DATA column of ndppp_prep_target
+
+---
+# concatenation
 
 sort_concatmap:
     Input    : ndppp_prep_target_list (length=1 but has all measurement set info)
@@ -232,6 +237,9 @@ dpppconcat_list:
     Software : prefactor/plugins/Pipelinestep_createMapfile
     Output   : a mapfile with one element that is a list of all the bands
 
+---
+# aoflagging
+
 aoflag:
     Input    :      
              - dpppconcat_list mapfile
@@ -239,6 +247,9 @@ aoflag:
     Operation: perform RFI flagging
     Software : NDPPP
     Output   : flagged measurement sets
+
+---
+# apply ddf solutions
 
 createmap_ddf:
     Input    : "{{ ddf_soldir }}" # directory where ddf-pipeline outputs are
@@ -315,6 +326,9 @@ ndppp_applycal:
     Operation: "apply solutions “in place” (don’t write a new file)"
     Software : NDPPP
     Output   : a new DATA column in the dpppconcat bands
+
+---
+#phaseup & concatenation
 
 prep_delay_dir:
     Input    :
@@ -466,6 +480,8 @@ apply_delay:
                *.phaseup_concat) where the corrected
                data is in the DATA column
 
+# ---
+# cleanup
 # NOTE: the following steps will be changed – we need to convert the pipeline to use Reinout’s self-cal script instead
 
 #selfcal:
