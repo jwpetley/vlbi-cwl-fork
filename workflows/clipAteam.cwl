@@ -4,26 +4,56 @@ id: clipAteam
 label: clipAteam
 
 inputs:
-  - id: input1
+  - id: msin
     type: 'Directory[]'
-
+    doc: Input Measurement Set
+ 
 steps:
-  - id: step1
+  - id: predictAteam
     in:
-      - id: input1
-        source: input1
-      - id: input2
-        source: input2
+      - id: msin
+        linkMerge: merge_flattened
+        source: 
+          - msin
     out:
-      - id: output1
-    run: ../steps/step1.cwl
-    label: step1
+      - id: msout
+      - id: logfiles
+    run: ./subworkflows/predictAteam.cwl
+    scatter: msin
+    label: predictAteam
+  - id: concat_logfiles_predict
+    in:
+      - id: file_list
+        linkMerge: merge_flattened
+        source: predictAteam/logfiles
+      - id: file_prefix
+        default: predictAteam
+    out:
+      - id: output
+    run: ../steps/concatenate_files.cwl
+    label: concat_logfiles_predict
+  - id: save_logfiles
+    in:
+      - id: files
+        linkMerge: merge_flattened
+        source:
+          - concat_logfiles_predict/output
+      - id: sub_directory_name
+        default: logs-clipAteam
+    out:
+      - id: dir
+    run: ../steps/collectfiles.cwl
+    label: save_logfiles
 
 outputs:
-  - id: output1
-    outputSource: step1/output1
+  - id: logdir
+    outputSource: save_logfiles/dir
     type: Directory
+  - id: msout
+    outputSource: predictAteam/msout
+    type: Directory[]
 
 requirements:
-  - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
+  - class: SubworkflowFeatureRequirement
+  - class: ScatterFeatureRequirement
