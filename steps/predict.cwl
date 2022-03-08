@@ -32,36 +32,36 @@ inputs:
       prefix: msout.datacolumn=
       separate: false
       shellQuote: false
-#  - id: skymodel
-#    type:
-#      - File?
-#      - string?
-#    default: $PREFACTOR_DATA_ROOT/skymodels/Ateam_LBA_CC.skymodel
-#    inputBinding:
-#      position: 0
-#      prefix: predict.sourcedb=
-#      separate: false
-#      shellQuote: false
-  - id: sourcedb
-    type: File
+  - id: skymodel
+    type:
+      - File?
+      - string?
+    default: $PREFACTOR_DATA_ROOT/skymodels/Ateam_LBA_CC.skymodel
     inputBinding:
       position: 0
       prefix: predict.sourcedb=
       separate: false
       shellQuote: false
+#  - id: sourcedb
+#    type: File
+#    inputBinding:
+#      position: 0
+#      prefix: predict.sourcedb=
+#      separate: false
+#      shellQuote: false
   - id: sources
-    type: 'string[]?'
+    type: string[]?
     default:
-        - VirA_4_patch
-        - CygAGG
-        - CasA_4_patch
-        - TauAGG
+        - "VirA_4_patch"
+        - "CygAGG"
+        - "CasA_4_patch"
+        - "TauAGG"
     inputBinding:
       position: 0
       prefix: predict.sources=
       separate: false
       itemSeparator: ','
-      valueFrom: '$(self)'
+      valueFrom: '"$(self)"'
       shellQuote: false
   - id: usebeammodel
     type: boolean?
