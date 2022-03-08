@@ -39,24 +39,21 @@ steps:
           source: phasesol
       out:
         - id: parset
-          type: File
         - id: best_delay_cats
-          type: File
-        - id: logfiles
-          type: File[]
+        - id: logdir
+        - id: msout
       run: ./setup.cwl
 
-#    - id: a-teamclip
-#      in:
-#        - id: input1
-#          source: input1
-#        - id: input2
-#          source: input2
-#      out:
-#        - id: output1
-#      run: ../steps/step1.cwl
-#      label: step1
-#
+    - id: clipAteam
+      in:
+        - id: msin
+          source: setup/msout
+      out:
+        - id: logdir
+        - id: msout
+      run: ./clipAteam.cwl
+      label: clipAteam
+
 #    - id: concatenate
 #      in:
 #        - id: input1
@@ -124,6 +121,6 @@ steps:
 #      label: step1
 
 outputs:
-  - id: output1
-    outputSource: step1/output1
-    type: Directory
+  - id: msout
+    outputSource: clipAteam/msout
+    type: Directory[]
