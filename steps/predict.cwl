@@ -42,13 +42,6 @@ inputs:
       prefix: predict.sourcedb=
       separate: false
       shellQuote: false
-#  - id: sourcedb
-#    type: File
-#    inputBinding:
-#      position: 0
-#      prefix: predict.sourcedb=
-#      separate: false
-#      shellQuote: false
   - id: sources
     type: string[]?
     default:
@@ -65,7 +58,7 @@ inputs:
       shellQuote: false
   - id: usebeammodel
     type: boolean?
-    default: false #true
+    default: true
     inputBinding:
       position: 0
       prefix: predict.usebeammodel=True
@@ -95,7 +88,6 @@ requirements:
 
 arguments:
   - steps=[filter,predict]
-  #- predict.beammode=array_factor
   - predict.usechannelfreq=False
   - predict.operation=replace
   - filter.baseline=[CR]S*&
