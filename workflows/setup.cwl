@@ -97,7 +97,7 @@ steps:
             - download_cats/logfile 
             - concat_logfiles_prep_target/output
         - id: sub_directory_name
-          default: logs
+          default: setup
       out:
         - id: dir
       run: ../steps/collectfiles.cwl
