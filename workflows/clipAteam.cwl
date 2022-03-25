@@ -17,7 +17,8 @@ steps:
           - msin
     out:
       - id: msout
-      - id: logfiles
+      - id: predict_logfile
+      - id: cliptar_logfile
     run: ./subworkflows/predictAteam.cwl
     scatter: msin
     label: predictAteam
@@ -25,21 +26,33 @@ steps:
     in:
       - id: file_list
         linkMerge: merge_flattened
-        source: predictAteam/logfiles
+        source: predictAteam/predict_logfile
       - id: file_prefix
-        default: predictAteam
+        default: predict
     out:
       - id: output
     run: ../steps/concatenate_files.cwl
     label: concat_logfiles_predict
+  - id: concat_logfiles_cliptar
+    in:
+      - id: file_list
+        linkMerge: merge_flattened
+        source: predictAteam/cliptar_logfile
+      - id: file_prefix
+        default: Ateamcliptar
+    out:
+      - id: output
+    run: ../steps/concatenate_files.cwl
+    label: concat_logfiles_cliptar
   - id: save_logfiles
     in:
       - id: files
         linkMerge: merge_flattened
         source:
           - concat_logfiles_predict/output
+          - concat_logfiles_cliptar/output
       - id: sub_directory_name
-        default: logs-clipAteam
+        default: clipAteam
     out:
       - id: dir
     run: ../steps/collectfiles.cwl

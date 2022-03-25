@@ -54,6 +54,20 @@ steps:
       run: ./clipAteam.cwl
       label: clipAteam
 
+    - id: store_logs
+      in:
+        - id: files
+          linkMerge: merge_flattened
+          source:
+            - setup/logdir
+            - clipAteam/logdir
+        - id: sub_directory_name
+          default: logs
+      out:
+        - id: dir
+      run: ../steps/collectfiles.cwl
+      label: store_logs
+
 #    - id: concatenate
 #      in:
 #        - id: input1
@@ -124,3 +138,6 @@ outputs:
   - id: msout
     outputSource: clipAteam/msout
     type: Directory[]
+  - id: logs
+    outputSource: store_logs/dir
+    type: Directory
