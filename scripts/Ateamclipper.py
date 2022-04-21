@@ -1,9 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 ## changelog
-# W.Williams 2014/11/03  add - to give input/output statistics per channel
-# W.Williams 2014/11/03  fix - statistics per correlation
-# A.Drabent 2019/07/24   write fraction of flagged data into output file (for prefactor3)
+# W.Williams   2014/11/03  add - to give input/output statistics per channel
+# W.Williams   2014/11/03  fix - statistics per correlation
+# A.Drabent    2019/07/24  write fraction of flagged data into output file (for prefactor3)
+# M.VanderWild 2022/04/21  fix ~ use python3 instead of python
 
 import numpy
 import pyrap.tables as pt
