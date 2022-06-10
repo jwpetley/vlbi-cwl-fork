@@ -213,7 +213,7 @@ do_sortmap_maps:
     Input    : results of sort_concatmap
     Operation: makes sensible files for future use out of the input
     Software : prefactor/plugins/Pipelinestep_mapfilenamesFromMapfiles
-    Output   : mapfiles for use in dpppconcat
+    Output   : "[legacy?] mapfiles for use in dpppconcat"
 
 dpppconcat:
     Input    : >

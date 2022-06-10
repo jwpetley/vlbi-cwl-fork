@@ -54,6 +54,27 @@ steps:
       run: ./clipAteam.cwl
       label: clipAteam
 
+    - id: sort-concatenate
+      in:
+        - id: msin
+          source: clipAteam/msout
+      out:
+        - id: logdir
+        - id: msout
+      run: ./sort-concat.cwl
+      label: sort-concatenate
+
+#    - id: aoflagging
+#      in:
+#        - id: input1
+#          source: input1
+#        - id: input2
+#          source: input2
+#      out:
+#        - id: output1
+#      run: ../steps/step1.cwl
+#      label: step1
+
     - id: store_logs
       in:
         - id: files
@@ -61,6 +82,7 @@ steps:
           source:
             - setup/logdir
             - clipAteam/logdir
+            - sort-concatenate/logdir
         - id: sub_directory_name
           default: logs
       out:
@@ -68,29 +90,7 @@ steps:
       run: ../steps/collectfiles.cwl
       label: store_logs
 
-#    - id: concatenate
-#      in:
-#        - id: input1
-#          source: input1
-#        - id: input2
-#          source: input2
-#      out:
-#        - id: output1
-#      run: ../steps/step1.cwl
-#      label: step1
-#    
 #    - id: apply-ddf
-#      in:
-#        - id: input1
-#          source: input1
-#        - id: input2
-#          source: input2
-#      out:
-#        - id: output1
-#      run: ../steps/step1.cwl
-#      label: step1
-#    
-#    - id: aoflagging
 #      in:
 #        - id: input1
 #          source: input1
@@ -136,7 +136,7 @@ steps:
 
 outputs:
   - id: msout
-    outputSource: clipAteam/msout
+    outputSource: sort-concatenate/msout
     type: Directory[]
   - id: logs
     outputSource: store_logs/dir
