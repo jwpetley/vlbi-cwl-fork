@@ -160,7 +160,11 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
 
     freqliste = np.array(list(freqset))
     freqliste.sort()
-    freq_width = np.min(freqliste[1:]-freqliste[:-1])
+    try:
+        freq_width = np.min(freqliste[1:]-freqliste[:-1])
+    except:
+        # This exception takes of the case that only 1 MS is supplied
+        freq_width = file_bandwidth
     if file_bandwidth > freq_width:
         raise ValueError("Bandwidth of files is larger than minimum frequency step between two files!")
     if file_bandwidth < (freq_width*0.51):
