@@ -54,7 +54,7 @@ requirements:
 
           numbands = inputs['numbands']
           stepname = inputs['stepname']
-          NDPPPfill = inputs['NDPPPfill']
+          NDPPPfill = inputs['DP3fill']
           mergeLastGroup = inputs['mergeLastGroup']
           truncateLastSBs = inputs['truncateLastSBs']
           firstSB = inputs['firstSB']
