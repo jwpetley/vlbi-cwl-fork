@@ -1,7 +1,7 @@
 ---
 msin:
-    class: "Directory"
-    path : "/home/tjlv53/software/test_data/L693719_SB000_uv-compressed.MS"
+    - class: "Directory"
+      path : "/home/tjlv53/software/test_data/L693719_SB000_uv-compressed.MS"
 #    - class: "Directory"
 #      path : "/home/tjlv53/software/test_data/L693719_SB001_uv-compressed.MS"
 #    - class: "Directory"
