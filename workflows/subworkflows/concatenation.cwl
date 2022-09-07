@@ -37,6 +37,26 @@ steps:
       - id: logfile
     run: ../../steps/dp3_concat.cwl
     label: dp3_concat
+  - id: AOflagging
+    in:
+      - id: msin
+        source: dp3_concat/msout
+    out:
+      - id: msout
+      - id: logfile
+    run: ../../steps/aoflagger.cwl
+    label: AOflagging
+  - id: concat_logfiles_aoflagging
+    in:
+      - id: file_list
+        linkMerge: merge_flattened
+        source: AOflagging/logfile
+      - id: file_prefix
+        default: AOflagging
+    out:
+      - id: output
+    run: ../../steps/concatenate_files.cwl
+    label: concat_logfiles_AOflagging
   - id: dp3_concatenate_logfiles
     in:
       - id: file_list
@@ -51,8 +71,11 @@ steps:
 
 outputs:
   - id: msout
-    outputSource: dp3_concat/msout
+    outputSource: AOflagging/msout
     type: Directory
-  - id: logfile
+  - id: concatenate_logfile
     outputSource: dp3_concatenate_logfiles/output
+    type: File
+  - id: aoflag_logfile
+    outputSource: concat_logfiles_aoflagging/output
     type: File
