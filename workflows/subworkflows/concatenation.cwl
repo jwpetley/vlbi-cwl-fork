@@ -10,6 +10,9 @@ inputs:
     type: string
   - id: groups_specification
     type: File
+  - id: do_flagging
+    type: boolean?
+    default: true
 
 steps:
   - id: filter_ms_group
@@ -41,9 +44,12 @@ steps:
     in:
       - id: msin
         source: dp3_concat/msout
+      - id: do_flagging
+        source: do_flagging
     out:
       - id: msout
       - id: logfile
+    when: $(inputs.do_flagging)
     run: ../../steps/aoflagger.cwl
     label: AOflagging
   - id: concat_logfiles_aoflagging
@@ -53,8 +59,11 @@ steps:
         source: AOflagging/logfile
       - id: file_prefix
         default: AOflagging
+      - id: do_flagging
+        source: do_flagging
     out:
       - id: output
+    when: $(inputs.do_flagging)
     run: ../../steps/concatenate_files.cwl
     label: concat_logfiles_AOflagging
   - id: dp3_concatenate_logfiles
@@ -71,11 +80,16 @@ steps:
 
 outputs:
   - id: msout
-    outputSource: AOflagging/msout
+    outputSource:
+        - AOflagging/msout
+        - dp3_concat/msout
+    pickValue: first_non_null
     type: Directory
   - id: concatenate_logfile
     outputSource: dp3_concatenate_logfiles/output
     type: File
   - id: aoflag_logfile
-    outputSource: concat_logfiles_aoflagging/output
+    outputSource:
+        - concat_logfiles_aoflagging/output
+    pickValue: all_non_null
     type: File

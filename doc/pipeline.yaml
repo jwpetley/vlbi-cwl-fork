@@ -335,10 +335,9 @@ prep_delay_dir:
              - dpppconcat bands
              - "{{ best_delay_cat }} catalogue with information on in-field calibrator"
     Operation: >
-               get information from the catalogue
-               on the source name, RA, and DEC,
-               and return that information formatted
-               for use by NDPPP
+               get information from the catalogue on the 
+               source name, right ascension (RA), and declination (DEC),
+               and return that information formatted for use by NDPPP
     Software : plugins/Pipelinestep_TargetListToMapfile.py
     Output   : >
                variables that are the source name,
@@ -359,8 +358,8 @@ dppp_phaseup:
 dppp_phaseup_list:
     Input    : dppp_phaseup mapfile
     Operation: >
-               get a list with length 1 containing info
-               on all bands for the in-field calibrator
+               "[legacy] get a list with length 1 containing info
+               on all bands for the in-field calibrator"
     Software : prefactor/plugins/createMapfile.py
     Output   : >
                a mapfile with info on all bands
@@ -382,7 +381,8 @@ sort_phaseupmap:
 
 do_phaseup_maps:
     Input    : results of sort_phaseupmap
-    Operation: makes sensible files for future use out of the input
+    Operation: >
+               "[legacy] makes sensible files for future use out of the input"
     Software : prefactor/plugins/Pipelinestep_mapfilenamesFromMapfiles
     Output   : mapfiles for use in phaseup_concat
 

@@ -1,7 +1,7 @@
 class: Workflow
 cwlVersion: v1.2
-id: sort-concat-flag
-label: sort-concat-flag
+id: sort-concatenate
+label: sort-concatenate
 
 inputs:
   - id: msin
@@ -32,75 +32,64 @@ inputs:
     doc: If set, reference the grouping of files to this station subband.
 
 steps:
-  - id: sort_concatenate
+  - id: sort_concatmap
     in:
       - id: msin
         source: msin
+      - id: numbands
+        source: numbands
+      - id: DP3fill
+        source: DP3fill
+      - id: stepname
+        source: stepname
+      - id: mergeLastGroup
+        source: mergeLastGroup
+      - id: truncateLastSBs
+        source: truncateLastSBs
+      - id: firstSB
+        source: firstSB
     out:
       - id: filenames
       - id: groupnames
       - id: logfile
-    run: ../steps/sort_concatmap.cwl
+    run: ../../steps/sort_concatmap.cwl
     label: sort_concatmap
-  - id: concatenate-flag
+  - id: concatenate
     in:
       - id: msin
         source:
           - msin
       - id: group_id
-        source: sort_concatenate/groupnames
+        source: sort_concatmap/groupnames
       - id: groups_specification
-        source: sort_concatenate/filenames
+        source: sort_concatmap/filenames
     out:
       - id: msout
-      - id: aoflag_logfile
-      - id: concatenate_logfile
-    run: ./subworkflows/concatenation.cwl
+      - id: logfile
+    run: ./concatenation.cwl
     scatter: group_id
-    label: concatenation-flag
+    label: concatenation
   - id: concatenate_logfiles_concatenate
     in:
       - id: file_list
         source:
-          - concatenate-flag/concatenate_logfile
+          - concatenate/logfile
       - id: file_prefix
         default: concatenate
     out:
       - id: output
-    run: ../steps/concatenate_files.cwl
+    run: ../../steps/concatenate_files.cwl
     label: concatenate_logfiles_concatenate
-  - id: concatenate_logfiles_aoflagging
-    in:
-      - id: file_list
-        linkMerge: merge_flattened
-        source: concatenate-flag/aoflag_logfile
-      - id: file_prefix
-        default: AOflagging
-    out:
-      - id: output
-    run: ../steps/concatenate_files.cwl
-    label: concat_logfiles_AOflagging
-  - id: save_logfiles
-    in:
-      - id: files
-        linkMerge: merge_flattened
-        source:
-            - sort_concatenate/logfile
-            - concatenate_logfiles_concatenate/output
-            - concatenate_logfiles_aoflagging/output
-      - id: sub_directory_name
-        default: 'sort-concat-flag'
-    out:
-      - id: dir
-    run: ../steps/collectfiles.cwl
-    label: save_logfiles
 
 outputs:
-    - id: logdir
-      outputSource: save_logfiles/dir
-      type: Directory
+    - id: logfile_concatenate
+      outputSource: concatenate_logfiles_concatenate/output
+      type: File
+    - id: logfile_sortconcat
+      outputSource: sort_concatmap/logfile
+      type: File
     - id: msout
-      outputSource: concatenate-flag/msout
+      outputSource: concatenate/msout
       type: Directory[]
 
 requirements:
