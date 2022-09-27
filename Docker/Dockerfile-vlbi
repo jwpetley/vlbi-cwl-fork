@@ -5,6 +5,9 @@ RUN groupadd -r lofaruser && \
 
 WORKDIR /home/lofaruser
 
+RUN apt-get update && \
+    apt-get install -y \
+    python3-regex
 RUN python3 -m pip install -Iv pyvo
 #==0.9.3
 

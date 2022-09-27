@@ -9,7 +9,7 @@ inputs:
     doc: Input measurement sets.
   - id: delay_calibrator
     type: File
-    doc: Coordinates of best delay calibrator.
+    doc: Catalogue file with information on in-field calibrator.
   - id: numbands
     type: int?
     default: -1
@@ -44,6 +44,7 @@ steps:
       - id: delay_calibrator
         source: delay_calibrator
     out:
+      - id: source_id
       - id: coordinates
       - id: logfile
     run: ../steps/prep_delay.cwl
@@ -56,6 +57,8 @@ steps:
         source: prep_delay/coordinates
       - id: beam_direction
         source: prep_delay/coordinates
+      - id: msout_name
+        source: prep_delay/source_id
     out:
       - id: msout
       - id: logfile
@@ -115,8 +118,6 @@ steps:
     out:
       - id: output
     run: ../steps/concatenate_files.cwl
-
-
   - id: concat_logfiles_concatenate
     label: concat_logfiles_concatenate
     in:
@@ -129,6 +130,18 @@ steps:
     out:
       - id: output
     run: ../steps/concatenate_files.cwl
+  - id: delay_cal_model
+    label: delay_cal_model
+    in:
+      - id: msin
+        source: phaseup_concatenate/msout
+        valueFrom: $(self[0])
+      - id: delay_calibrator
+        source: delay_calibrator
+    out:
+      - id: msout
+      - id: logfile
+    run: ../steps/delay_cal_model.cwl
 
   - id: save_logfiles
     in:
@@ -139,6 +152,7 @@ steps:
           - concat_logfiles_phaseup/output 
           - sort_concatenate/logfile
           - concat_logfiles_phaseup/output
+          - delay_cal_model/logfile
       - id: sub_directory_name
         default: phaseup
     out:
@@ -148,8 +162,8 @@ steps:
 
 outputs:
   - id: msout
-    outputSource: phaseup_concatenate/msout
-    type: Directory[]
+    outputSource: delay_cal_model/msout
+    type: Directory
   - id: logdir
     outputSource: save_logfiles/dir
     type: Directory
@@ -157,6 +171,5 @@ outputs:
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement
-  #- class: StepInputExpressionRequirement
-  #- class: InlineJavascriptRequirement
+  - class: StepInputExpressionRequirement
   - class: MultipleInputFeatureRequirement

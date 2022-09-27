@@ -64,22 +64,6 @@ steps:
       run: ./concatenate-flag.cwl
       label: sort-concatenate-flag
 
-    - id: store_logs
-      in:
-        - id: files
-          linkMerge: merge_flattened
-          source:
-            - setup/logdir
-            - clipAteam/logdir
-            - sort-concatenate-flag/logdir
-#            - aoflagging/logdir
-        - id: sub_directory_name
-          default: logs
-      out:
-        - id: dir
-      run: ../steps/collectfiles.cwl
-      label: store_logs
-
 #    - id: apply-ddf
 #      in:
 #        - id: input1
@@ -91,16 +75,17 @@ steps:
 #      run: ../steps/step1.cwl
 #      label: step1
 #    
-#    - id: phaseup
-#      in:
-#        - id: input1
-#          source: input1
-#        - id: input2
-#          source: input2
-#      out:
-#        - id: output1
-#      run: ../steps/step1.cwl
-#      label: step1
+    - id: phaseup
+      in:
+        - id: msin
+          source: sort-concatenate-flag/msout
+        - id: delay_calibrator
+          source: setup/best_delay_cats
+      out:
+        - id: msout
+        - id: logdir
+      run: ./phaseup-concat.cwl
+      label: phaseup
 #    
 #    - id: concatenate
 #      in:
@@ -124,10 +109,26 @@ steps:
 #      run: ../steps/step1.cwl
 #      label: step1
 
+    - id: store_logs
+      in:
+        - id: files
+          linkMerge: merge_flattened
+          source:
+            - setup/logdir
+            - clipAteam/logdir
+            - sort-concatenate-flag/logdir
+            - phaseup/logdir
+        - id: sub_directory_name
+          default: logs
+      out:
+        - id: dir
+      run: ../steps/collectfiles.cwl
+      label: store_logs
+
 outputs:
   - id: msout
-    outputSource: sort-concatenate-flag/msout
-    type: Directory[]
+    outputSource: phaseup/msout
+    type: Directory
   - id: logs
     outputSource: store_logs/dir
     type: Directory
