@@ -11,6 +11,11 @@ arguments:
     - average1.type=averager
     - applybeam.type=applybeam
     - average2.type=averager
+    - numthreads=5
+    - msout.overwrite=True
+    - applybeam.beammode=full
+    - average2.freqresolution=390.56kHz
+    - average2.timeresolution=32.0
 
 inputs:
     - id: msin
@@ -29,7 +34,7 @@ inputs:
         prefix: msout=
         separate: false
         valueFrom: |
-          $(self + inputs.msin.basename)
+          $(self + "_" + inputs.msin.basename)
     - id: storagemanager
       type: string?
       doc:
@@ -62,30 +67,35 @@ inputs:
       doc: 'source RA and DEC.'
       inputBinding:
         position: 1
+        separate: false
         prefix: shift.phasecenter=
     - id: freqresolution
       type: string?
       default: '48.82kHz'
       inputBinding:
         position: 1
+        separate: false
         prefix: average1.freqresolution=
     - id: timeresolution
       type: float?
       default: 4.0
       inputBinding:
         position: 1
+        separate: false
         prefix: average1.timeresolution=
     - id: beam_direction
       type: string
       doc: 'source RA and DEC.'
       inputBinding:
         position: 1
+        separate: false
         prefix: applybeam.direction=
     - id: numthreads
       type: int?
       default: 5
       inputBinding:
         position: 1
+        separate: false
         prefix: numthreads=
     - id: beam_mode
       type: string?
@@ -93,25 +103,28 @@ inputs:
       doc: Applied beam mode. 'Full' applies both element beam and array factor.
       inputBinding:
         position: 1
+        separate: false
         prefix: applybeam.beammode=
     - id: frequency_resolution
       type: string?
       default: 390.56kHz
       inputBinding:
         position: 1
+        separate: false
         prefix: average2.freqresolution=
     - id: time_resolution
       type: string?
-      default: 32.0
+      default: '32.0'
       inputBinding:
         position: 1
+        separate: false
         prefix: average2.timeresolution=
 
 outputs:
     - id: msout
       type: Directory
       outputBinding:
-        glob: $("dp3-phaseup-" + inputs.msin.basename)
+        glob: $(inputs.msout_name + "_" + inputs.msin.basename)
     - id: logfile
       type: File
       outputBinding:

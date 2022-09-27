@@ -40,6 +40,13 @@ requirements:
               json.dump(cwl_output, fp)
 
 outputs:
+    - id: source_id
+      type: string
+      doc: Catalogue source ID.
+      outputBinding:
+        loadContents: true
+        glob: out.json
+        outputEval: $(JSON.parse(self[0].contents).name)
     - id: coordinates
       type: string
       doc: Catalogue source coordinates.

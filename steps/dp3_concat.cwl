@@ -88,7 +88,7 @@ hints:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
-        writable: false
+        writable: true
 
 stdout: dp3_concat.log
 stderr: dp3_concat_err.log
