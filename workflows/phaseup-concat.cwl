@@ -37,6 +37,15 @@ inputs:
   - id: do_flagging
     type: boolean?
     default: false
+  - id: configfile
+    type: File
+    doc: Settings for the delay calibration in delay_solve.
+  - id: selfcal
+    type: Directory
+    doc: Path of external calibration scripts.
+  - id: h5merger
+    type: Directory
+    doc: External LOFAR helper scripts for mergin h5 files.
 
 steps:
   - id: prep_delay
@@ -143,6 +152,24 @@ steps:
       - id: logfile
     run: ../steps/delay_cal_model.cwl
 
+  - id: delay_solve
+    in:
+      - id: msin
+        source: delay_cal_model/msout
+        #source: phaseup_concatenate/msout
+        #valueFrom: $(self[0])
+      - id: configfile
+        source: configfile
+      - id: selfcal
+        source: selfcal
+      - id: h5merger
+        source: h5merger
+    out:
+      - id: h5parm
+      - id: logfile
+    run: ../steps/delay_solve.cwl
+    label: delay_solve
+
   - id: save_logfiles
     in:
       - id: files
@@ -153,6 +180,7 @@ steps:
           - sort_concatenate/logfile
           - concat_logfiles_phaseup/output
           - delay_cal_model/logfile
+          - delay_solve/logfile
       - id: sub_directory_name
         default: phaseup
     out:
@@ -164,6 +192,9 @@ outputs:
   - id: msout
     outputSource: delay_cal_model/msout
     type: Directory
+  - id: solutions
+    outputSource: delay_solve/h5parm
+    type: File[]
   - id: logdir
     outputSource: save_logfiles/dir
     type: Directory
@@ -173,3 +204,4 @@ requirements:
   - class: ScatterFeatureRequirement
   - class: StepInputExpressionRequirement
   - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
