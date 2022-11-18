@@ -60,7 +60,7 @@ steps:
       out:
         - id: parset
       run: ../steps/dp3_make_parset.cwl
-    - id: prep_target
+    - id: clip_A-team
       in:
         - id: parset
           source: dp3_make_parset/parset
@@ -73,18 +73,18 @@ steps:
       out:
         - id: logfiles
         - id: msout
-      run: ./subworkflows/prep_target.cwl
+      run: ./subworkflows/clip_A-team.cwl
       scatter: msin
-      label: prep_target
-    - id: concat_logfiles_prep_target
-      label: concat_logfiles_prep_target
+      label: clip_A-team.cwl
+    - id: concat_logfiles_clip_A-team
+      label: concat_logfiles_clip_A-team
       in:
         - id: file_list
           linkMerge: merge_flattened
           source:
-            - prep_target/logfiles
+            - clip_A-team/logfiles
         - id: file_prefix
-          default: dp3_prep_target
+          default: clip_A-team
       out:
         - id: output
       run: ../steps/concatenate_files.cwl
@@ -95,7 +95,7 @@ steps:
           source:
             - check_station_mismatch/logfile
             - download_cats/logfile 
-            - concat_logfiles_prep_target/output
+            - concat_logfiles_clip_A-team/output
         - id: sub_directory_name
           default: setup
       out:
@@ -114,5 +114,5 @@ outputs:
       outputSource: dp3_make_parset/parset
       type: File
     - id: msout
-      outputSource: prep_target/msout
+      outputSource: clip_A-team/msout
       type: Directory[]
