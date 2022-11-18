@@ -55,16 +55,6 @@ steps:
         - id: msout
       run: ./setup.cwl
 
-    - id: clipAteam
-      in:
-        - id: msin
-          source: setup/msout
-      out:
-        - id: logdir
-        - id: msout
-      run: ./clipAteam.cwl
-      label: clipAteam
-
     - id: sort-concatenate-flag
       in:
         - id: msin
@@ -132,7 +122,6 @@ steps:
           linkMerge: merge_flattened
           source:
             - setup/logdir
-            - clipAteam/logdir
             - sort-concatenate-flag/logdir
             - phaseup/logdir
         - id: sub_directory_name

@@ -7,8 +7,28 @@ inputs:
   - id: msin
     type: Directory
     doc: Input Measurement Set
+  - id: solset
+    type: File
+    doc: LINC target solutions file.
  
 steps:
+    - id: prep_target
+      in:
+        - id: parset
+          source: dp3_make_parset/parset
+        - id: msin
+          linkMerge: merge_flattened
+          source: 
+            - msin
+        - id: solset
+          source: solset
+      out:
+        - id: logfiles
+        - id: msout
+      run: ./subworkflows/prep_target.cwl
+      scatter: msin
+      label: prep_target
+
   - id: predict
     in:
       - id: msin
