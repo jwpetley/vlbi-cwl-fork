@@ -58,7 +58,7 @@ steps:
     - id: sort-concatenate-flag
       in:
         - id: msin
-          source: clipAteam/msout
+          source: setup/msout
       out:
         - id: logdir
         - id: msout
