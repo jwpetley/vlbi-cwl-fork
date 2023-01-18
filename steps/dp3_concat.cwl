@@ -56,7 +56,7 @@ outputs:
     type: Directory
     outputBinding:
       glob: $(inputs.msout_name)
-  - id: flagged_fraction_dict
+  - id: flagged_statistics
     type: string
     outputBinding:
         loadContents: true

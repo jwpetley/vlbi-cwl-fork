@@ -37,6 +37,7 @@ steps:
         source: group_id
     out:
       - id: msout
+      - id: flagged_statistics
       - id: logfile
     run: ../../steps/dp3_concat.cwl
     label: dp3_concat
@@ -93,3 +94,6 @@ outputs:
         - concat_logfiles_aoflagging/output
     pickValue: all_non_null
     type: File
+  - id: concat_flag_statistics
+    type: string
+    outputSource: dp3_concat/flagged_statistics

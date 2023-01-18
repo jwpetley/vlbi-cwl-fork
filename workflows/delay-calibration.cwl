@@ -53,6 +53,9 @@ steps:
         - id: best_delay_cats
         - id: logdir
         - id: msout
+        - id: initial_flags
+        - id: prep_target_flags
+        - id: check_Ateam_separation_file
       run: ./setup.cwl
 
     - id: sort-concatenate-flag
@@ -61,6 +64,7 @@ steps:
           source: setup/msout
       out:
         - id: logdir
+        - id: concat_flags
         - id: msout
       run: ./concatenate-flag.cwl
       label: sort-concatenate-flag
@@ -88,34 +92,22 @@ steps:
           source: selfcal
         - id: h5merger
           source: h5merger
+        - id: flags
+          source:
+            - setup/initial_flags
+            - setup/prep_target_flags
+            - sort-concatenate-flag/concat_flags
+        - id: check_Ateam_separation.json
+          source: setup/check_Ateam_separation_file
       out:
         - id: msout
+        - id: solutions
+        - id: phaseup_flags
         - id: logdir
+#        - id: summary_file
       run: ./phaseup-concat.cwl
       label: phaseup
     
-#    - id: concatenate
-#      in:
-#        - id: input1
-#          source: input1
-#        - id: input2
-#          source: input2
-#      out:
-#        - id: output1
-#      run: ../steps/step1.cwl
-#      label: step1
-#
-#    - id: cleanup
-#      in:
-#        - id: input1
-#          source: input1
-#        - id: input2
-#          source: input2
-#      out:
-#        - id: output1
-#      run: ../steps/step1.cwl
-#      label: step1
-
     - id: store_logs
       in:
         - id: files
@@ -135,9 +127,15 @@ outputs:
   - id: msout
     outputSource: sort-concatenate-flag/msout
     type: Directory[]
+
   - id: delay_cat
     outputSource: setup/best_delay_cats
     type: File
+
   - id: logs
     outputSource: store_logs/dir
     type: Directory
+
+#  - id: summary_file
+#    outputSource: phaseup-concat.cwl
+#    type: File

@@ -34,6 +34,8 @@ steps:
       out:
         - id: logfile
         - id: msout
+        - id: flag_statistics_before
+        - id: flag_statistics_after
       run: ../../steps/dp3_prep_target.cwl
     - id: predict
       in:
@@ -112,3 +114,11 @@ outputs:
       outputSource:
         - Ateamcliptar/msout
       type: Directory
+    - id: flag_statistics_before
+      outputSource:
+        - dp3_prep_target/flag_statistics_before
+      type: string
+    - id: flag_statistics_after
+      outputSource:
+        - dp3_prep_target/flag_statistics_after
+      type: string

@@ -18,6 +18,9 @@ inputs:
     - id: phasesol
       type: string?
       default: TGSSphase
+    - id: min_separation
+      type: int?
+      default: 30
 
 requirements:
     - class: SubworkflowFeatureRequirement
@@ -47,6 +50,19 @@ steps:
         - id: logfile
       run: ../steps/download_cats.cwl
       label: download_cats
+    - id: check_ateam_separation
+      in: 
+        - id: ms
+          source:
+            - msin
+        - id: min_separation
+          source: min_separation
+      out:
+        - id: output_imag
+        - id: output_json
+        - id: logfile
+      run: ../steps/check_ateam_separation.cwl
+      label: check_Ateam_separation
     - id: dp3_make_parset
       in:
         - id: flag_baselines
@@ -72,10 +88,12 @@ steps:
           source: solset
       out:
         - id: logfiles
+        - id: flag_statistics_before
+        - id: flag_statistics_after
         - id: msout
       run: ./subworkflows/clip_A-team.cwl
       scatter: msin
-      label: clip_A-team.cwl
+      label: clip_A-team
     - id: concat_logfiles_clip_A-team
       label: concat_logfiles_clip_A-team
       in:
@@ -88,6 +106,34 @@ steps:
       out:
         - id: output
       run: ../steps/concatenate_files.cwl
+    - id: initial_flags_join
+      in:
+        - id: flagged_fraction_dict
+          source:
+            - clip_A-team/flag_statistics_before
+        - id: filter_station
+          default: ''
+        - id: state
+          default: initial
+      out:
+        - id: flagged_fraction_antenna
+        - id: logfile
+      run: ../steps/findRefAnt_join.cwl
+      label: initial_flags_join
+    - id: prep_target_flags_join
+      in:
+        - id: flagged_fraction_dict
+          source:
+            - clip_A-team/flag_statistics_after
+        - id: filter_station
+          default: ''
+        - id: state
+          default: prep_target
+      out:
+        - id: flagged_fraction_antenna
+        - id: logfile
+      run: ../steps/findRefAnt_join.cwl
+      label: prep_target_flags_join
     - id: save_logfiles
       in:
         - id: files
@@ -96,6 +142,9 @@ steps:
             - check_station_mismatch/logfile
             - download_cats/logfile 
             - concat_logfiles_clip_A-team/output
+            - check_ateam_separation/logfile
+            - initial_flags_join/logfile
+            - prep_target_flags_join/logfile
         - id: sub_directory_name
           default: setup
       out:
@@ -116,3 +165,12 @@ outputs:
     - id: msout
       outputSource: clip_A-team/msout
       type: Directory[]
+    - id: initial_flags
+      outputSource: initial_flags_join/flagged_fraction_antenna
+      type: File
+    - id: prep_target_flags
+      outputSource: prep_target_flags_join/flagged_fraction_antenna
+      type: File
+    - id: check_Ateam_separation_file
+      outputSource: check_ateam_separation/output_json
+      type: File

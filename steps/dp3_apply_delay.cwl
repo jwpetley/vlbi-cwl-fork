@@ -90,6 +90,18 @@ inputs:
       inputBinding:
         prefix: applyamp.updateweights=
         separate: false
+    - id: save2json
+      default: true
+      type: boolean?
+      inputBinding:
+        position: 0
+        prefix: count.savetojson=True
+    - id: jsonfilename
+      type: string?
+      default: 'out.json'
+      inputBinding:
+        prefix: count.jsonfilename=
+        separate: false
 
 outputs:
     - id: msout
@@ -100,6 +112,12 @@ outputs:
       type: File[]
       outputBinding:
         glob: 'dp3_apply_delay*.log'
+    - id: flagged_fraction_dict
+      type: string
+      outputBinding:
+          loadContents: true
+          glob: $(inputs.jsonfilename)
+          outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
 
 hints:
   - class: DockerRequirement
