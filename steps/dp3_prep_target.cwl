@@ -28,6 +28,30 @@ inputs:
     - id: solset
       type: File
       doc: Input solutions file.
+    - id: collect_flag_statistics_before
+      default: true
+      type: boolean?
+      inputBinding:
+        position: 0
+        prefix: count1.savetojson=True
+    - id: flag_statistics_filename_before
+      type: string?
+      default: 'out1.json'
+      inputBinding:
+        prefix: count1.jsonfilename=
+        separate: false
+    - id: collect_flag_statistics_after
+      default: true
+      type: boolean?
+      inputBinding:
+        position: 0
+        prefix: count2.savetojson=True
+    - id: flag_statistics_filename_after
+      type: string?
+      default: 'out2.json'
+      inputBinding:
+        prefix: count2.jsonfilename=
+        separate: false
     #- id: error_tolerance
     #  type: boolean?
     #  doc: Indicates whether the pipeline should stop if one subband fails.
@@ -63,6 +87,16 @@ outputs:
       type: Directory
       outputBinding:
         glob: '$(inputs.msout_name=="." ? inputs.msin.basename : inputs.msout_name)'
+    - id: flag_statistics_before
+      type: string
+      outputBinding:
+        glob: $(inputs.flag_statistics_filename_before)
+        outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
+    - id: flag_statistics_after
+      type: string
+      outputBinding:
+        glob: $(inputs.flag_statistics_filename_after)
+        outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
 
 hints:
   DockerRequirement:

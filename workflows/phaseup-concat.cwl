@@ -47,6 +47,39 @@ inputs:
     type: Directory
     doc: External LOFAR helper scripts for mergin h5 files.
 
+  - id: flags
+    type: File[]
+  - id: pipeline
+    type: string?
+    default: 'VLBI'
+  - id: run_type
+    type: string?
+    default: ''
+  - id: filter_baselines
+    type: string?
+    default: '[CR]S*&'
+  - id: bad_antennas
+    type: string?
+    default: '[CR]S*&'
+  - id: compare_stations_filter
+    type: string?
+    default: '[CR]S*&'
+  - id: check_Ateam_separation.json
+    type: File
+  - id: clip_sources
+    type: string[]?
+    default: []
+  - id: removed_bands
+    type: string[]?
+    default: []
+  - id: min_unflagged_fraction
+    type: float?
+    default: 0.5
+  - id: refant
+    type: string?
+    default: 'CS001HBA0'
+
+
 steps:
   - id: prep_delay
     in:
@@ -110,11 +143,26 @@ steps:
         source: do_flagging
     out:
       - id: msout
+      - id: concat_flag_statistics
       - id: concatenate_logfile
       - id: aoflag_logfile
     run: ./subworkflows/concatenation.cwl
     scatter: group_id
     label: phaseup_concatenate
+  - id: phaseup_flags_join
+    in:
+      - id: flagged_fraction_dict
+        source:
+          - phaseup_concatenate/concat_flag_statistics
+      - id: filter_station
+        default: ''
+      - id: state
+        default: phaseup_concat
+    out:
+      - id: flagged_fraction_antenna
+      - id: logfile
+    run: ../steps/findRefAnt_join.cwl
+    label: prep_target_flags_join
   - id: concat_logfiles_phaseup
     label: concat_logfiles_phaseup
     in:
@@ -170,6 +218,44 @@ steps:
     run: ../steps/delay_solve.cwl
     label: delay_solve
 
+#  - id: summary
+#    in:
+#      - id: flagFiles
+#        source:
+#          - flags
+#          - prep_target_flags_join/flagged_fraction_antenna
+#        linkMerge: merge_flattened
+#      - id: pipeline
+#        source: pipeline
+#      - id: run_type
+#        source: run_type
+#      - id: filter
+#        source: filter_baselines
+#      - id: bad_antennas
+#        source:
+#          - bad_antennas
+#          - compare_stations_filter
+#        valueFrom: $(self.join(''))
+#      - id: Ateam_separation_file
+#        source: check_Ateam_separation.json
+#      - id: solutions
+#        source: delay_solve/h5parm
+#      - id: clip_sources
+#        source: clip_sources
+#        valueFrom: "$(self.join(','))"
+#      - id: removed_bands
+#        source: removed_bands
+#        valueFrom: "$(self.join(','))"
+#      - id: min_unflagged_fraction
+#        source: min_unflagged_fraction
+#      - id: refant
+#        source: refant
+#    out:
+#      - id: summary_file
+#      - id: logfile
+#    run: ../steps/summary.cwl
+#    label: summary
+
   - id: save_logfiles
     in:
       - id: files
@@ -181,6 +267,7 @@ steps:
           - concat_logfiles_phaseup/output
           - delay_cal_model/logfile
           - delay_solve/logfile
+#          - summary/logfile
       - id: sub_directory_name
         default: phaseup
     out:
@@ -195,9 +282,16 @@ outputs:
   - id: solutions
     outputSource: delay_solve/h5parm
     type: File[]
+  - id: phaseup_flags
+    type: File
+    outputSource: phaseup_flags_join/flagged_fraction_antenna
   - id: logdir
     outputSource: save_logfiles/dir
     type: Directory
+#  - id: summary_file
+#    type: File
+#    outputSource: summary/summary_file
+
 
 requirements:
   - class: SubworkflowFeatureRequirement

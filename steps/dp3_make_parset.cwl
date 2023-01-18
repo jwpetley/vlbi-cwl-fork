@@ -45,9 +45,13 @@ requirements:
     listing:
       - entryname: input.parset
         entry: |+
-          steps                               =   [flag,flagamp,filter,applyPA,applybandpass,applyclock,applybeam,applyRM,applyphase,count]
+          steps                               =   [count1,flag,flagamp,filter,applyPA,applybandpass,applyclock,applybeam,applyRM,applyphase,count2]
           #
           numthreads                          =   2
+          #
+          count1.type                         =   counter
+          #
+          count2.type                         =   counter
           #
           msin.datacolumn                     =   DATA
           msin.baseline                       =   $(inputs.station_mismatch)

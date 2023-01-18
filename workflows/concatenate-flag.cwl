@@ -53,11 +53,26 @@ steps:
         source: sort_concatenate/filenames
     out:
       - id: msout
+      - id: concat_flag_statistics
       - id: aoflag_logfile
       - id: concatenate_logfile
     run: ./subworkflows/concatenation.cwl
     scatter: group_id
     label: concatenation-flag
+  - id: concat_flags_join
+    in:
+      - id: flagged_fraction_dict
+        source:
+          - concatenate-flag/concat_flag_statistics
+      - id: filter_station
+        default: ''
+      - id: state
+        default: concat
+    out:
+      - id: flagged_fraction_antenna
+      - id: logfile
+    run: ../steps/findRefAnt_join.cwl
+    label: initial_flags_join
   - id: concatenate_logfiles_concatenate
     in:
       - id: file_list
@@ -88,6 +103,7 @@ steps:
             - sort_concatenate/logfile
             - concatenate_logfiles_concatenate/output
             - concatenate_logfiles_aoflagging/output
+            - concat_flags_join/logfile
       - id: sub_directory_name
         default: 'sort-concat-flag'
     out:
@@ -102,6 +118,9 @@ outputs:
     - id: msout
       outputSource: concatenate-flag/msout
       type: Directory[]
+    - id: concat_flags
+      type: File
+      outputSource: concat_flags_join/flagged_fraction_antenna
 
 requirements:
     - class: SubworkflowFeatureRequirement
