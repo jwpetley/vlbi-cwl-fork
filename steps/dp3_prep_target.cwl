@@ -90,11 +90,13 @@ outputs:
     - id: flag_statistics_before
       type: string
       outputBinding:
+        loadContents: true
         glob: $(inputs.flag_statistics_filename_before)
         outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
     - id: flag_statistics_after
       type: string
       outputBinding:
+        loadContents: true
         glob: $(inputs.flag_statistics_filename_after)
         outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
 
