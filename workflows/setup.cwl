@@ -143,8 +143,6 @@ steps:
             - download_cats/logfile 
             - concat_logfiles_clip_A-team/output
             - check_ateam_separation/logfile
-            - initial_flags_join/logfile
-            - prep_target_flags_join/logfile
         - id: sub_directory_name
           default: setup
       out:
