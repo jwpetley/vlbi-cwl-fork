@@ -25,7 +25,7 @@ inputs:
       doc: Input data Column
     - id: memoryperc
       type: int?
-      default: 15
+      default: 10
       inputBinding:
         position: 0
         prefix: aoflagger.memoryperc=
@@ -72,6 +72,8 @@ requirements:
       - entry: $(inputs.msin)
         writable: true
   - class: ShellCommandRequirement
+  - class: ResourceRequirement
+    coresMin: 6
 
 hints:
   DockerRequirement:

@@ -26,6 +26,10 @@ outputs:
       type: File[]
       outputBinding:
         glob: merged_selfcal*.h5
+    - id: images
+      type: File[]
+      outputBinding:
+        glob: image*.png
     - id: logfile
       type: File[]
       outputBinding:

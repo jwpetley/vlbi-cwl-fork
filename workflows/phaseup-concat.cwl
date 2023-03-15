@@ -204,8 +204,6 @@ steps:
     in:
       - id: msin
         source: delay_cal_model/msout
-        #source: phaseup_concatenate/msout
-        #valueFrom: $(self[0])
       - id: configfile
         source: configfile
       - id: selfcal
@@ -214,6 +212,7 @@ steps:
         source: h5merger
     out:
       - id: h5parm
+      - id: images
       - id: logfile
     run: ../steps/delay_solve.cwl
     label: delay_solve
@@ -262,7 +261,7 @@ steps:
         linkMerge: merge_flattened
         source:
           - prep_delay/logfile
-          - concat_logfiles_phaseup/output 
+          - concat_logfiles_phaseup/output
           - sort_concatenate/logfile
           - concat_logfiles_phaseup/output
           - delay_cal_model/logfile
@@ -288,6 +287,9 @@ outputs:
   - id: logdir
     outputSource: save_logfiles/dir
     type: Directory
+  - id: pictures
+    type: File[]
+    outputSource: delay_solve/images
 #  - id: summary_file
 #    type: File
 #    outputSource: summary/summary_file

@@ -27,8 +27,8 @@ def plugin_main(**kwargs):
     
     # read in the catalogue to get source_id, RA, and DEC
     t = Table.read(target_file, format='csv')
-    RA_val = t['RA_LOTSS'].data[0]
-    DEC_val = t['DEC_LOTSS'].data[0]
+    RA_val = t['RA'].data[0]
+    DEC_val = t['DEC'].data[0]
     Source_id = t['Source_id'].data[0]
     if str(Source_id)[0:1] == 'I':
         pass

@@ -70,6 +70,8 @@ arguments:
 
 requirements:
   - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    coresMin: 6
 #  - class: InitialWorkDirRequirement
 #    listing:
 #      - entry: $(inputs.msin)

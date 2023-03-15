@@ -1,6 +1,6 @@
 class: CommandLineTool
 cwlVersion: v1.2
-id: check_ateam_separation
+id: Ateamclipper
 label: Ateamclipper
 
 baseCommand:
@@ -36,8 +36,13 @@ hints:
     listing:
       - entry: $(inputs.msin)
         writable: true
+  - class: InplaceUpdateRequirement
+    inplaceUpdate: true
   - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: InlineJavascriptRequirement
+  - class: ResourceRequirement
+    coresMin: 12
 
 stdout: Ateamclipper.log
+stderr: Ateamclipper_err.log

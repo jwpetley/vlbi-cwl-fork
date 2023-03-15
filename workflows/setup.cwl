@@ -46,7 +46,7 @@ steps:
         - id: msin
           source: msin
       out:
-        - id: best_delay_catalogue
+        - id: delay_catalogue
         - id: logfile
       run: ../steps/download_cats.cwl
       label: download_cats
@@ -154,8 +154,8 @@ outputs:
     - id: logdir
       outputSource: save_logfiles/dir
       type: Directory
-    - id: best_delay_cats
-      outputSource: download_cats/best_delay_catalogue
+    - id: delay_calibrators
+      outputSource: download_cats/delay_catalogue
       type: File
     - id: parset
       outputSource: dp3_make_parset/parset
