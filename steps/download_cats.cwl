@@ -7,28 +7,28 @@ baseCommand:
     - downloadCats.py
 
 inputs:
-    - id: msin # mapfile_in = kwargs['mapfile_in']
+    - id: msin
       type: Directory[]
       inputBinding:
         position: 0
     - id: lotss_radius
       type: float?
-      default: 2.0
+      default: 1.5
     - id: lbcs_radius
       type: float?
-      default: 2.0
+      default: 1.5
+    - id: im_radius
+      type: float?
+      default: 1.24
     - id: bright_limit_Jy
       type: float
       default: 5.0
     - id: match_tolerance
       type: float?
       default: 5.0
-    - id: subtract_limit
-      type: float?
-      default: 0.5
     - id: image_limit_Jy
       type: float?
-      default: 0.05
+      default: 0.01
     - id: continue_no_lotss
       type: boolean?
       default: true
@@ -47,7 +47,7 @@ inputs:
       default: "image_catalogue.csv"
     - id: delay_catalogue_name
       type: string?
-      default: "delay_catalogue.csv"
+      default: "delay_calibrators.csv"
     - id: subtract_catalogue_name
       type: string?
       default: "subtract_sources.csv"
@@ -65,18 +65,18 @@ outputs:
     #  type: File
     #  outputBinding:
     #    glob: $(inputs.lbcs_skymodel_name)
-    - id: best_delay_catalogue
-      type: File
-      outputBinding:
-        glob: best_delay_*.csv
+    #- id: best_delay_catalogue
+    #  type: File
+    #  outputBinding:
+    #    glob: best_delay_*.csv
     #- id: image_catalogue
     #  type: File
     #  outputBinding:
     #    glob: $(inputs.image_catalogue_name)
-    #- id: delay_catalogue
-    #  type: File
-    #  outputBinding:
-    #    glob: $(inputs.delay_catalogue_name)
+    - id: delay_catalogue
+      type: File
+      outputBinding:
+        glob: $(inputs.delay_catalogue_name)
     #- id: subtract_catalogue
     #  type: File
     #  outputBinding:

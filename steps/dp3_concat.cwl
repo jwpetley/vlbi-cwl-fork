@@ -89,6 +89,8 @@ hints:
     listing:
       - entry: $(inputs.msin)
         writable: true
+  - class: ResourceRequirement
+    coresMin: 6
 
 stdout: dp3_concat.log
 stderr: dp3_concat_err.log

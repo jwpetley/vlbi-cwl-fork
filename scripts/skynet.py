@@ -4,7 +4,7 @@ import subprocess
 import shutil
 import sys
 import glob
-import regex as re
+import re
 from astropy.coordinates import SkyCoord
 from astropy.table import Table
 

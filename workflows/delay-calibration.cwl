@@ -50,7 +50,7 @@ steps:
           source: phasesol
       out:
         - id: parset
-        - id: best_delay_cats
+        - id: delay_calibrators
         - id: logdir
         - id: msout
         - id: initial_flags
@@ -85,7 +85,7 @@ steps:
         - id: msin
           source: sort-concatenate-flag/msout
         - id: delay_calibrator
-          source: setup/best_delay_cats
+          source: setup/delay_calibrators
         - id: configfile
           source: configfile
         - id: selfcal
@@ -102,6 +102,7 @@ steps:
       out:
         - id: msout
         - id: solutions
+        - id: pictures
         - id: phaseup_flags
         - id: logdir
 #        - id: summary_file
@@ -129,12 +130,20 @@ outputs:
     type: Directory[]
 
   - id: delay_cat
-    outputSource: setup/best_delay_cats
+    outputSource: setup/delay_calibrators
     type: File
 
   - id: logs
     outputSource: store_logs/dir
     type: Directory
+
+  - id: pictures
+    outputSource: phaseup/pictures
+    type: File[]
+
+  - id: solutions
+    outputSource: phaseup/solutions
+    type: File[]
 
 #  - id: summary_file
 #    outputSource: phaseup-concat.cwl

@@ -109,6 +109,8 @@ outputs:
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl:latest
+  - class: ResourceRequirement
+    coresMin: 6
 
 stdout: predict_ateam.log
 stderr: predict_ateam_err.log
