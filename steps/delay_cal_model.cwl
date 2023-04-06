@@ -23,11 +23,11 @@ outputs:
     - id: msout
       type: Directory
       outputBinding:
-        glob: '$(inputs.msin.basename)'
+        glob: $(inputs.msin.basename)
     - id: logfile
       type: File[]
       outputBinding:
-        glob: 'delay_cal_model*'
+        glob: delay_cal_model*.log
 
 hints:
   - class: DockerRequirement

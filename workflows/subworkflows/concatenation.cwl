@@ -13,6 +13,10 @@ inputs:
   - id: do_flagging
     type: boolean?
     default: true
+  - id: max_dp3_threads
+    type: int?
+    default: 5
+    doc: The maximum number of threads DP3 should use per process.
 
 steps:
   - id: filter_ms_group
@@ -35,6 +39,8 @@ steps:
         source: filter_ms_group/selected_ms
       - id: msout_name
         source: group_id
+      - id: max_dp3_threads
+        source: max_dp3_threads
     out:
       - id: msout
       - id: flagged_statistics
@@ -45,6 +51,8 @@ steps:
     in:
       - id: msin
         source: dp3_concat/msout
+      - id: max_dp3_threads
+        source: max_dp3_threads
       - id: do_flagging
         source: do_flagging
     out:
@@ -57,7 +65,9 @@ steps:
     in:
       - id: file_list
         linkMerge: merge_flattened
-        source: AOflagging/logfile
+        source:
+          - AOflagging/logfile
+        pickValue: all_non_null
       - id: file_prefix
         default: AOflagging
       - id: do_flagging

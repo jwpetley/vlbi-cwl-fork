@@ -33,7 +33,7 @@ outputs:
     - id: logfile
       type: File[]
       outputBinding:
-         glob: 'delay_solve*.log'
+         glob: delay_solve*.log
 
 requirements:
   - class: ShellCommandRequirement

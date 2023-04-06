@@ -77,6 +77,13 @@ inputs:
       prefix: msout.storagemanager.databitrate=
       separate: false
       shellQuote: false
+  - id: max_dp3_threads
+    type: int?
+    default: 5
+    inputBinding:
+      prefix: numthreads=
+      separate: false
+      shellQuote: false
 
 requirements:
   - class: InitialWorkDirRequirement
@@ -104,7 +111,7 @@ outputs:
   - id: logfile
     type: File[]
     outputBinding:
-      glob: 'predict_ateam*.log'
+      glob: predict_ateam*.log
 
 hints:
   - class: DockerRequirement

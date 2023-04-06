@@ -79,12 +79,12 @@ outputs:
   - id: filenames
     type: File
     outputBinding:
-        glob: 'filenames.json'
+        glob: filenames.json
   - id: groupnames
     type: string[]
     outputBinding:
         loadContents: true
-        glob: 'out.json'
+        glob: out.json
         outputEval: $(JSON.parse(self[0].contents).groupnames)
   - id: logfile
     type: File

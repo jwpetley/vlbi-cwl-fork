@@ -23,7 +23,7 @@ requirements:
 
 inputs:
     - id: file_list
-      type: 'File[]'
+      type: File[]
       inputBinding:
         position: 0
     - id: file_prefix
