@@ -9,7 +9,7 @@ requirements:
 
 inputs:
     - id: msin
-      type: 'Directory[]'
+      type: Directory[]
     - id: solset
       type: File
       doc: The solution set from the prefactor pipeline.
@@ -22,7 +22,6 @@ inputs:
     - id: phasesol
       type: string?
       default: TGSSphase
-
     - id: configfile
       type: File
       doc: Settings for the delay calibration in delay_solve.
@@ -32,7 +31,17 @@ inputs:
     - id: h5merger
       type: Directory
       doc: External LOFAR helper scripts for mergin h5 files.
-
+    - id: reference_stationSB
+      type: int?
+      default: 104
+    - id: number_cores
+      type: int?
+      default: 12
+      doc: Number of cores to use per job for tasks with high I/O or memory.
+    - id: max_dp3_threads
+      type: int?
+      default: 5
+      doc: The number of threads per DP3 process.
 
 steps:
     - id: setup
@@ -48,6 +57,8 @@ steps:
           source: flag_baselines
         - id: phasesol
           source: phasesol
+        - id: number_cores
+          source: number_cores
       out:
         - id: parset
         - id: delay_calibrators
@@ -62,6 +73,10 @@ steps:
       in:
         - id: msin
           source: setup/msout
+        - id: firstSB
+          source: reference_stationSB
+        - id: max_dp3_threads
+          source: max_dp3_threads
       out:
         - id: logdir
         - id: concat_flags
@@ -99,6 +114,8 @@ steps:
             - sort-concatenate-flag/concat_flags
         - id: check_Ateam_separation.json
           source: setup/check_Ateam_separation_file
+        - id: max_dp3_threads
+          source: max_dp3_threads
       out:
         - id: msout
         - id: solutions

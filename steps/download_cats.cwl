@@ -57,36 +57,14 @@ requirements:
       networkAccess: true
 
 outputs:
-    #- id: lotss_skymodel
-    #  type: File
-    #  outputBinding:
-    #    glob: $(inputs.lotss_skymodel_name)
-    #- id: lbcs_skymodel
-    #  type: File
-    #  outputBinding:
-    #    glob: $(inputs.lbcs_skymodel_name)
-    #- id: best_delay_catalogue
-    #  type: File
-    #  outputBinding:
-    #    glob: best_delay_*.csv
-    #- id: image_catalogue
-    #  type: File
-    #  outputBinding:
-    #    glob: $(inputs.image_catalogue_name)
     - id: delay_catalogue
       type: File
       outputBinding:
         glob: $(inputs.delay_catalogue_name)
-    #- id: subtract_catalogue
-    #  type: File
-    #  outputBinding:
-    #    glob: $(inputs.subtract_catalogue_name)
-    #- id: lotss_result_file
-    #  type: File
     - id: logfile
       type: File[]
       outputBinding:
-        glob: 'downloadCats*.log'
+        glob: downloadCats*.log
 
 hints:
   DockerRequirement:

@@ -17,6 +17,13 @@ inputs:
     - id: solset
       doc: H5 solutions file.
       type: File
+    - id: number_cores
+      type: int?
+      default: 12
+    - id: max_dp3_threads
+      type: int?
+      default: 5
+      doc: The maximum number of threads DP3 should use per process.
 
 steps:
     - id: dp3_prep_target
@@ -41,6 +48,8 @@ steps:
       in:
         - id: msin
           source: dp3_prep_target/msout
+        - id: max_dp3_threads
+          source: max_dp3_threads
       out:
         - id: msout
         - id: logfile
@@ -50,6 +59,8 @@ steps:
       in:
         - id: msin
           source: predict/msout
+        - id: number_cores
+          source: number_cores
       out:
         - id: msout
         - id: logfile

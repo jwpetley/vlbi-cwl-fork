@@ -51,12 +51,12 @@ outputs:
       doc: Catalogue source coordinates.
       outputBinding:
         loadContents: true
-        glob: 'out.json'
+        glob: out.json
         outputEval: $(JSON.parse(self[0].contents).coords)
     - id: logfile
       type: File[]
       outputBinding:
-        glob: 'prep_delay*.log'
+        glob: prep_delay*.log
 
 hints:
   DockerRequirement:

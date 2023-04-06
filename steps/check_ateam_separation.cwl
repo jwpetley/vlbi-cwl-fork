@@ -17,14 +17,14 @@ inputs:
     type: string?
     inputBinding:
       position: 2
-      prefix: '--outputimage'
+      prefix: --outputimage
   - id: min_separation
     type: int?
     inputBinding:
       position: 1
-      prefix: '--min_separation'
+      prefix: --min_separation
 outputs:
-  - id: output_imag
+  - id: output_image
     doc: Output image
     type: File
     outputBinding:

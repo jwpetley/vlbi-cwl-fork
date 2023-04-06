@@ -15,6 +15,9 @@ inputs:
     inputBinding:
       position: 0
     doc: Input measurement set
+  - id: number_cores
+    type: int?
+    default: 12
 
 outputs:
   - id: msout
@@ -42,7 +45,7 @@ hints:
     dockerPull: vlbi-cwl
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement
-    coresMin: 12
+    coresMin: $(inputs.number_cores)
 
 stdout: Ateamclipper.log
 stderr: Ateamclipper_err.log

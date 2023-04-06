@@ -14,22 +14,6 @@ inputs:
     type: int?
     default: -1
     doc: The number of files that have to be grouped together.
-  - id: DP3fill
-    type: boolean?
-    default: True
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
-  - id: stepname
-    type: string?
-    default: '.dp3-phaseup-concat'
-    doc: Add this stepname into the file names of the output files.
-  - id: mergeLastGroup
-    type: boolean?
-    default: False
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
-  - id: truncateLastSBs
-    type: boolean?
-    default: False
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
   - id: firstSB
     type: int?
     default: null
@@ -78,7 +62,10 @@ inputs:
   - id: refant
     type: string?
     default: 'CS001HBA0'
-
+  - id: max_dp3_threads
+    type: int?
+    default: 5
+    doc: The maximum number of threads DP3 should use per process.
 
 steps:
   - id: prep_delay
@@ -101,6 +88,8 @@ steps:
         source: prep_delay/coordinates
       - id: msout_name
         source: prep_delay/source_id
+      - id: max_dp3_threads
+        source: max_dp3_threads
     out:
       - id: msout
       - id: logfile
@@ -114,14 +103,6 @@ steps:
         source: dp3_phaseup/msout
       - id: numbands
         source: numbands
-      - id: DP3fill
-        source: DP3fill
-      - id: stepname
-        source: stepname
-      - id: mergeLastGroup
-        source: mergeLastGroup
-      - id: truncateLastSBs
-        source: truncateLastSBs
       - id: firstSB
         source: firstSB
     out:

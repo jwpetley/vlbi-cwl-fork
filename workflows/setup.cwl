@@ -5,7 +5,7 @@ label: vlbi-setup
 
 inputs:
     - id: msin
-      type: 'Directory[]'
+      type: Directory[]
     - id: solset
       type: File
       doc: The solution set from the prefactor pipeline.
@@ -21,6 +21,13 @@ inputs:
     - id: min_separation
       type: int?
       default: 30
+    - id: number_cores
+      type: int?
+      default: 12
+    - id: max_dp3_threads
+      type: int?
+      default: 5
+      doc: The maximum number of threads DP3 should use per process.
 
 requirements:
     - class: SubworkflowFeatureRequirement
@@ -58,7 +65,7 @@ steps:
         - id: min_separation
           source: min_separation
       out:
-        - id: output_imag
+        - id: output_image
         - id: output_json
         - id: logfile
       run: ../steps/check_ateam_separation.cwl
@@ -86,6 +93,10 @@ steps:
             - msin
         - id: solset
           source: solset
+        - id: number_cores
+          source: number_cores
+        - id: max_dp3_threads
+          source: max_dp3_threads
       out:
         - id: logfiles
         - id: flag_statistics_before

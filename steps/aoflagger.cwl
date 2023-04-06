@@ -49,6 +49,14 @@ inputs:
         separate: false
         shellQuote: false
       doc: specifies a customized strategy
+    - id: max_dp3_threads
+      type: int?
+      default: 5
+      inputBinding:
+        position: 0
+        prefix: numthreads=
+        separate: false
+        shellQuote: false
 
 arguments:
     - steps=[aoflagger]

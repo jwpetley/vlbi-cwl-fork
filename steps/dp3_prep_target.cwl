@@ -52,14 +52,6 @@ inputs:
       inputBinding:
         prefix: count2.jsonfilename=
         separate: false
-    #- id: error_tolerance
-    #  type: boolean?
-    #  doc: Indicates whether the pipeline should stop if one subband fails.
-    #  default: false
-    #- id: max_processes_per_node
-    #  type: int?
-    #  default: 6
-    #  doc: Number of processes per step per node.
 
 arguments:
     - applyPA.parmdb=$(inputs.solset.path)
@@ -72,18 +64,12 @@ requirements:
   - class: InlineJavascriptRequirement
   - class: ResourceRequirement
     coresMin: 6
-#  - class: InitialWorkDirRequirement
-#    listing:
-#      - entry: $(inputs.msin)
-#        writable: true
-#      - entry: $(inputs.solset)
-#        writable: true
 
 outputs:
     - id: logfile
       type: File[]
       outputBinding:
-        glob: 'dp3_prep_target*.log'
+        glob: dp3_prep_target*.log
     - id: msout
       doc: Output Measurement Set.
       type: Directory

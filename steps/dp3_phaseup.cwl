@@ -86,7 +86,7 @@ inputs:
         position: 1
         separate: false
         prefix: applybeam.direction=
-    - id: numthreads
+    - id: max_dp3_threads
       type: int?
       default: 5
       inputBinding:
@@ -124,11 +124,11 @@ outputs:
     - id: logfile
       type: File
       outputBinding:
-        glob: 'dp3_phaseup.log'
+        glob: dp3_phaseup.log
     - id: errorfile
       type: File
       outputBinding:
-        glob: 'dp3_phaseup_err.log'
+        glob: dp3_phaseup_err.log
 
 hints:
   DockerRequirement:

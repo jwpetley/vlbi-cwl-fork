@@ -9,7 +9,7 @@ baseCommand:
 
 inputs:
     - id: msin
-      type: 'Directory[]'
+      type: Directory[]
       doc: Calibrator measurement sets.
       inputBinding:
         position: 0
@@ -19,7 +19,7 @@ inputs:
     - id: solset_name
       type: string?
       doc: Name of the solution set.
-      default: 'vlbi'
+      default: vlbi
     - id: filter_baselines
       type: string?
       default: "*&"
@@ -63,14 +63,13 @@ outputs:
       type: string
       outputBinding:
         loadContents: true
-        glob: 'out.json'
-        #outputEval: $(YAML.parse(self[0].contents).filter_out)
+        glob: out.json
         outputEval: $(JSON.parse(self[0].contents).filter_out)
 
     - id: logfile
       type: File[]
       outputBinding:
-        glob: 'compareStationMismatch*.log'
+        glob: compareStationMismatch*.log
 
 hints:
   DockerRequirement:

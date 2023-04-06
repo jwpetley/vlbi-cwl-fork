@@ -140,7 +140,7 @@ outputs:
   - id: logfile
     type: File[]
     outputBinding:
-      glob: 'summary*.log'
+      glob: summary*.log
 
 hints:
   - class: DockerRequirement

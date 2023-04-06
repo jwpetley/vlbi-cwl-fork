@@ -6,7 +6,7 @@ label: dp3_apply_delay
 baseCommand: DP3
 
 arguments:
-    - 'steps=[applyphase,applyamp,count]'
+    - steps=[applyphase,applyamp,count]
     - applyphase.type=applycal
     - applyphase.parmdb=$(inputs.h5parm.path)
     - applyphase.solset=$(inputs.solset)
@@ -29,7 +29,7 @@ inputs:
       type: string?
       default: sol001
       doc: solution set in the h5parm to be used.
-    - id: numthreads
+    - id: max_dp3_threads
       type: int?
       default: 5
       inputBinding:
@@ -111,7 +111,7 @@ outputs:
     - id: logfile
       type: File[]
       outputBinding:
-        glob: 'dp3_apply_delay*.log'
+        glob: dp3_apply_delay*.log
     - id: flagged_fraction_dict
       type: string
       outputBinding:
@@ -131,6 +131,5 @@ requirements:
   - class: InplaceUpdateRequirement
     inplaceUpdate: true
 
-stdin: dp3_apply_delay.log
+stdout: dp3_apply_delay.log
 stderr: dp3_apply_delay_err.log
-

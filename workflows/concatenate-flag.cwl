@@ -10,32 +10,24 @@ inputs:
     type: int?
     default: 10
     doc: The number of files that have to be grouped together.
-  - id: DP3fill
-    type: boolean?
-    default: True
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
-  - id: stepname
-    type: string?
-    default: '.dp3-concat'
-    doc: Add this stepname into the file names of the output files.
-  - id: mergeLastGroup
-    type: boolean?
-    default: False
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
-  - id: truncateLastSBs
-    type: boolean?
-    default: True
-    doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
   - id: firstSB
     type: int?
     default: null
     doc: If set, reference the grouping of files to this station subband.
+  - id: max_dp3_threads
+    type: int?
+    default: 5
+    doc: The maximum number of threads that DP3 should use per process.
 
 steps:
   - id: sort_concatenate
     in:
       - id: msin
         source: msin
+      - id: numbands
+        source: numbands
+      - id: firstSB
+        source: firstSB
     out:
       - id: filenames
       - id: groupnames
@@ -51,6 +43,8 @@ steps:
         source: sort_concatenate/groupnames
       - id: groups_specification
         source: sort_concatenate/filenames
+      - id: max_dp3_threads
+        source: max_dp3_threads
     out:
       - id: msout
       - id: concat_flag_statistics

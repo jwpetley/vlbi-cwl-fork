@@ -26,12 +26,12 @@ outputs:
     type: string
     outputBinding:
         loadContents: true
-        glob: 'out.json'
+        glob: out.json
         outputEval: $(JSON.parse(self[0].contents).refant)
   - id: flagged_fraction_antenna
     type: File
     outputBinding:
-      glob: 'flagged_fraction_antenna.json'
+      glob: flagged_fraction_antenna.json
   - id: logfile
     type: File
     outputBinding:

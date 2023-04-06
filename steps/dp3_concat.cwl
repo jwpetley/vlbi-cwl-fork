@@ -49,6 +49,14 @@ inputs:
       separate: false
       shellQuote: false
       position: 0
+  - id: max_dp3_threads
+    type: int?
+    default: 5
+    inputBinding:
+      prefix: numthreads=
+      separate: false
+      shellQuote: false
+      position: 0
 
 outputs:
   - id: msout
@@ -63,12 +71,12 @@ outputs:
         glob: out.json
         outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
   - id: logfile
-    type: 'File[]'
+    type: File[]
     outputBinding:
       glob: dp3_concat*.log
 
 arguments:
-  - 'steps=[count]'
+  - steps=[count]
   - msin.orderms=False
   - msin.missingdata=True
   - msout.overwrite=True
@@ -79,8 +87,6 @@ arguments:
 requirements:
   - class: ShellCommandRequirement
   - class: InlineJavascriptRequirement
-#    expressionLib:
-#      - { $include: 'utils.js' }
 
 hints:
   - class: DockerRequirement
@@ -88,7 +94,7 @@ hints:
   - class: InitialWorkDirRequirement
     listing:
       - entry: $(inputs.msin)
-        writable: true
+        writable: false
   - class: ResourceRequirement
     coresMin: 6
 
