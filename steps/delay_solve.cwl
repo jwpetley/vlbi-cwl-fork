@@ -11,6 +11,13 @@ inputs:
     - id: msin
       type: Directory
       doc: Delay calibrator measurement set.
+    - id: skymodel
+      type: File
+      doc: The skymodel to be used in the first cycle in the self-calibration.
+      inputBinding:
+        prefix: --skymodel=
+        separate: false
+        shellQuote: false
     - id: configfile
       type: File
       doc: Configuration options for self-calibration.
@@ -19,13 +26,13 @@ inputs:
       doc: External self-calibration script.
     - id: h5merger
       type: Directory
-      doc: External LOFAR helper scripts for mergin h5 files.
+      doc: External LOFAR helper scripts for merging h5 files.
 
 outputs:
     - id: h5parm
-      type: File[]
+      type: File
       outputBinding:
-        glob: merged_selfcal*.h5
+        glob: merged_addCS_selfcalcyle009_linear*.h5
     - id: images
       type: File[]
       outputBinding:
@@ -53,12 +60,11 @@ requirements:
             
           msin = inputs['msin']['basename']
           configfile = inputs['configfile']['path']
-          skymodel = inputs['msin']['path'] + "/skymodel"
+          skymodel = inputs['skymodel']['path']
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
 
-          print(f'{msin}\n{skymodel}\n{selfcal}\n{h5merge}\n{configfile}')
-          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge}', shell = True)
+          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --skymodel {skymodel}', shell = True)
           #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
 hints:
