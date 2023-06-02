@@ -6,13 +6,11 @@ label: dp3_apply_delay
 baseCommand: DP3
 
 arguments:
-    - steps=[applyphase,applyamp,count]
-    - applyphase.type=applycal
-    - applyphase.parmdb=$(inputs.h5parm.path)
-    - applyphase.solset=$(inputs.solset)
-    - applyamp.type=applycal
-    - applyamp.parmdb=$(inputs.h5parm.path)
-    - applyamp.solset=$(inputs.solset)
+    - steps=[applysols,count]
+    - applysols.type=applycal
+    - applysols.soltab=[amplitude000,phase000]
+    - applysols.correction=fulljones
+    - applysols.updateweights=false
 
 inputs:
     - id: msin
@@ -25,10 +23,18 @@ inputs:
     - id: h5parm
       type: File
       doc: Delay calibrator solution set.
+      inputBinding:
+        position: 0
+        prefix: applysols.parmdb=
+        separate: false
     - id: solset
       type: string?
-      default: sol001
+      default: sol000
       doc: solution set in the h5parm to be used.
+      inputBinding:
+        position: 0
+        prefix: applysols.solset=
+        separate: false
     - id: max_dp3_threads
       type: int?
       default: 5
@@ -66,30 +72,6 @@ inputs:
       inputBinding:
         prefix: msout.writefullresflag=
         separate: false
-    - id: phase_correction
-      type: string?
-      default: phase000
-      inputBinding:
-        prefix: applyphase.correction=
-        separate: false
-    - id: phase_weights
-      type: boolean?
-      default: False
-      inputBinding:
-        prefix: applyphase.updateweights=
-        separate: false
-    - id: amplitude_correction
-      type: string?
-      default: amplitude000
-      inputBinding:
-        prefix: applyamp.correction=
-        separate: false
-    - id: amplitude_weights
-      type: boolean?
-      default: False
-      inputBinding:
-        prefix: applyamp.updateweights=
-        separate: false
     - id: save2json
       default: true
       type: boolean?
@@ -113,11 +95,10 @@ outputs:
       outputBinding:
         glob: dp3_apply_delay*.log
     - id: flagged_fraction_dict
-      type: string
+      type: File
       outputBinding:
           loadContents: true
           glob: $(inputs.jsonfilename)
-          outputEval: $(JSON.parse(self[0].contents).flagged_fraction_dict)
 
 hints:
   - class: DockerRequirement
@@ -130,6 +111,8 @@ requirements:
         writable: true
   - class: InplaceUpdateRequirement
     inplaceUpdate: true
+  - class: ResourceRequirement
+    coresMin: 6
 
 stdout: dp3_apply_delay.log
 stderr: dp3_apply_delay_err.log

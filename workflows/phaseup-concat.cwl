@@ -177,6 +177,7 @@ steps:
       - id: delay_calibrator
         source: delay_calibrator
     out:
+      - id: skymodel
       - id: msout
       - id: logfile
     run: ../steps/delay_cal_model.cwl
@@ -185,6 +186,8 @@ steps:
     in:
       - id: msin
         source: delay_cal_model/msout
+      - id: skymodel
+        source: delay_cal_model/skymodel
       - id: configfile
         source: configfile
       - id: selfcal
@@ -198,43 +201,58 @@ steps:
     run: ../steps/delay_solve.cwl
     label: delay_solve
 
-#  - id: summary
-#    in:
-#      - id: flagFiles
-#        source:
-#          - flags
-#          - prep_target_flags_join/flagged_fraction_antenna
-#        linkMerge: merge_flattened
-#      - id: pipeline
-#        source: pipeline
-#      - id: run_type
-#        source: run_type
-#      - id: filter
-#        source: filter_baselines
-#      - id: bad_antennas
-#        source:
-#          - bad_antennas
-#          - compare_stations_filter
-#        valueFrom: $(self.join(''))
-#      - id: Ateam_separation_file
-#        source: check_Ateam_separation.json
-#      - id: solutions
-#        source: delay_solve/h5parm
-#      - id: clip_sources
-#        source: clip_sources
-#        valueFrom: "$(self.join(','))"
-#      - id: removed_bands
-#        source: removed_bands
-#        valueFrom: "$(self.join(','))"
-#      - id: min_unflagged_fraction
-#        source: min_unflagged_fraction
-#      - id: refant
-#        source: refant
-#    out:
-#      - id: summary_file
-#      - id: logfile
-#    run: ../steps/summary.cwl
-#    label: summary
+  - id: apply_delay
+    in:
+      - id: msin
+        source: phaseup_concatenate/msout
+        valueFrom: $(self[0])
+      - id: h5parm
+        source: delay_solve/h5parm
+    out:
+      - id: msout
+      - id: logfile
+      - id: flagged_fraction_dict
+    run: ../steps/dp3_apply_delay.cwl
+    label: apply_delay
+
+  - id: summary
+    in:
+      - id: flagFiles
+        source:
+          - flags
+          - phaseup_flags_join/flagged_fraction_antenna
+          - apply_delay/flagged_fraction_dict
+        linkMerge: merge_flattened
+      - id: pipeline
+        source: pipeline
+      - id: run_type
+        source: run_type
+      - id: filter
+        source: filter_baselines
+      - id: bad_antennas
+        source:
+          - bad_antennas
+          - compare_stations_filter
+        valueFrom: $(self.join(''))
+      - id: Ateam_separation_file
+        source: check_Ateam_separation.json
+      - id: solutions
+        source: delay_solve/h5parm
+      - id: clip_sources
+        source: clip_sources
+        valueFrom: "$(self.join(','))"
+      - id: removed_bands
+        source: removed_bands
+        valueFrom: "$(self.join(','))"
+      - id: min_unflagged_fraction
+        source: min_unflagged_fraction
+      - id: refant
+        source: refant
+    out:
+      - id: summary_file
+      - id: logfile
+    run: ../steps/summary.cwl
+    label: summary
 
   - id: save_logfiles
     in:
@@ -247,7 +265,8 @@ steps:
           - concat_logfiles_phaseup/output
           - delay_cal_model/logfile
           - delay_solve/logfile
-#          - summary/logfile
+          - apply_delay/logfile
+          - summary/logfile
       - id: sub_directory_name
         default: phaseup
     out:
@@ -257,24 +276,20 @@ steps:
 
 outputs:
   - id: msout
-    outputSource: delay_cal_model/msout
     type: Directory
+    outputSource: apply_delay/msout
   - id: solutions
-    outputSource: delay_solve/h5parm
-    type: File[]
-  - id: phaseup_flags
     type: File
-    outputSource: phaseup_flags_join/flagged_fraction_antenna
+    outputSource: delay_solve/h5parm
   - id: logdir
     outputSource: save_logfiles/dir
     type: Directory
   - id: pictures
     type: File[]
     outputSource: delay_solve/images
-#  - id: summary_file
-#    type: File
-#    outputSource: summary/summary_file
-
+  - id: summary_file
+    type: File
+    outputSource: summary/summary_file
 
 requirements:
   - class: SubworkflowFeatureRequirement

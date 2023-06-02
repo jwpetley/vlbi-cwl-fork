@@ -20,6 +20,10 @@ inputs:
         separate: true
 
 outputs:
+    - id: skymodel
+      type: File
+      outputBinding:
+        glob: $(inputs.msin.basename)/skymodel
     - id: msout
       type: Directory
       outputBinding:
