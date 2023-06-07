@@ -25,7 +25,7 @@ inputs:
       doc: Input data Column
     - id: memoryperc
       type: int?
-      default: 10
+      default: 15
       inputBinding:
         position: 0
         prefix: aoflagger.memoryperc=

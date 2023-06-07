@@ -32,7 +32,7 @@ inputs:
     doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
   - id: truncateLastSBs
     type: boolean?
-    default: True
+    default: False
     doc: Add dummy file names for missing frequencies, so that DP3 can fill the data with flagged dummy data.
   - id: firstSB
     type: int?
