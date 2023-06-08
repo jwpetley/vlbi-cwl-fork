@@ -36,7 +36,7 @@ inputs:
     type:
       - File?
       - string?
-    default: $PREFACTOR_DATA_ROOT/skymodels/Ateam_LBA_CC.skymodel
+    default: $VLBI_DATA_ROOT/skymodels/Ateam_LBA_CC.skymodel
     inputBinding:
       position: 0
       prefix: predict.sourcedb=

@@ -42,7 +42,7 @@ inputs:
       type:
         - File?
         - string?
-      default: $PREFACTOR_DATA_ROOT/rfistrategies/lofar-default.lua
+      default: $VLBI_DATA_ROOT/rfistrategies/lofar-default.lua
       inputBinding:
         position: 0
         prefix: aoflagger.strategy=
