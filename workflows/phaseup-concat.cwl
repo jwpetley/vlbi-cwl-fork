@@ -201,27 +201,12 @@ steps:
     run: ../steps/delay_solve.cwl
     label: delay_solve
 
-  - id: apply_delay
-    in:
-      - id: msin
-        source: phaseup_concatenate/msout
-        valueFrom: $(self[0])
-      - id: h5parm
-        source: delay_solve/h5parm
-    out:
-      - id: msout
-      - id: logfile
-      - id: flagged_fraction_dict
-    run: ../steps/dp3_apply_delay.cwl
-    label: apply_delay
-
   - id: summary
     in:
       - id: flagFiles
         source:
           - flags
           - phaseup_flags_join/flagged_fraction_antenna
-          - apply_delay/flagged_fraction_dict
         linkMerge: merge_flattened
       - id: pipeline
         source: pipeline
@@ -265,7 +250,6 @@ steps:
           - concat_logfiles_phaseup/output
           - delay_cal_model/logfile
           - delay_solve/logfile
-          - apply_delay/logfile
           - summary/logfile
       - id: sub_directory_name
         default: phaseup
@@ -277,7 +261,7 @@ steps:
 outputs:
   - id: msout
     type: Directory
-    outputSource: apply_delay/msout
+    outputSource: delay_cal_model/msout
   - id: solutions
     type: File
     outputSource: delay_solve/h5parm
