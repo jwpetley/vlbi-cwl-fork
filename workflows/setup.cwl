@@ -48,15 +48,6 @@ steps:
         - id: logfile
       run: ../steps/check_station_mismatch.cwl
       label: check_station_mismatch
-    - id: download_cats
-      in:
-        - id: msin
-          source: msin
-      out:
-        - id: delay_catalogue
-        - id: logfile
-      run: ../steps/download_cats.cwl
-      label: download_cats
     - id: check_ateam_separation
       in: 
         - id: ms
@@ -151,7 +142,6 @@ steps:
           linkMerge: merge_flattened
           source:
             - check_station_mismatch/logfile
-            - download_cats/logfile 
             - concat_logfiles_clip_A-team/output
             - check_ateam_separation/logfile
         - id: sub_directory_name
@@ -165,9 +155,6 @@ outputs:
     - id: logdir
       outputSource: save_logfiles/dir
       type: Directory
-    - id: delay_calibrators
-      outputSource: download_cats/delay_catalogue
-      type: File
     - id: parset
       outputSource: dp3_make_parset/parset
       type: File
