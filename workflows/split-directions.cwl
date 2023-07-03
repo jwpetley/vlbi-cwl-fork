@@ -6,6 +6,7 @@ label: split-directions
 requirements:
   - class: SubworkflowFeatureRequirement
   - class: MultipleInputFeatureRequirement
+  - class: ScatterFeatureRequirement
 
 inputs:
     - id: msin
@@ -41,6 +42,7 @@ steps:
       out: 
         id: parset
       run: ../steps/target_phaseup.cwl
+      scatter: msin
 
     - id: dp3_target_phaseup
       label: dp3_target_phaseup
@@ -49,12 +51,22 @@ steps:
           source: msin
         - id: parset
           source: target_phaseup/parset
+        - id: delay_solset
+          source: delay_solset
       out:
         - id: msout
           source: msout
       run: ../steps/dp3_target_phaseup.cwl
 
-    - id: 
+    - id: concat_target
+      label: concat_target
+      in:
+        - id: msin
+          source: dp3_target_phaseup/msout
+        - id: number_cores
+          source: number_cores
+        - id: max_dp3_threads
+          source: max_dp3_threads
 
 
     
