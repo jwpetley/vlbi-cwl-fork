@@ -16,10 +16,15 @@ inputs:
       inputBinding:
         position: 2
         shellQuote: false
+    - id: delay_solset
+      type: File
+        inputBinding:
+            position: 3
+            shellQuote: false
     - id: number_cores
       type: int
       inputBinding:
-        position: 3
+        position: 4
         prefix: --ncpu
 
 

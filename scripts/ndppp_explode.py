@@ -16,7 +16,7 @@ import logging
 from astropy.io import ascii
 import datetime
 
-def main( msin, cat_file, phaseup_cmd="{ST001:'CS*'}", flag_cmd='', filter_cmd="'!CS*&*'", freqres='97.64kHz', timeres=8., ncpu=16 ):
+def main( msin, cat_file, delay_solset, phaseup_cmd="{ST001:'CS*'}", flag_cmd='', filter_cmd="'!CS*&*'", freqres='390.56kHz', timeres=32., ncpu=16 ):
 
     timeres = str(timeres)
     ncpu = str(ncpu)
@@ -41,7 +41,7 @@ def main( msin, cat_file, phaseup_cmd="{ST001:'CS*'}", flag_cmd='', filter_cmd="
         #f.write( 'msin = {:s}\n'.format(str(msin))) This will get written in the workflow
         f.write( 'steps = [split]\n' )
         f.write( 'split.replaceparms = [phaseshift.phasecenter, applybeam.direction, msout.name]\n' )
-        f.write( 'split.steps = [phaseshift, averager1, applybeam, averager2, msout]\n' )
+        f.write( 'split.steps = [phaseshift, averager1, applybeam, averager2, applycal, averager3, msout]\n' )
         f.write( 'phaseshift.type = phaseshift\n' )
         f.write( 'phaseshift.phasecenter = {:s}\n'.format(phasecenter) )
         f.write( 'averager1.type = averager\n' )
@@ -51,8 +51,19 @@ def main( msin, cat_file, phaseup_cmd="{ST001:'CS*'}", flag_cmd='', filter_cmd="
         f.write( 'applybeam.direction = {:s}\n'.format(phasecenter) )
         f.write( 'applybeam.beammode = full\n' )
         f.write( 'averager2.type = averager\n' )                                       
-        f.write( 'averager2.freqresolution = {:s}\n'.format(freqres) )
-        f.write( 'averager2.timeresolution = {:s}\n'.format(str(timeres)) )
+        f.write( 'averager2.freqresolution = 390.56kHz\n' )
+        f.write( 'averager2.timeresolution = 32.\n' )
+        
+        # Apply solutions and more average_target
+
+        f.write( 'appylcal.type = applycal\n')
+        f.write( 'applycal.parmdb = {:s}\n'.format(str(delay_solset)) )
+        f.write( 'applycal.correction = fulljones\n')
+        f.write( 'applycal.soltab = [amplitude000,phase000]\n')
+
+        f.write( 'averager3.type = averager\n' )
+        f.write( 'averager3.freqresolution = {:s}\n'.format(freqres) )
+        f.write( 'averager3.timeresolution = {:s}\n'.format(timeres) )
 
         f.write( 'msout.storagemanager = dysco\n')
         f.write( 'msout.name ={:s}\n'.format(str(msout)) )
@@ -76,6 +87,8 @@ if __name__ == "__main__":
 			help='Measurement set')
     parser.add_argument('cat_file', type=str,
                         help='Catalogue file to use.')
+    parser.add_argument('delay_solset', type=str, 
+                        help = 'Delay calibrator solutions')
     parser.add_argument('--ncpu', type=int, default = 4,
 			help='Number of CPUs to use.')
 
@@ -89,5 +102,5 @@ if __name__ == "__main__":
     log.setFormatter(format_stream)
     logging.root.addHandler(log)
 
-    main( args.msin, args.cat_file, phaseup_cmd="{ST001:'CS*'}", filter_cmd="'!CS*&*'", freqres='390.56kHz', timeres=32., ncpu=args.ncpu)
+    main( args.msin, args.cat_file, args.delay_solset, phaseup_cmd="{ST001:'CS*'}", filter_cmd="'!CS*&*'", freqres='390.56kHz', timeres=32., ncpu=args.ncpu)
 
