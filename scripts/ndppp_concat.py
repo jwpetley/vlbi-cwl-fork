@@ -32,14 +32,23 @@ def main(cat_file):
         # Find all MS for that src
         mslist = glob('*'+str(srclist[i])+'*')
         # Sort times into freq groups
-
+        print(mslist)
         output = sort_times_into_freqGroups(mslist)
 
         filenames = output['filenames']
         groupnames = output['groupnames']
 
-    print(filenames)
-    print(groupnames)
+        # Write NDPPP concat parset
+
+        with open( 'ndppp_concat_'+str(srclist[i])+'.parset', 'w') as f:
+            f.write( 'msin = {:s}\n'.format(str(filenames)))
+            f.write( 'msin.missingdata = True\n')
+            
+            f.write( 'steps = [count]\n')
+
+            f.write( 'msout = {:s}\n'.format(str(srclist[i]) + '_concat' + os.path.split(filenames[0].replace('msdpppconcat','msdpppconcat'))[1]))
+            f.write( 'msout.overwrite = True\n')
+            f.write( 'msout.storagemanager = dysco\n')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Create NDPPP concat parset based on input catalogue')
