@@ -7,7 +7,7 @@ baseCommand: ndppp_explode.py
 
 inputs:
     - id: msin
-      type: File
+      type: Directory
       inputBinding:
         position: 1
         prefix: msin=
