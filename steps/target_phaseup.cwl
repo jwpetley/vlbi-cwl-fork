@@ -10,15 +10,11 @@ inputs:
       type: Directory
       inputBinding:
         position: 1
-        prefix: --msin
-        separate: true
         shellQuote: false
     - id: image_cat
       type: File
       inputBinding:
         position: 2
-        prefix: --cat_file
-        separate: true
         shellQuote: false
     - id: number_cores
       type: int
