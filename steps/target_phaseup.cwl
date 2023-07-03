@@ -18,9 +18,9 @@ inputs:
         shellQuote: false
     - id: delay_solset
       type: File
-        inputBinding:
-            position: 3
-            shellQuote: false
+      inputBinding:
+        position: 3
+        shellQuote: false
     - id: number_cores
       type: int
       inputBinding:
