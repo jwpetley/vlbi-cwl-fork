@@ -25,15 +25,15 @@ outputs:
     - id: msout
       type: Directory[]
       outputBinding:
-        glob: $('ILTJ*')
+        glob: "*.mstargetphaseup"
     - id: logfile
       type: File
       outputBinding:
-        glob: dp3_phaseup.log
+        glob: dp3_target_phaseup.log
     - id: errorfile
       type: File
       outputBinding:
-        glob: dp3_phaseup_err.log
+        glob: dp3_target_phaseup_err.log
 
 
 
