@@ -25,5 +25,21 @@ inputs:
       type: int?
       default: 5
       doc: The number of threads per DP3 process.
-    
+
+
+steps:
+    - id: target_phaseup
+      label: target_phaseup
+      in:
+        - id: msin
+          source: msin
+        - id: number_cores
+          source: number_cores
+        - id: max_dp3_threads
+          source: max_dp3_threads
+      out: 
+        id: target_phaseup_dir
+      run: ../steps/target_phaseup.cwl
+
+
     
