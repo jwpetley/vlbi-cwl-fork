@@ -25,7 +25,7 @@ inputs:
       doc: Input delay solution set.
       inputBinding:
         position: 2
-        prefix: appylcal.parmdb=
+        prefix: applycal.parmdb=
         separate: false
         shellQuote: false
 
