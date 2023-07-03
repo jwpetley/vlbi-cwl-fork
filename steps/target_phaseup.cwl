@@ -14,12 +14,12 @@ inputs:
         separate: false
         shellQuote: false
     - id: image_cat
-        type: File
-        inputBinding:
-          position: 2
-          prefix: cat_file=
-          separate: false
-          shellQuote: false
+      type: File
+      inputBinding:
+        position: 2
+        prefix: cat_file=
+        separate: false
+        shellQuote: false
     - id: number_cores
       type: int
       inputBinding:
