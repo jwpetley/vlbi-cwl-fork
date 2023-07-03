@@ -37,3 +37,7 @@ outputs:
 
 stdout: target_phaseup.log
 stderr: target_phaseup_err.log
+
+hints:
+  - class: DockerRequirement
+    dockerPull: vlbi-cwl:latest
