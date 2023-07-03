@@ -57,7 +57,7 @@ def main( msin, cat_file, delay_solset, phaseup_cmd="{ST001:'CS*'}", flag_cmd=''
         # Apply solutions and more average_target
 
         f.write( 'appylcal.type = applycal\n')
-        f.write( 'applycal.parmdb = {:s}\n'.format(str(delay_solset)) )
+        #f.write( 'applycal.parmdb = {:s}\n'.format(str(delay_solset)) )
         f.write( 'applycal.correction = fulljones\n')
         f.write( 'applycal.soltab = [amplitude000,phase000]\n')
 
