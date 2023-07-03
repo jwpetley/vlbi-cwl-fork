@@ -38,8 +38,20 @@ steps:
         - id: max_dp3_threads
           source: max_dp3_threads
       out: 
-        id: target_phaseup_dir
+        id: parset
       run: ../steps/target_phaseup.cwl
+
+    - id: dp3_target_phaseup
+      label: dp3_target_phaseup
+      in:
+        - id: msin
+          source: msin
+        - id: parset
+          source: target_phaseup/parset
+      out:
+        - id: msout
+          source: msout
+      run: ../steps/dp3_target_phaseup.cwl
 
 
     
