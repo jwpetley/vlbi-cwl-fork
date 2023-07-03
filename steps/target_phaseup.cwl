@@ -40,4 +40,4 @@ stderr: target_phaseup_err.log
 
 hints:
   - class: DockerRequirement
-    dockerPull: vlbi-cwl:latest
+    dockerPull: vlbi-cwl
