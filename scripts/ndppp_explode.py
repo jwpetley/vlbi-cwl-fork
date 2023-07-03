@@ -31,14 +31,14 @@ def main( msin, cat_file, phaseup_cmd="{ST001:'CS*'}", flag_cmd='', filter_cmd="
     for i in range(0,len(srclist)):
         msout = msout + str(srclist[i]) + '_' + os.path.split(msin.replace('apply_delay','msdpppconcat'))[1] + ','
         phasecenter = phasecenter + '[' + str(ralist[i]) + 'deg,' + str(declist[i]) + 'deg],'
-        msout = msout.rstrip(', ') + ']'
-        phasecenter = phasecenter.rstrip(',') + ']'
+    msout = msout.rstrip(', ') + ']'
+    phasecenter = phasecenter.rstrip(',') + ']'
 
     if len(srclist) < int(ncpu):
 	    ncpu = str(len(srclist))
 
     with open( 'ndppp_explode.parset', 'w') as f:
-        f.write( 'msin = {:s}\n'.format(str(msin)))
+        #f.write( 'msin = {:s}\n'.format(str(msin))) This will get written in the workflow
         f.write( 'steps = [split]\n' )
         f.write( 'split.replaceparms = [phaseshift.phasecenter, applybeam.direction, msout.name]\n' )
         f.write( 'split.steps = [phaseshift, averager1, applybeam, averager2, msout]\n' )
