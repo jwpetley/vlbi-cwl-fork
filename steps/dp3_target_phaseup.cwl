@@ -25,7 +25,7 @@ outputs:
     - id: msout
       type: Directory[]
       outputBinding:
-        glob: $(ILTJ)
+        glob: $('ILTJ*')
     - id: logfile
       type: File
       outputBinding:
