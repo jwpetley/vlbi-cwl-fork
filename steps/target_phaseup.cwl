@@ -13,7 +13,7 @@ inputs:
         prefix: msin=
         separate: false
         shellQuote: false
-    - id: image_cat:
+    - id: image_cat
         type: File
         inputBinding:
           position: 2
