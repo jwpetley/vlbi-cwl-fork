@@ -10,30 +10,22 @@ inputs:
       type: Directory
       inputBinding:
         position: 1
-        prefix: msin=
-        separate: false
+        prefix: --msin
+        separate: true
         shellQuote: false
     - id: image_cat
       type: File
       inputBinding:
         position: 2
-        prefix: cat_file=
-        separate: false
+        prefix: --cat_file
+        separate: true
         shellQuote: false
     - id: number_cores
       type: int
       inputBinding:
         position: 3
-        prefix: ncpu=
+        prefix: --ncpu
 
-
-requirements:
-  - class: InitialWorkDirRequirement
-    listing:
-      - entry: $(inputs.msin)
-        writable: true
-  - class: InlineJavascriptRequirement
-  - class: ShellCommandRequirement
 
 outputs:
   - id: parset
