@@ -35,10 +35,12 @@ steps:
       in:
         - id: msin
           source: msin
+        - id: image_cat
+          source: image_cat
+        - id: delay_solset
+          source: delay_solset
         - id: number_cores
           source: number_cores
-        - id: max_dp3_threads
-          source: max_dp3_threads
       out: 
         id: parset
       run: ../steps/target_phaseup.cwl
@@ -57,6 +59,19 @@ steps:
         - id: msout
           source: msout
       run: ../steps/dp3_target_phaseup.cwl
+      scatter: parset
+
+    - id: sort_concatmap
+      label: sort_concatmap
+      in:
+        - id: msin
+          source: dp3_target_phaseup/msout
+        - id: number_cores
+          source: number_cores
+        - id: max_dp3_threads
+          source: max_dp3_threads
+      out:
+      run: ../steps/sort_concatmap.cwl
 
     - id: concat_target
       label: concat_target
@@ -68,5 +83,21 @@ steps:
         - id: max_dp3_threads
           source: max_dp3_threads
 
+    - id: target_selfcal
+      label: target_selfcal
+      in:
+        - id: msin
+          source: concat_target/msout
+        - id: delay_solset
+          source: delay_solset
+        - id: number_cores
+          source: number_cores
+        - id: max_dp3_threads
+          source: max_dp3_threads
+      out:
+        - id: msout
+          source: msout
+      run: ../steps/target_selfcal.cwl
+      scatter: msin
 
     
