@@ -29,7 +29,7 @@ def main( msin, cat_file, phaseup_cmd="{ST001:'CS*'}", flag_cmd='', filter_cmd="
     phasecenter = '['
     msout = '['
     for i in range(0,len(srclist)):
-        msout = msout + str(srclist[i]) + '_' + os.path.split(msin.replace('apply_delay','msdpppconcat'))[1] + ','
+        msout = msout + str(srclist[i]) + '_' + os.path.split(msin.replace('msdpppconcat','mstargetphaseup'))[1] + ','
         phasecenter = phasecenter + '[' + str(ralist[i]) + 'deg,' + str(declist[i]) + 'deg],'
     msout = msout.rstrip(', ') + ']'
     phasecenter = phasecenter.rstrip(',') + ']'
