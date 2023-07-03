@@ -20,6 +20,14 @@ inputs:
         prefix: msin=
         separate: false
         shellQuote: false
+    - id: delay_solset
+      type: File
+      doc: Input delay solution set.
+      inputBinding:
+        position: 2
+        prefix: appylcal.parmdb=
+        separate: false
+        shellQuote: false
 
 outputs:
     - id: msout
