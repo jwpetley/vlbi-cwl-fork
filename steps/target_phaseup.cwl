@@ -47,11 +47,5 @@ outputs:
       glob: target_phaseup*.log
 
 
-hints:
-  - class: DockerRequirement
-    dockerPull: vlbi-cwl:latest
-  - class: ResourceRequirement
-    coresMin: 6
-
 stdout: target_phaseup.log
 stderr: target_phaseup_err.log
