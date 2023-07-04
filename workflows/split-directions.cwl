@@ -102,7 +102,11 @@ steps:
 
 outputs:
     - id: msout
-      type: Directory[]
+      type: 
+        type: array
+        items: 
+          type: array
+          items: Directory
       outputSource: dp3_target_phaseup/msout
 
 
