@@ -58,7 +58,8 @@ steps:
       out:
         - id: msout
       run: ../steps/dp3_target_phaseup.cwl
-      scatter: parset
+      scatter: [msin, parset]
+      scatterMethod: dotproduct
 
     # - id: target_concat
     #   label: target_concat
