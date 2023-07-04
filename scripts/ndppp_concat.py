@@ -50,6 +50,8 @@ def main(cat_file):
             f.write( 'msout.overwrite = True\n')
             f.write( 'msout.storagemanager = dysco\n')
 
+            f.close()
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Create NDPPP concat parset based on input catalogue')
     parser.add_argument('cat_file', type=str, help='Input catalogue file')

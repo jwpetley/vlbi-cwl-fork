@@ -26,7 +26,6 @@ inputs:
       type: int?
       default: 5
       doc: The number of threads per DP3 process.
-    - id: 
 
 
 steps:
@@ -57,47 +56,54 @@ steps:
           source: delay_solset
       out:
         - id: msout
-          source: msout
       run: ../steps/dp3_target_phaseup.cwl
       scatter: parset
 
-    - id: sort_concatmap
-      label: sort_concatmap
-      in:
-        - id: msin
-          source: dp3_target_phaseup/msout
-        - id: number_cores
-          source: number_cores
-        - id: max_dp3_threads
-          source: max_dp3_threads
-      out:
-      run: ../steps/sort_concatmap.cwl
+    # - id: target_concat
+    #   label: target_concat
+    #   in:
+    #     - id: image_cat
+    #       source: image_cat
+    #       linkMerge: merge_flattened
+    #   out: 
+    #     - id: parset
+    #   run: ../steps/target_concat.cwl
+    
+    # - id: dp3_target_concat
+    #   label: dp3_target_concat
+    #   in:
+    #     - id: msin
+    #       source: dp3_target_phaseup/msout
+    #       linkMerge: merge_flattened
+    #     - id: parset
+    #       source: target_concat/parset
+    #   out:
+    #     - id: msout
+    #       source: msout
+    #   run: ../steps/dp3_target_concat.cwl
+    #   scatter: parset
 
-    - id: concat_target
-      label: concat_target
-      in:
-        - id: msin
-          source: dp3_target_phaseup/msout
-        - id: number_cores
-          source: number_cores
-        - id: max_dp3_threads
-          source: max_dp3_threads
+    # - id: target_selfcal
+    #   label: target_selfcal
+    #   in:
+    #     - id: msin
+    #       source: dp3_target_concat/msout
+    #     - id: delay_solset
+    #       source: delay_solset
+    #     - id: number_cores
+    #       source: number_cores
+    #     - id: max_dp3_threads
+    #       source: max_dp3_threads
+    #   out:
+    #     - id: msout
+    #       source: msout
+    #   run: ../steps/target_selfcal.cwl
+    #   scatter: msin
 
-    - id: target_selfcal
-      label: target_selfcal
-      in:
-        - id: msin
-          source: concat_target/msout
-        - id: delay_solset
-          source: delay_solset
-        - id: number_cores
-          source: number_cores
-        - id: max_dp3_threads
-          source: max_dp3_threads
-      out:
-        - id: msout
-          source: msout
-      run: ../steps/target_selfcal.cwl
-      scatter: msin
+outputs:
+    - id: msout
+      type: Directory[]
+      outputSource: dp3_target_phaseup/msout
+
 
     
