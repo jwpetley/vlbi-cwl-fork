@@ -29,6 +29,7 @@ inputs:
 
 
 steps:
+
     - id: target_phaseup
       label: target_phaseup
       in:
@@ -41,7 +42,7 @@ steps:
         - id: number_cores
           source: number_cores
       out: 
-        id: parset
+        - id: parset
       run: ../steps/target_phaseup.cwl
       scatter: msin
 
