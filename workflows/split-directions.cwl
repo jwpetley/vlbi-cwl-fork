@@ -26,6 +26,10 @@ inputs:
       type: int?
       default: 5
       doc: The number of threads per DP3 process.
+    - id: numbands
+      type: int?
+      default: -1
+      doc: The number of bands to process. -1 means all bands.
 
 
 steps:
@@ -61,29 +65,43 @@ steps:
       scatter: [msin, parset]
       scatterMethod: dotproduct
 
-    # - id: target_concat
-    #   label: target_concat
-    #   in:
-    #     - id: image_cat
-    #       source: image_cat
-    #       linkMerge: merge_flattened
-    #   out: 
-    #     - id: parset
-    #   run: ../steps/target_concat.cwl
+    - id: order_by_direction
+      label: order_by_direction
+      in:
+        - id: msin
+          source: dp3_target_phaseup/msout
+      out: 
+        - id: msout
+      run: ../steps/order_by_direction.cwl
+
+    - id: sort_concatmap
+      label: sort_concatmap
+      in:
+        - id: msin
+          source: order_by_direction/msout
+        - id: numbands
+          source: numbands
+          default: -1
+      out: 
+        - id: filenames
+        - id: groupnames
+      run: ../steps/sort_concatmap.cwl
+      scatter: msin
     
-    # - id: dp3_target_concat
-    #   label: dp3_target_concat
-    #   in:
-    #     - id: msin
-    #       source: dp3_target_phaseup/msout
-    #       linkMerge: merge_flattened
-    #     - id: parset
-    #       source: target_concat/parset
-    #   out:
-    #     - id: msout
-    #       source: msout
-    #   run: ../steps/dp3_target_concat.cwl
-    #   scatter: parset
+    - id: dp3_target_concat
+      label: dp3_target_concat
+      in:
+        - id: msin
+          source: dp3_target_phaseup/msout
+        - id: msin_filenames
+          source: sort_concatmap/filenames
+        - id: msout_name
+          source: sort_concatmap/groupnames
+      out:
+        - id: msout
+      run: ../steps/dp3_concat.cwl
+      scatter: [msin, filenames, groupnames]
+      scatterMethod: dotproduct
 
     # - id: target_selfcal
     #   label: target_selfcal
@@ -109,7 +127,7 @@ outputs:
         items: 
           type: array
           items: Directory
-      outputSource: dp3_target_phaseup/msout
+      outputSource: dp3_target_concat/msout
 
 
     
