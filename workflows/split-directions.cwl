@@ -90,7 +90,7 @@ steps:
         - id: filenames
         - id: groupnames
       run: ../steps/sort_concatmap.cwl
-      scatter: [ msin ]
+      scatter: msin
     
     # - id: dp3_target_concat
     #   label: dp3_target_concat
