@@ -10,11 +10,7 @@ requirements:
 
 inputs:
     - id: msin
-      type:
-        type: array
-        items:
-          type: array
-          items: Directory
+      type: Directory[]
     - id: delay_solset
       type: File
       doc: The solution set from the delay calibrator workflow.
