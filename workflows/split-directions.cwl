@@ -89,6 +89,7 @@ steps:
           source: msin
         - id: parset
           source: target_phaseup/parset
+          linkMerge: merge_flattened
         - id: delay_solset
           source: delay_solset
         - id: max_dp3_threads
