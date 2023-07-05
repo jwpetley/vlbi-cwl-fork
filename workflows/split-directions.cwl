@@ -101,10 +101,10 @@ steps:
           source: order_by_direction/msout
         - id: group_id
           source: sort_concatmap/groupnames
-          linkMerge: merge_flattened
+          linkMerge: merge_nested
         - id: groups_specification
           source: sort_concatmap/filenames
-          linkMerge: merge_flattened
+          linkMerge: merge_nested
       out: 
         - id: msout
       run: ../workflows/subworkflows/concatenation.cwl
