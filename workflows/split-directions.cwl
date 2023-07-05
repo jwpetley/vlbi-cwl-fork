@@ -91,6 +91,7 @@ steps:
         - id: groupnames
       run: ../steps/sort_concatmap.cwl
       scatter: msin
+      
     
     - id: dp3_target_concat
       label: dp3_target_concat
@@ -99,8 +100,10 @@ steps:
           source: order_by_direction/msout
         - id: msin_filenames
           source: sort_concatmap/filenames
+          linkMerge: merge_flattened
         - id: msout_name
           source: sort_concatmap/groupnames
+          linkMerge: merge_flattened
       out:
         - id: msout
       run: ../steps/dp3_concat.cwl
