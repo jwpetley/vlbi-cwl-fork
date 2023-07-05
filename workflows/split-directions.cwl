@@ -106,7 +106,7 @@ steps:
       out: 
         - id: msout
       run: ../workflows/subworkflows/concatenation.cwl
-      scatter: [ msin, group_id, groups_specification ]
+      scatter: msin, group_id, groups_specification
       scatterMethod: dotproduct
       
     
