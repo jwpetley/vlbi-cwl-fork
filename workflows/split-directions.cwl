@@ -42,77 +42,77 @@ inputs:
 
 steps:
 
-    # - id: target_phaseup
-    #   label: target_phaseup
-    #   in:
-    #     - id: msin
-    #       source: msin
-    #     - id: image_cat
-    #       source: image_cat
-    #     - id: delay_solset
-    #       source: delay_solset
-    #     - id: number_cores
-    #       source: number_cores
-    #   out: 
-    #     - id: parset
-    #   run: ../steps/target_phaseup.cwl
-    #   scatter: msin
-
-    # - id: dp3_target_phaseup
-    #   label: dp3_target_phaseup
-    #   in:
-    #     - id: msin
-    #       source: msin
-    #     - id: parset
-    #       source: target_phaseup/parset
-    #     - id: delay_solset
-    #       source: delay_solset
-    #   out:
-    #     - id: msout
-    #   run: ../steps/dp3_target_phaseup.cwl
-    #   scatter: [msin, parset]
-    #   scatterMethod: dotproduct
-
-    - id: order_by_direction
-      label: order_by_direction
+    - id: target_phaseup
+      label: target_phaseup
       in:
         - id: msin
           source: msin
+        - id: image_cat
+          source: image_cat
+        - id: delay_solset
+          source: delay_solset
+        - id: number_cores
+          source: number_cores
       out: 
-        - id: msout
-      run: ../steps/order_by_direction.cwl
-
-    - id: sort_concatmap
-      label: sort_concatmap
-      in:
-        - id: msin
-          source: order_by_direction/msout
-        - id: numbands
-          source: numbands
-          default: -1
-      out: 
-        - id: filenames
-        - id: groupnames
-      run: ../steps/sort_concatmap.cwl
+        - id: parset
+      run: ../steps/target_phaseup.cwl
       scatter: msin
 
-    - id: concatenation
-      label: concatenation
+    - id: dp3_target_phaseup
+      label: dp3_target_phaseup
       in:
         - id: msin
-          source: order_by_direction/msout
-        - id: group_id
-          source: sort_concatmap/groupnames
-          linkMerge: merge_flattened
-        - id: groups_specification
-          source: sort_concatmap/filenames
-        - id: do_flagging
-          source: do_flagging
-      out: 
+          source: msin
+        - id: parset
+          source: target_phaseup/parset
+        - id: delay_solset
+          source: delay_solset
+      out:
         - id: msout
-      run: ../workflows/subworkflows/concatenation.cwl
-      scatter: [msin, group_id, groups_specification]
+      run: ../steps/dp3_target_phaseup.cwl
+      scatter: [msin, parset]
       scatterMethod: dotproduct
+
+    # - id: order_by_direction
+    #   label: order_by_direction
+    #   in:
+    #     - id: msin
+    #       source: msin
+    #   out: 
+    #     - id: msout
+    #   run: ../steps/order_by_direction.cwl
+
+    # - id: sort_concatmap
+    #   label: sort_concatmap
+    #   in:
+    #     - id: msin
+    #       source: order_by_direction/msout
+    #     - id: numbands
+    #       source: numbands
+    #       default: -1
+    #   out: 
+    #     - id: filenames
+    #     - id: groupnames
+    #   run: ../steps/sort_concatmap.cwl
+    #   scatter: msin
+
+    # - id: concatenation
+    #   label: concatenation
+    #   in:
+    #     - id: msin
+    #       source: order_by_direction/msout
+    #     - id: group_id
+    #       source: sort_concatmap/groupnames
+    #       linkMerge: merge_flattened
+    #     - id: groups_specification
+    #       source: sort_concatmap/filenames
+    #     - id: do_flagging
+    #       source: do_flagging
+    #   out: 
+    #     - id: msout
+    #   run: ../workflows/subworkflows/concatenation.cwl
+    #   scatter: [msin, group_id, groups_specification]
+    #   scatterMethod: dotproduct
       
     
     # - id: dp3_target_concat
@@ -159,7 +159,7 @@ outputs:
     #   outputSource: sort_concatmap/groupnames
     - id: msout
       type: Directory[]
-      outputSource: concatenation/msout
+      outputSource: dp3_target_phaseup/msout
 
 
     
