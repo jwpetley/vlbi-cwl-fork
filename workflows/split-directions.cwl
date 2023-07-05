@@ -70,13 +70,12 @@ steps:
           source: msin
         - id: parset
           source: flatten_parsets/flattenedarray
-          linkMerge: merge_flattened
         - id: delay_solset
           source: delay_solset
       out:
         - id: msout
       run: ../steps/dp3_target_phaseup.cwl
-      scatter: [parset, msin]
+      scatter: [ msin, parset]
       scatterMethod: nested_crossproduct
 
     # - id: order_by_direction
