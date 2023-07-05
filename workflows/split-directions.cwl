@@ -106,7 +106,8 @@ steps:
       out: 
         - id: msout
       run: ../workflows/subworkflows/concatenation.cwl
-      scatter: msin
+      scatter: [msin, group_id, groups_specification]
+      scatterMethod: dotproduct
       
     
     # - id: dp3_target_concat
