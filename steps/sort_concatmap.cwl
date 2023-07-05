@@ -81,7 +81,7 @@ outputs:
     outputBinding:
         glob: filenames.json
   - id: groupnames
-    type: string[]
+    type: string
     outputBinding:
         loadContents: true
         glob: out.json
