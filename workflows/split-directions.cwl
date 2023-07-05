@@ -121,7 +121,7 @@ steps:
         - id: filenames
         - id: groupnames
       run: ../steps/sort_concatmap.cwl
-      scatter: msin
+      #scatter: msin
 
     - id: flatten_groupnames
       label: flatten_groupnames
