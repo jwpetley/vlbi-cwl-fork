@@ -78,29 +78,35 @@ steps:
         - id: msout
       run: ../steps/order_by_direction.cwl
 
+
+
+    - id: sort_concatmap
+      label: sort_concatmap
+      in:
+        - id: msin
+          source: order_by_direction/msout
+        - id: numbands
+          source: numbands
+          default: -1
+      out: 
+        - id: filenames
+        - id: groupnames
+      run: ../steps/sort_concatmap.cwl
+      scatter: msin
+
     - id: concatenation
       label: concatenation
       in:
         - id: msin
           source: order_by_direction/msout
+        - id: group_id
+          source: sort_concatmap/groupnames
+        - id: groups_specification
+          source: sort_concatmap/filenames
       out: 
         - id: msout
       run: ../workflows/subworkflows/concatenation.cwl
       scatter: msin
-
-    # - id: sort_concatmap
-    #   label: sort_concatmap
-    #   in:
-    #     - id: msin
-    #       source: order_by_direction/msout
-    #     - id: numbands
-    #       source: numbands
-    #       default: -1
-    #   out: 
-    #     - id: filenames
-    #     - id: groupnames
-    #   run: ../steps/sort_concatmap.cwl
-    #   scatter: msin
       
     
     # - id: dp3_target_concat
