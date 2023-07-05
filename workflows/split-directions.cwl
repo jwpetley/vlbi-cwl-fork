@@ -54,13 +54,22 @@ steps:
       run: ../steps/target_phaseup.cwl
       scatter: msin
 
+    - id: flatten_parsets
+      label: flatten_parsets
+      in:
+        - id: nestedarray
+          source: target_phaseup/parset
+      out:
+        - id: flattenedarray
+      run: ../steps/flatten.cwl
+
     - id: dp3_target_phaseup
       label: dp3_target_phaseup
       in:
         - id: msin
           source: msin
         - id: parset
-          source: target_phaseup/parset
+          source: flatten_parsets/flattenedarray
           linkMerge: merge_flattened
         - id: delay_solset
           source: delay_solset
@@ -68,7 +77,7 @@ steps:
         - id: msout
       run: ../steps/dp3_target_phaseup.cwl
       scatter: [parset, msin]
-      scatterMethod: dotproduct
+      scatterMethod: nested_crossproduct
 
     # - id: order_by_direction
     #   label: order_by_direction
