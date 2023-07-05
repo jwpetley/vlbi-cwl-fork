@@ -7,7 +7,7 @@ baseCommand: DP3
 
 inputs:
     - id: parset
-      type: File[] 
+      type: File 
       doc: Input parset file.
       default: ndppp_explode.parset 
       inputBinding:
