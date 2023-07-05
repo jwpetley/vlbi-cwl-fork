@@ -78,37 +78,47 @@ steps:
         - id: msout
       run: ../steps/order_by_direction.cwl
 
-    - id: sort_concatmap
-      label: sort_concatmap
+    - id: concatenation
+      label: concatenation
       in:
         - id: msin
           source: order_by_direction/msout
-        - id: numbands
-          source: numbands
-          default: -1
       out: 
-        - id: filenames
-        - id: groupnames
-      run: ../steps/sort_concatmap.cwl
+        - id: msout
+      run: ../workflows/subworkflows/concatenation.cwl
       scatter: msin
+
+    # - id: sort_concatmap
+    #   label: sort_concatmap
+    #   in:
+    #     - id: msin
+    #       source: order_by_direction/msout
+    #     - id: numbands
+    #       source: numbands
+    #       default: -1
+    #   out: 
+    #     - id: filenames
+    #     - id: groupnames
+    #   run: ../steps/sort_concatmap.cwl
+    #   scatter: msin
       
     
-    - id: dp3_target_concat
-      label: dp3_target_concat
-      in:
-        - id: msin
-          source: order_by_direction/msout
-        - id: msin_filenames
-          source: sort_concatmap/filenames
-          linkMerge: merge_flattened
-        - id: msout_name
-          source: sort_concatmap/groupnames
-          linkMerge: merge_flattened
-      out:
-        - id: msout
-      run: ../steps/dp3_concat.cwl
-      scatter: [msin, msin_filenames, msout_name]
-      scatterMethod: dotproduct
+    # - id: dp3_target_concat
+    #   label: dp3_target_concat
+    #   in:
+    #     - id: msin
+    #       source: order_by_direction/msout
+    #     - id: msin_filenames
+    #       source: sort_concatmap/filenames
+    #       linkMerge: merge_flattened
+    #     - id: msout_name
+    #       source: sort_concatmap/groupnames
+    #       linkMerge: merge_flattened
+    #   out:
+    #     - id: msout
+    #   run: ../steps/dp3_concat.cwl
+    #   scatter: [msin, msin_filenames, msout_name]
+    #   scatterMethod: dotproduct
 
     # - id: target_selfcal
     #   label: target_selfcal
@@ -137,7 +147,7 @@ outputs:
     #   outputSource: sort_concatmap/groupnames
     - id: msout
       type: Directory[]
-      outputSource: dp3_target_concat/msout
+      outputSource: concatenation/msout
 
 
     
