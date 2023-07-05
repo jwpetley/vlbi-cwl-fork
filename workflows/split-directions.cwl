@@ -34,42 +34,42 @@ inputs:
 
 steps:
 
-    - id: target_phaseup
-      label: target_phaseup
-      in:
-        - id: msin
-          source: msin
-        - id: image_cat
-          source: image_cat
-        - id: delay_solset
-          source: delay_solset
-        - id: number_cores
-          source: number_cores
-      out: 
-        - id: parset
-      run: ../steps/target_phaseup.cwl
-      scatter: msin
+    # - id: target_phaseup
+    #   label: target_phaseup
+    #   in:
+    #     - id: msin
+    #       source: msin
+    #     - id: image_cat
+    #       source: image_cat
+    #     - id: delay_solset
+    #       source: delay_solset
+    #     - id: number_cores
+    #       source: number_cores
+    #   out: 
+    #     - id: parset
+    #   run: ../steps/target_phaseup.cwl
+    #   scatter: msin
 
-    - id: dp3_target_phaseup
-      label: dp3_target_phaseup
-      in:
-        - id: msin
-          source: msin
-        - id: parset
-          source: target_phaseup/parset
-        - id: delay_solset
-          source: delay_solset
-      out:
-        - id: msout
-      run: ../steps/dp3_target_phaseup.cwl
-      scatter: [msin, parset]
-      scatterMethod: dotproduct
+    # - id: dp3_target_phaseup
+    #   label: dp3_target_phaseup
+    #   in:
+    #     - id: msin
+    #       source: msin
+    #     - id: parset
+    #       source: target_phaseup/parset
+    #     - id: delay_solset
+    #       source: delay_solset
+    #   out:
+    #     - id: msout
+    #   run: ../steps/dp3_target_phaseup.cwl
+    #   scatter: [msin, parset]
+    #   scatterMethod: dotproduct
 
     - id: order_by_direction
       label: order_by_direction
       in:
         - id: msin
-          source: dp3_target_phaseup/msout
+          source: msin
       out: 
         - id: msout
       run: ../steps/order_by_direction.cwl
@@ -92,7 +92,7 @@ steps:
       label: dp3_target_concat
       in:
         - id: msin
-          source: dp3_target_phaseup/msout
+          source: order_by_direction/msout
         - id: msin_filenames
           source: sort_concatmap/filenames
         - id: msout_name
