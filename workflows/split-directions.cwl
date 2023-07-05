@@ -34,6 +34,10 @@ inputs:
       type: int?
       default: -1
       doc: The number of bands to process. -1 means all bands.
+    - id: do_flagging
+      type: boolean?
+      default: false
+      doc: Whether to flag the data before concatenation.
 
 
 steps:
@@ -102,6 +106,8 @@ steps:
           linkMerge: merge_flattened
         - id: groups_specification
           source: sort_concatmap/filenames
+        - id: do_flagging
+          source: do_flagging
       out: 
         - id: msout
       run: ../workflows/subworkflows/concatenation.cwl

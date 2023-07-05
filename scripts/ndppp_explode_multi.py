@@ -29,7 +29,7 @@ def main( msin, cat_file, delay_solset, phaseup_cmd="{ST001:'CS*'}", flag_cmd=''
     
     for i in range(0,len(srclist)):
         msout = str(srclist[i]) + '_' + os.path.split(msin.replace('msdpppconcat','mstargetphaseup'))[1] 
-        phasecenter ='[' + str(ralist[i]) + 'deg,' + str(declist[i]) + 'deg],'
+        phasecenter ='[' + str(ralist[i]) + 'deg,' + str(declist[i]) + 'deg]'
 
         with open( 'ndppp_explode_%s.parset'%srclist[i], 'w') as f:
             #f.write( 'msin = {:s}\n'.format(str(msin))) This will get written in the workflow
