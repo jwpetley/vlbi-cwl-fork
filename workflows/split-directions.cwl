@@ -126,6 +126,7 @@ steps:
 
 outputs:
     - id: filenames
+      type: string[]
       outputSource: sort_concatmap/filenames
     # - id: msout
     #   type: 
