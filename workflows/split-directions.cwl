@@ -126,7 +126,11 @@ steps:
 
 outputs:
     - id: groupnames
-      type: string[]
+      type: 
+        type: array 
+        items:
+          type: array
+          items: string
       outputSource: sort_concatmap/groupnames
     # - id: msout
     #   type: 
