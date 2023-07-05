@@ -69,7 +69,7 @@ requirements:
           total_bandwidth = output['total_bandwidth']
 
           cwl_output = {}
-          cwl_output['groupnames'] = groupnames
+          cwl_output['groupnames'] = groupnames[0]
           cwl_output['total_bandwidth'] = total_bandwidth
 
           with open('./filenames.json', 'w') as fp:
