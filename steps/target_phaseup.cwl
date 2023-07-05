@@ -31,9 +31,9 @@ inputs:
 outputs:
   - id: parset
     doc: Output DP3 Parset
-    type: File
+    type: File[]
     outputBinding:
-      glob: ndppp_explode.parset
+      glob: ndppp_explode*.parset
   - id: logfile
     type: File[]
     outputBinding:
