@@ -100,7 +100,7 @@ steps:
       out:
         - id: msout
       run: ../steps/dp3_concat.cwl
-      scatter: [msin, filenames, groupnames]
+      scatter: [msin, msin_filenames, msout_name]
       scatterMethod: dotproduct
 
     # - id: target_selfcal
