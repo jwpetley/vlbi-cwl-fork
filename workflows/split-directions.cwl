@@ -92,20 +92,20 @@ steps:
       run: ../steps/sort_concatmap.cwl
       scatter: [ msin ]
     
-    - id: dp3_target_concat
-      label: dp3_target_concat
-      in:
-        - id: msin
-          source: order_by_direction/msout
-        - id: msin_filenames
-          source: sort_concatmap/filenames
-        - id: msout_name
-          source: sort_concatmap/groupnames
-      out:
-        - id: msout
-      run: ../steps/dp3_concat.cwl
-      scatter: [msin, msin_filenames, msout_name]
-      scatterMethod: dotproduct
+    # - id: dp3_target_concat
+    #   label: dp3_target_concat
+    #   in:
+    #     - id: msin
+    #       source: order_by_direction/msout
+    #     - id: msin_filenames
+    #       source: sort_concatmap/filenames
+    #     - id: msout_name
+    #       source: sort_concatmap/groupnames
+    #   out:
+    #     - id: msout
+    #   run: ../steps/dp3_concat.cwl
+    #   scatter: [msin, msin_filenames, msout_name]
+    #   scatterMethod: dotproduct
 
     # - id: target_selfcal
     #   label: target_selfcal
@@ -125,13 +125,15 @@ steps:
     #   scatter: msin
 
 outputs:
-    - id: msout
-      type: 
-        type: array
-        items: 
-          type: array
-          items: Directory
-      outputSource: dp3_target_concat/msout
+    - id: filenames
+      outputSource: sort_concatmap/filenames
+    # - id: msout
+    #   type: 
+    #     type: array
+    #     items: 
+    #       type: array
+    #       items: Directory
+    #   outputSource: dp3_target_concat/msout
 
 
     
