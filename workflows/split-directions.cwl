@@ -102,11 +102,10 @@ steps:
           linkMerge: merge_flattened
         - id: groups_specification
           source: sort_concatmap/filenames
-          linkMerge: merge_flattened
       out: 
         - id: msout
       run: ../workflows/subworkflows/concatenation.cwl
-      scatter: msin, group_id, groups_specification
+      scatter: [msin, group_id, groups_specification]
       scatterMethod: dotproduct
       
     
