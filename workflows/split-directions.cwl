@@ -76,7 +76,7 @@ steps:
         - id: msout
       run: ../steps/dp3_target_phaseup.cwl
       scatter: [ msin, parset]
-      scatterMethod: nested_crossproduct
+      scatterMethod: flat_crossproduct
 
     # - id: order_by_direction
     #   label: order_by_direction
