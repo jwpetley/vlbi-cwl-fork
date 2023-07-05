@@ -54,20 +54,20 @@ steps:
       run: ../steps/target_phaseup.cwl
       scatter: msin
 
-    # - id: dp3_target_phaseup
-    #   label: dp3_target_phaseup
-    #   in:
-    #     - id: msin
-    #       source: msin
-    #     - id: parset
-    #       source: target_phaseup/parset
-    #     - id: delay_solset
-    #       source: delay_solset
-    #   out:
-    #     - id: msout
-    #   run: ../steps/dp3_target_phaseup.cwl
-    #   scatter: [msin, parset]
-    #   scatterMethod: dotproduct
+    - id: dp3_target_phaseup
+      label: dp3_target_phaseup
+      in:
+        - id: msin
+          source: msin
+        - id: parset
+          source: target_phaseup/parset
+        - id: delay_solset
+          source: delay_solset
+      out:
+        - id: msout
+      run: ../steps/dp3_target_phaseup.cwl
+      scatter: [parset, msin]
+      scatterMethod: dotproduct
 
     # - id: order_by_direction
     #   label: order_by_direction
@@ -146,16 +146,16 @@ steps:
     #   scatter: msin
 
 outputs:
-    # - id: groupnames
-    #   type: 
-    #     type: array 
-    #     items:
-    #       type: array
-    #       items: string
-    #   outputSource: sort_concatmap/groupnames
-    - id: parset
-      type: File[]
-      outputSource: target_phaseup/parset
+    - id: msout
+      type: 
+        type: array 
+        items:
+          type: array
+          items: Directory
+      outputSource: dp3_target_phaseup/msout
+    # - id: parset
+    #   type: File[]
+    #   outputSource: target_phaseup/parset
 
 
     
