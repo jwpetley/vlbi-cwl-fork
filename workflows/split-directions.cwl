@@ -125,9 +125,9 @@ steps:
     #   scatter: msin
 
 outputs:
-    - id: filenames
+    - id: groupnames
       type: string[]
-      outputSource: sort_concatmap/filenames
+      outputSource: sort_concatmap/groupnames
     # - id: msout
     #   type: 
     #     type: array
