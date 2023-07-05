@@ -78,8 +78,6 @@ steps:
         - id: msout
       run: ../steps/order_by_direction.cwl
 
-
-
     - id: sort_concatmap
       label: sort_concatmap
       in:
@@ -92,7 +90,7 @@ steps:
         - id: filenames
         - id: groupnames
       run: ../steps/sort_concatmap.cwl
-      scatter: msin
+      #scatter: msin
 
     - id: concatenation
       label: concatenation
