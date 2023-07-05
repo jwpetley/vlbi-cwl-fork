@@ -90,7 +90,7 @@ steps:
         - id: filenames
         - id: groupnames
       run: ../steps/sort_concatmap.cwl
-      #scatter: msin
+      scatter: msin
 
     - id: concatenation
       label: concatenation
@@ -99,14 +99,14 @@ steps:
           source: order_by_direction/msout
         - id: group_id
           source: sort_concatmap/groupnames
-          linkMerge: merge_nested
+          linkMerge: merge_flattened
         - id: groups_specification
           source: sort_concatmap/filenames
-          linkMerge: merge_nested
+          linkMerge: merge_flattened
       out: 
         - id: msout
       run: ../workflows/subworkflows/concatenation.cwl
-      scatter: [msin, group_id, groups_specification]
+      scatter: [ msin, group_id, groups_specification ]
       scatterMethod: dotproduct
       
     
