@@ -34,6 +34,10 @@ inputs:
       type: int?
       default: -1
       doc: The number of bands to process. -1 means all bands.
+    - id: do_flagging
+      type: boolean?
+      default: false
+      doc: Whether to flag the data before splitting.
 
 
 steps:
@@ -115,6 +119,23 @@ steps:
     #   scatter: [msin, msin_filenames, msout_name]
     #   scatterMethod: dotproduct
 
+    - id: concatenation
+      label: concatenation
+      in:
+        - id: msin
+          source: order_by_direction/msout
+        - id: groups_specification
+          source: sort_concatmap/filenames
+        - id: group_id
+          source: flatten_groupnames/flattenedarray
+        - id: do_flagging
+          source: do_flagging
+      out:
+        - id: msout
+      run: ./subworkflows/concatenation.cwl
+      scatter: [msin, groups_specification, group_id]
+      scatterMethod: dotproduct
+
 
     # - id: target_selfcal
     #   label: target_selfcal
@@ -147,6 +168,9 @@ outputs:
     - id: groupnames
       type: string[]
       outputSource: flatten_groupnames/flattenedarray
+    - id: msout
+      type: Directory[]
+      outputSource: concatenation/msout 
 
 
     
