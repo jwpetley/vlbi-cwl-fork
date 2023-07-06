@@ -8,4 +8,5 @@
 ] ],                                                                            
 "image_cat": { "class": "File", "path": "lotss_catalogue.csv" },
 "delay_solset": { "class": "File", "path": "delay_sols.h5" },
+"do_flagging": { "class": "boolean", "value": false },
 }
