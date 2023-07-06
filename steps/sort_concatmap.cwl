@@ -60,7 +60,7 @@ requirements:
           firstSB = inputs['firstSB']
 
           output = sort_times_into_freqGroups(mss, numbands, NDPPPfill, stepname, mergeLastGroup, truncateLastSBs, firstSB)
-
+          print(output)
           filenames  = output['filenames']
           groupnames = output['groupnames']
           total_bandwidth = output['total_bandwidth']
