@@ -38,10 +38,10 @@ inputs:
       type: boolean?
       default: false
       doc: Whether to flag the data before splitting.
-    - id: firstSB
-      type: int?
-      default: 104
-      doc: The reference subband.
+    - id: truncateLastSBs
+      type: boolean?
+      default: true
+      doc: Whether to truncate the last subbands of the MSs to the same length.
 
 
 steps:
@@ -93,8 +93,8 @@ steps:
           source: order_by_direction/msout
         - id: numbands
           source: numbands
-        - id: firstSB
-          source: firstSB
+        - id: truncateLastSBs
+          source: truncateLastSBs
       out: 
         - id: filenames
         - id: groupnames
