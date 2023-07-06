@@ -39,7 +39,10 @@ inputs:
       type: boolean?
       default: true
       doc: Whether to truncate the last subbands of the MSs to the same length.
-
+    - id: datacolumn_in
+      type: string?
+      default: CORRECTED_DATA
+      doc: The datacolumn to use as input for the concatenation.
 
 steps:
 
@@ -133,6 +136,8 @@ steps:
           source: flatten_groupnames/flattenedarray
         - id: do_flagging
           source: do_flagging
+        - id: datacolumn_in
+          source: datacolumn_in
       out:
         - id: msout
       run: ./subworkflows/concatenation.cwl

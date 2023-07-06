@@ -20,6 +20,10 @@ inputs:
     type: int?
     default: 5
     doc: The maximum number of threads DP3 should use per process.
+  - id: datacolumn_in
+    type: string
+    default: DATA
+    doc: The data column to use for the concatenation.
 
 steps:
   - id: filter_ms_group
@@ -44,6 +48,8 @@ steps:
         source: group_id
       - id: max_dp3_threads
         source: max_dp3_threads
+      - id: datacolumn_in
+        source: datacolumn_in
     out:
       - id: msout
       - id: flagged_statistics
