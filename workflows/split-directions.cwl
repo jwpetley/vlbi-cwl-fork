@@ -174,16 +174,6 @@ outputs:
     - id: groupnames
       type: string[]
       outputSource: flatten_groupnames/flattenedarray
-    - id: ordered_array
-      type: 
-        type: array 
-        items:
-          type: array
-          items: Directory
-      outputSource: order_by_direction/msout
-    # - id: msout
-    #   type: Directory[]
-    #   outputSource: concatenation/msout 
 
 
     
