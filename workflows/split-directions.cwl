@@ -38,6 +38,10 @@ inputs:
       type: boolean?
       default: false
       doc: Whether to flag the data before splitting.
+    - id: firstSB
+      type: int?
+      default: 104
+      doc: The reference subband.
 
 
 steps:
@@ -89,6 +93,8 @@ steps:
           source: order_by_direction/msout
         - id: numbands
           source: numbands
+        - id: firstSB
+          source: firstSB
       out: 
         - id: filenames
         - id: groupnames
