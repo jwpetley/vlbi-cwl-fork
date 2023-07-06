@@ -144,6 +144,9 @@ outputs:
     - id: filenames
       type: File[]
       outputSource: sort_concatmap/filenames
+    - id: groupnames
+      type: string[]
+      outputSource: flatten_groupnames/flattenedarray
 
 
     
