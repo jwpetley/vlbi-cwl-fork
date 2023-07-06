@@ -21,7 +21,7 @@ inputs:
       default: lotss_catalogue.csv  
     - id: number_cores
       type: int?
-      default: 12
+      default: 16
       doc: Number of cores to use per job for tasks with high I/O or memory.
     - id: max_dp3_threads
       type: int?
@@ -122,22 +122,22 @@ steps:
     #   scatter: [msin, msin_filenames, msout_name]
     #   scatterMethod: dotproduct
 
-    # - id: concatenation
-    #   label: concatenation
-    #   in:
-    #     - id: msin
-    #       source: order_by_direction/msout
-    #     - id: groups_specification
-    #       source: sort_concatmap/filenames
-    #     - id: group_id
-    #       source: flatten_groupnames/flattenedarray
-    #     - id: do_flagging
-    #       source: do_flagging
-    #   out:
-    #     - id: msout
-    #   run: ./subworkflows/concatenation.cwl
-    #   scatter: [msin, groups_specification, group_id]
-    #   scatterMethod: dotproduct
+    - id: concatenation
+      label: concatenation
+      in:
+        - id: msin
+          source: order_by_direction/msout
+        - id: groups_specification
+          source: sort_concatmap/filenames
+        - id: group_id
+          source: flatten_groupnames/flattenedarray
+        - id: do_flagging
+          source: do_flagging
+      out:
+        - id: msout
+      run: ./subworkflows/concatenation.cwl
+      scatter: [msin, groups_specification, group_id]
+      scatterMethod: dotproduct
 
 
     # - id: target_selfcal
@@ -171,6 +171,16 @@ outputs:
     - id: groupnames
       type: string[]
       outputSource: flatten_groupnames/flattenedarray
+    - id: msout_phaseup
+      type: 
+        type: array 
+        items:
+          type: array
+          items: Directory
+      outputSource: dp3_target_phaseup/msout
+    - id: msout_concat
+      type: Directory[] 
+      outputSource: concatenation/msout
 
 
     
