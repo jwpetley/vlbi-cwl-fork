@@ -50,6 +50,8 @@ requirements:
           from sort_times_into_freqGroups import main as sort_times_into_freqGroups
 
           mss = sys.argv[1:]
+
+          print(mss)
           inputs = json.loads(r"""$(inputs)""")
 
           numbands = inputs['numbands']
