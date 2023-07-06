@@ -78,7 +78,7 @@ steps:
       label: order_by_direction
       in:
         - id: msin
-          source: msin
+          source: dp3_target_phaseup/msout
       out: 
         - id: msout
       run: ../steps/order_by_direction.cwl
