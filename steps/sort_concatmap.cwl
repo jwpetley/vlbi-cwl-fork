@@ -51,7 +51,6 @@ requirements:
 
           mss = sys.argv[1:]
 
-          print(mss)
           inputs = json.loads(r"""$(inputs)""")
 
           numbands = inputs['numbands']
@@ -60,6 +59,8 @@ requirements:
           mergeLastGroup = inputs['mergeLastGroup']
           truncateLastSBs = inputs['truncateLastSBs']
           firstSB = inputs['firstSB']
+
+          print(mss, numbands, NDPPPfill, stepname, mergeLastGroup, truncateLastSBs, firstSB)
 
           output = sort_times_into_freqGroups(mss, numbands, NDPPPfill, stepname, mergeLastGroup, truncateLastSBs, firstSB)
           print(output)
