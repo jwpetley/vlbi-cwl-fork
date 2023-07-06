@@ -119,22 +119,22 @@ steps:
     #   scatter: [msin, msin_filenames, msout_name]
     #   scatterMethod: dotproduct
 
-    - id: concatenation
-      label: concatenation
-      in:
-        - id: msin
-          source: order_by_direction/msout
-        - id: groups_specification
-          source: sort_concatmap/filenames
-        - id: group_id
-          source: flatten_groupnames/flattenedarray
-        - id: do_flagging
-          source: do_flagging
-      out:
-        - id: msout
-      run: ./subworkflows/concatenation.cwl
-      scatter: [msin, groups_specification, group_id]
-      scatterMethod: dotproduct
+    # - id: concatenation
+    #   label: concatenation
+    #   in:
+    #     - id: msin
+    #       source: order_by_direction/msout
+    #     - id: groups_specification
+    #       source: sort_concatmap/filenames
+    #     - id: group_id
+    #       source: flatten_groupnames/flattenedarray
+    #     - id: do_flagging
+    #       source: do_flagging
+    #   out:
+    #     - id: msout
+    #   run: ./subworkflows/concatenation.cwl
+    #   scatter: [msin, groups_specification, group_id]
+    #   scatterMethod: dotproduct
 
 
     # - id: target_selfcal
@@ -168,9 +168,16 @@ outputs:
     - id: groupnames
       type: string[]
       outputSource: flatten_groupnames/flattenedarray
-    - id: msout
-      type: Directory[]
-      outputSource: concatenation/msout 
+    - id: ordered_array
+      type: 
+        type: array 
+        items:
+          type: array
+          items: Directory
+      outputSource: order_by_direction/msout
+    # - id: msout
+    #   type: Directory[]
+    #   outputSource: concatenation/msout 
 
 
     
