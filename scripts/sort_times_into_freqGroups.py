@@ -230,7 +230,6 @@ def main(MSfile, numSB=10, NDPPPfill=True, stepname=None, mergeLastGroup=False, 
                     files.append(fname)
                     if len(time_groups[time]['freq_names'])>0:
                         (freq,fname) = time_groups[time]['freq_names'].pop(0)
-                        print("%s Not within freq_width"%fname)
                     else:
                         (freq,fname) = (1e12,'This_shouldn\'t_show_up')
                     skip_this = False
