@@ -85,27 +85,36 @@ steps:
           source: order_by_direction/msout
         - id: numbands
           source: numbands
-          default: -1
       out: 
         - id: filenames
         - id: groupnames
       run: ../steps/sort_concatmap.cwl
       scatter: msin
-    
-    - id: dp3_target_concat
-      label: dp3_target_concat
+
+    - id: flatten_groupnames
+      label: flatten_groupnames
       in:
-        - id: msin
-          source: order_by_direction/msout
-        - id: msin_filenames
-          source: sort_concatmap/filenames
-        - id: msout_name
+        - id: nestedarray
           source: sort_concatmap/groupnames
       out:
-        - id: msout
-      run: ../steps/dp3_concat.cwl
-      scatter: [msin, msin_filenames, msout_name]
-      scatterMethod: dotproduct
+        - id: flattenedarray
+      run: ../steps/flatten.cwl
+    
+    # - id: dp3_target_concat
+    #   label: dp3_target_concat
+    #   in:
+    #     - id: msin
+    #       source: order_by_direction/msout
+    #     - id: msin_filenames
+    #       source: sort_concatmap/filenames
+    #     - id: msout_name
+    #       source: flatten_groupnames/flattenedarray
+    #   out:
+    #     - id: msout
+    #   run: ../steps/dp3_concat.cwl
+    #   scatter: [msin, msin_filenames, msout_name]
+    #   scatterMethod: dotproduct
+
 
     # - id: target_selfcal
     #   label: target_selfcal
@@ -132,9 +141,9 @@ outputs:
     #       type: array
     #       items: string
     #   outputSource: sort_concatmap/groupnames
-    - id: msout
-      type: Directory[]
-      outputSource: dp3_target_concat/msout
+    - id: filenames
+      type: File[]
+      outputSource: sort_concatmap/filenames
 
 
     
