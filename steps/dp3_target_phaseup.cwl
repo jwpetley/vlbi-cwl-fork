@@ -55,8 +55,12 @@ outputs:
 
 
 hints:
-  DockerRequirement:
+  - class: DockerRequirement:
     dockerPull: vlbi-cwl
+  - class: ResourceRequirement
+    coresMax: $(inputs.max_dp3_threads)
+    coresMin: 2
+  
 
 stdout: dp3_target_phaseup.log
 stderr: dp3_target_phaseup_err.log
