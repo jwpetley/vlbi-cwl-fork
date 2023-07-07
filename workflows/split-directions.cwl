@@ -23,10 +23,6 @@ inputs:
       type: int?
       default: 16
       doc: Number of cores to use per job for tasks with high I/O or memory.
-    - id: max_dp3_threads
-      type: int?
-      default: 5
-      doc: The number of threads per DP3 process.
     - id: numbands
       type: int?
       default: -1
@@ -43,6 +39,15 @@ inputs:
       type: string?
       default: DATA
       doc: The datacolumn to use as input for the concatenation.
+    - id: configfile
+      type: File
+      doc: The configuration file for the workflow.
+    - id: h5merger
+      type: Directory
+      doc: The h5merger directory.
+    - id: selfcal
+      type: Directory
+      doc: The selfcal directory.
 
 steps:
 
@@ -110,20 +115,6 @@ steps:
         - id: flattenedarray
       run: ../steps/flatten.cwl
     
-    # - id: dp3_target_concat
-    #   label: dp3_target_concat
-    #   in:
-    #     - id: msin
-    #       source: order_by_direction/msout
-    #     - id: msin_filenames
-    #       source: sort_concatmap/filenames
-    #     - id: msout_name
-    #       source: flatten_groupnames/flattenedarray
-    #   out:
-    #     - id: msout
-    #   run: ../steps/dp3_concat.cwl
-    #   scatter: [msin, msin_filenames, msout_name]
-    #   scatterMethod: dotproduct
 
     - id: concatenation
       label: concatenation
@@ -145,31 +136,24 @@ steps:
       scatterMethod: dotproduct
 
 
-    # - id: target_selfcal
-    #   label: target_selfcal
-    #   in:
-    #     - id: msin
-    #       source: dp3_target_concat/msout
-    #     - id: delay_solset
-    #       source: delay_solset
-    #     - id: number_cores
-    #       source: number_cores
-    #     - id: max_dp3_threads
-    #       source: max_dp3_threads
-    #   out:
-    #     - id: msout
-    #       source: msout
-    #   run: ../steps/target_selfcal.cwl
-    #   scatter: msin
+    - id: target_selfcal
+      label: target_selfcal
+      in:
+        - id: msin
+          source: concatenation/msout
+        - id: configfile
+          source: configfile
+        - id: h5merger
+          source: h5merger
+        - id: selfcal
+          source: selfcal
+      out:
+        - id: images
+        - id: fits_images
+      run: ../steps/target_solve.cwl
+      scatter: msin
 
 outputs:
-    # - id: groupnames
-    #   type: 
-    #     type: array 
-    #     items:
-    #       type: array
-    #       items: string
-    #   outputSource: sort_concatmap/groupnames
     - id: filenames
       type: File[]
       outputSource: sort_concatmap/filenames
