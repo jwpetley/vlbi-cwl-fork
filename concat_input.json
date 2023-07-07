@@ -27,8 +27,8 @@
 
 "image_cat": { "class": "File", "path": "lotss_catalogue.csv" },
 "delay_solset": { "class": "File", "path": "delay_sols.h5" },
-"do_flagging": false,
-"do_selfcal": true,
+"do_flagging": "false",
+"do_selfcal": "true",
 "configfile": { "class": "File", "path": "./vlbi-cwl-fork/target_selfcal_config.cfg" },
 "h5merger": { "class": "Directory", "path": "/cosma5/data/durham/dc-petl1/Software/lofar_helpers/" },
 "selfcal": { "class": "Directory", "path": "/cosma5/data/durham/dc-petl1/Software/lofar_facet_selfcal/" },

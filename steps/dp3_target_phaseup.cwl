@@ -28,6 +28,15 @@ inputs:
         prefix: applycal.parmdb=
         separate: false
         shellQuote: false
+    - id: max_dp3_threads
+      type: int?
+      default: 8
+      doc: Maximum number of threads to use for DP3.
+      inputBinding:
+        position: 3
+        prefix: numthreads=
+        separate: false
+        shellQuote: false
 
 outputs:
     - id: msout
