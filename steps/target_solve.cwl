@@ -74,6 +74,8 @@ requirements:
 hints:
   - class: DockerRequirement
     dockerPull: vlbi-cwl
+  - class: ResourceRequirement
+    coresMin: 6
 
 stdout: delay_solve.log
 stderr: delay_solve_err.log
