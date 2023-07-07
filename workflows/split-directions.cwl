@@ -39,6 +39,10 @@ inputs:
       type: string?
       default: DATA
       doc: The datacolumn to use as input for the concatenation.
+    - id: do_selfcal
+      type: boolean?
+      default: false
+      doc: Whether to do selfcal on the direction concat MSs.
     - id: configfile
       type: File
       doc: The configuration file for the workflow.
@@ -48,6 +52,7 @@ inputs:
     - id: selfcal
       type: Directory
       doc: The selfcal directory.
+    
 
 steps:
 
@@ -147,19 +152,16 @@ steps:
           source: h5merger
         - id: selfcal
           source: selfcal
+        - id: do_selfcal
+          source: do_selfcal
       out:
         - id: images
         - id: fits_images
+      when: $(inputs.do_selfcal)
       run: ../steps/target_solve.cwl
       scatter: msin
 
 outputs:
-    - id: filenames
-      type: File[]
-      outputSource: sort_concatmap/filenames
-    - id: groupnames
-      type: string[]
-      outputSource: flatten_groupnames/flattenedarray
     - id: msout_phaseup
       type: 
         type: array 
@@ -170,6 +172,21 @@ outputs:
     - id: msout_concat
       type: Directory[] 
       outputSource: concatenation/msout
-
+    - id: images
+      type: 
+        type: array 
+        items:
+          type: array
+          items: File
+      outputSource: target_selfcal/images
+      pickValue: all_non_null
+    - id: fits_images
+      type: 
+        type: array 
+        items:
+          type: array
+          items: File
+      outputSource: target_selfcal/fits_images
+      pickValue: all_non_null
 
     
