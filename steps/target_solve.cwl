@@ -64,7 +64,7 @@ requirements:
             
           msin = inputs['msin']['basename']
           configfile = inputs['configfile']['path']
-          skymodel = inputs['skymodel']['path']
+          #skymodel = inputs['skymodel']['path']
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
 
