@@ -68,7 +68,7 @@ requirements:
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
 
-          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --skymodel {skymodel}', shell = True)
+          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --auto', shell = True)
           #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
 hints:
