@@ -55,7 +55,7 @@ outputs:
 
 
 hints:
-  - class: DockerRequirement:
+  - class: DockerRequirement
     dockerPull: vlbi-cwl
   - class: ResourceRequirement
     coresMax: $(inputs.max_dp3_threads)
