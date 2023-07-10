@@ -11,13 +11,6 @@ inputs:
     - id: msin
       type: Directory
       doc: Delay calibrator measurement set.
-    # - id: skymodel
-    #   type: File
-    #   doc: The skymodel to be used in the first cycle in the self-calibration.
-    #   inputBinding:
-    #     prefix: --skymodel=
-    #     separate: false
-    #     shellQuote: false
     - id: configfile
       type: File
       doc: Configuration options for self-calibration.
