@@ -2,6 +2,12 @@ class: Workflow
 cwlVersion: v1.2
 id: split-directions
 label: split-directions
+doc: This is a large workflow for the LOFAR-VLBI pipeline that 
+  splits a LOFAR Measurement Set into various target directions. 
+  This step should be run after the delay calibration workflow. 
+  The inputs below should be specified but we endeavour to create a script
+  that will create suitable YAML input for the user.
+   
 
 requirements:
   - class: SubworkflowFeatureRequirement
