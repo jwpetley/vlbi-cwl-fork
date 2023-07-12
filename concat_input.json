@@ -29,6 +29,7 @@
 "delay_solset": { "class": "File", "path": "delay_sols.h5" },
 "do_flagging": false,
 "do_selfcal": true,
+"max_dp3_threads": 8,
 "configfile": { "class": "File", "path": "./vlbi-cwl-fork/target_selfcal_config.txt" },
 "h5merger": { "class": "Directory", "path": "/cosma5/data/durham/dc-petl1/Software/lofar_helpers/" },
 "selfcal": { "class": "Directory", "path": "/cosma5/data/durham/dc-petl1/Software/lofar_facet_selfcal/" },
