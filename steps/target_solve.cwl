@@ -29,7 +29,7 @@ outputs:
     - id: fits_images
       type: File[]
       outputBinding:
-        glob: (*MFS-image.fits)
+        glob: image*MFS-image.fits
     - id: logfile
       type: File[]
       outputBinding:
