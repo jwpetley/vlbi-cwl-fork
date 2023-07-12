@@ -22,10 +22,6 @@ inputs:
       doc: External LOFAR helper scripts for merging h5 files.
 
 outputs:
-    - id: h5parm
-      type: File
-      outputBinding:
-        glob: merged_addCS_selfcalcyle009_linear*.h5
     - id: images
       type: File[]
       outputBinding:
@@ -37,7 +33,7 @@ outputs:
     - id: logfile
       type: File[]
       outputBinding:
-         glob: delay_solve*.log
+         glob: target_solve*.log
 
 requirements:
   - class: ShellCommandRequirement
@@ -70,5 +66,5 @@ hints:
   - class: ResourceRequirement
     coresMin: 6
 
-stdout: delay_solve.log
-stderr: delay_solve_err.log
+stdout: target_solve.log
+stderr: target_solve_err.log
