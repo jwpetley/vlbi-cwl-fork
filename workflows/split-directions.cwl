@@ -29,6 +29,10 @@ inputs:
       type: int?
       default: 16
       doc: Number of cores to use per job for tasks with high I/O or memory.
+    - id: max_dp3_threads
+      type: int?
+      default: 4
+      doc: Number of cores to use per job for tasks with high I/O or memory.
     - id: numbands
       type: int?
       default: -1
@@ -87,6 +91,8 @@ steps:
           source: target_phaseup/parset
         - id: delay_solset
           source: delay_solset
+        - id: max_dp3_threads
+          source: max_dp3_threads
       out:
         - id: msout
       run: ../steps/dp3_target_phaseup.cwl
