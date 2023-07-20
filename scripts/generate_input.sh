@@ -80,7 +80,7 @@ cat >&3 <<-EOF
 	configfile:
 	    class: "File"
 	    path: "${SELFCALCONFIG}"
-	delay-calibrator:
+	delay_calibrator:
 	    class: "File"
 	    path: "${CATALOGUE}"
 EOF
