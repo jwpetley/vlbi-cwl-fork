@@ -25,11 +25,11 @@ outputs:
     - id: images
       type: File[]
       outputBinding:
-        glob: image*.png
+        glob: '*.png'
     - id: fits_images
       type: File[]
       outputBinding:
-        glob: image*MFS-image.fits
+        glob: '*MFS-image.fits'
     - id: logfile
       type: File[]
       outputBinding:
@@ -57,7 +57,9 @@ requirements:
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
 
-          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --auto', shell = True)
+          imagename = msin.split('/')[-1].split('.')[0]
+
+          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --auto --imagename {imagename}', shell = True)
           #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
 hints:
