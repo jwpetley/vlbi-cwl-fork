@@ -57,7 +57,7 @@ requirements:
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
 
-          imagename = msin.split('/')[-1].split('.')[0]
+          imagename = msin.split('.')[0]
 
           subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --auto --imagename {imagename}', shell = True)
           #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
