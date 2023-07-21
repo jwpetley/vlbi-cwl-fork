@@ -59,8 +59,6 @@ requirements:
 
           imagename = msin.split('.copy')[0]
 
-          print("Images saved with %s prefix"%imagename)
-
           subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --auto --imagename {imagename}', shell = True)
           #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
