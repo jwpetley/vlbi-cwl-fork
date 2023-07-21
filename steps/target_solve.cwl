@@ -57,7 +57,7 @@ requirements:
           selfcal = inputs['selfcal']['path']
           h5merge = inputs['h5merger']['path']
 
-          imagename = msin.split('.')[0]
+          imagename = msin.split('.copy')[0]
 
           print("Images saved with $s prefix"%imagename)
 
