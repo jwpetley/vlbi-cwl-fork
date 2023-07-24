@@ -59,7 +59,7 @@ requirements:
 
           imagename = msin.split('.copy')[0]
 
-          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --auto --imagename {imagename}', shell = True)
+          subprocess.run(f'python3 {selfcal}/facetselfcal.py {msin} --helperscriptspath {selfcal} --helperscriptspathh5merge {h5merge} --weightspectrum_clipvalue 30.0 --auto --imagename {imagename}', shell = True)
           #.format(os.path.join(helperscriptspath,'facetselfcal.py'), msin ) )
 
 hints:
