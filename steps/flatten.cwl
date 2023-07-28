@@ -1,6 +1,6 @@
 cwlVersion: v1.2
 class: ExpressionTool
-doc: "Flatten a nested array of 'Any' type into an array."
+doc: "Flatten a nested array of 'Any' type into an array. Taken from https://github.com/common-workflow-library/cwl-patterns/tree/main"
 requirements:
   InlineJavascriptRequirement: {}
 inputs:

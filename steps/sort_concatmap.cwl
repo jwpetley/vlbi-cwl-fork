@@ -50,6 +50,7 @@ requirements:
           from sort_times_into_freqGroups import main as sort_times_into_freqGroups
 
           mss = sys.argv[1:]
+
           inputs = json.loads(r"""$(inputs)""")
 
           numbands = inputs['numbands']
@@ -59,8 +60,10 @@ requirements:
           truncateLastSBs = inputs['truncateLastSBs']
           firstSB = inputs['firstSB']
 
-          output = sort_times_into_freqGroups(mss, numbands, NDPPPfill, stepname, mergeLastGroup, truncateLastSBs, firstSB)
+          print(mss, numbands, NDPPPfill, stepname, mergeLastGroup, truncateLastSBs, firstSB)
 
+          output = sort_times_into_freqGroups(mss, numbands, NDPPPfill, stepname, mergeLastGroup, truncateLastSBs, firstSB)
+          print(output)
           filenames  = output['filenames']
           groupnames = output['groupnames']
           total_bandwidth = output['total_bandwidth']
