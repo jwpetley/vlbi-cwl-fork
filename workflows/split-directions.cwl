@@ -62,7 +62,6 @@ inputs:
     - id: selfcal
       type: Directory
       doc: The selfcal directory.
-    
 
 steps:
 
@@ -151,7 +150,6 @@ steps:
       run: ./subworkflows/concatenation.cwl
       scatter: [msin, groups_specification, group_id]
       scatterMethod: dotproduct
-
 
     - id: target_selfcal
       label: target_selfcal
