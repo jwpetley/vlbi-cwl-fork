@@ -34,7 +34,7 @@ error()
 
 # Check input arguments
 [[ $# -eq 2 ]] || usage
-DIR=$(realpath ${1})
+DIR=$(realpath -s ${1})
 [[ -d ${DIR} ]] || error "Directory '${DIR}' does not exist"
 YAML="$(pwd)/input.yaml"
 
@@ -80,7 +80,7 @@ cat >&3 <<-EOF
 	configfile:
 	    class: "File"
 	    path: "${SELFCALCONFIG}"
-	delay-calibrator:
+	delay_calibrator:
 	    class: "File"
 	    path: "${CATALOGUE}"
 EOF
